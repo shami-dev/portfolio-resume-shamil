@@ -1,0 +1,516 @@
+/* ==========================================================================
+   Global base — reset, type, drafting textures, a11y.
+   Textures (.mm/.mm2/.tick/.tick-lt) are copied verbatim from Phase 5 §5.0:
+   pure CSS gradients, zero image requests (Phase 7 perf pass).
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+p,
+figure {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--blue-hover);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* --- Sheet: the paper "page" on the canvas desk ------------------------ */
+.sheet {
+  max-width: var(--sheet-max);
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--paper);
+  border-left: 1.5px solid var(--bd-page);
+  border-right: 1.5px solid var(--bd-page);
+  display: flex;
+  align-items: stretch;
+}
+
+/* --- Millimetre-paper grid (verbatim periods: minor 5px, major 25px) --- */
+.mm {
+  background-image:
+    linear-gradient(rgba(var(--sepia), 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--sepia), 0.15) 1px, transparent 1px),
+    linear-gradient(rgba(var(--sepia), 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--sepia), 0.06) 1px, transparent 1px);
+  background-size:
+    var(--grid-major) var(--grid-major),
+    var(--grid-major) var(--grid-major),
+    var(--grid-minor) var(--grid-minor),
+    var(--grid-minor) var(--grid-minor);
+}
+
+.mm2 {
+  background-image:
+    linear-gradient(rgba(var(--sepia), 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--sepia), 0.09) 1px, transparent 1px);
+  background-size: var(--grid-major) var(--grid-major);
+}
+
+/* --- Tick-rule dividers (drafting scales) ------------------------------ */
+.tick {
+  height: 11px;
+  border-bottom: 1.5px solid var(--bd-rule);
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      var(--bd-rule) 0 1px,
+      transparent 1px 25px
+    ),
+    repeating-linear-gradient(90deg, var(--bd-page) 0 1px, transparent 1px 5px);
+  background-size:
+    100% 11px,
+    100% 5px;
+  background-position: bottom, bottom;
+  background-repeat: repeat-x;
+}
+
+.tick-lt {
+  height: 7px;
+  border-bottom: 1px solid var(--bd-page);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--bd-page) 0 1px,
+    transparent 1px 25px
+  );
+  background-size: 100% 7px;
+  background-position: bottom;
+  background-repeat: repeat-x;
+}
+
+/* --- Micro-labels (mono, letter-spaced) — 13px floor ------------------- */
+.klab,
+.clab {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  color: var(--label);
+  text-transform: uppercase;
+}
+
+/* --- Chips ------------------------------------------------------------- */
+.chip,
+.stk {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--fs-mono);
+  padding: 3px 8px;
+  border-radius: 2px; /* software-adjacent tokens; sharp-ish */
+  white-space: nowrap;
+}
+.chip {
+  border: 1px solid var(--chip-bd);
+  background: var(--chip-bg);
+  color: var(--chip-fg);
+}
+.stk {
+  border: 1px solid var(--stk-bd);
+  background: var(--stk-bg);
+  color: var(--blue);
+}
+
+/* --- Evidence / result badges ------------------------------------------ */
+.eb,
+.rb {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-mono);
+  padding: 3px 8px;
+  border-radius: 2px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.eb {
+  background: var(--stk-bg);
+  color: var(--blue);
+}
+.rb {
+  background: var(--result-bg);
+  color: var(--green);
+}
+
+/* --- Accessibility ----------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  /* state is instant — no transition on focus (Phase 6A) */
+}
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -48px;
+  z-index: 100;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 10px 14px;
+  transition: top 0ms;
+}
+.skip-link:focus {
+  top: 8px;
+  color: #fff;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Page-load register (Phase 6B) ------------------------------------- */
+/* Elements opt in with data-register; motion.js clears them into view.
+   Rail / title-block / metric strips never get data-register (pinned 0ms). */
+[data-register] {
+  opacity: 0;
+  transform: translateY(5px);
+}
+.is-registered [data-register],
+.no-motion [data-register] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-register] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   Structural classes (centralized so slotted rail content is styled too)
+   ========================================================================== */
+
+/* --- Rail: left scan column (drafting register: sharp corners) ---------- */
+.rail {
+  width: var(--rail-w);
+  flex: none;
+  border-right: 1.5px solid var(--bd-rule);
+  background: #fff;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cell {
+  border: 1.5px solid var(--bd-rule);
+  background: #fff;
+  padding: 12px 14px;
+}
+.cell-name {
+  font: 700 1.375rem/1.1 var(--font-sans); /* ~22px */
+  margin-top: 3px;
+}
+.cell-val {
+  font: 500 0.9375rem/1.45 var(--font-sans); /* ~15px */
+  color: var(--ink-body);
+  margin-top: 3px;
+}
+.cell-val-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  margin-top: 3px;
+}
+.cell-pair {
+  display: flex;
+  gap: 8px;
+}
+.cell-pair > .cell {
+  flex: 1;
+}
+.rail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.rail-foot {
+  margin-top: auto;
+}
+.rail-link {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  color: var(--blue);
+  margin-top: 10px;
+  display: inline-block;
+}
+
+/* --- Nav rows (drafting register) -------------------------------------- */
+.nav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+}
+.nrow,
+.nrow-a {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-mono);
+  letter-spacing: 0.06em;
+  padding: 13px 14px;
+  display: block;
+}
+.nrow {
+  color: var(--nav-rest);
+  border-bottom: 1px solid var(--bd-hair);
+  transition: transform var(--t-hover) var(--e-out);
+}
+.nrow-a {
+  background: var(--ink);
+  color: #fff;
+}
+@media (hover: hover) {
+  .nrow:hover {
+    color: var(--blue);
+    background: var(--stk-bg);
+    transform: translateX(3px); /* Phase 6A D-01: nav-row settle */
+  }
+}
+
+/* --- Content column ---------------------------------------------------- */
+.col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.mrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+/* --- Headlines --------------------------------------------------------- */
+.h1 {
+  font: 700 var(--fs-h1) / 1.12 var(--font-sans);
+  letter-spacing: -0.01em;
+}
+.h1-case {
+  font: 700 var(--fs-h1-case) / 1.15 var(--font-sans);
+  letter-spacing: -0.01em;
+}
+.hero-body {
+  font-size: var(--fs-prose);
+  line-height: 1.6;
+  color: var(--ink-body);
+  max-width: 44ch;
+  margin-top: 16px;
+}
+.kicker {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-kicker);
+  letter-spacing: 0.08em;
+  color: var(--blue);
+  text-transform: uppercase;
+}
+
+/* --- Prose (case reading column: 18px floor) --------------------------- */
+.prose {
+  font-size: var(--fs-prose);
+  line-height: 1.62;
+  color: var(--ink-body);
+}
+
+/* --- Decision-record card: the ONE elevation (software register, 4px) --- */
+.dcard {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--bd-card);
+  border-left: 3px solid transparent;
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+/* pre-baked shadow overlay, faded by opacity (never box-shadow animation) */
+.dcard.is-hoverable::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-lift) var(--e-out);
+}
+.dcard.is-hoverable {
+  transition:
+    transform var(--t-lift) var(--e-out),
+    border-left-color 0ms; /* color flips are instant */
+}
+@media (hover: hover) {
+  a.dcard.is-hoverable:hover,
+  a.dcard.is-hoverable:focus-visible {
+    transform: translateY(-2px);
+    border-left-color: var(--blue);
+  }
+  a.dcard.is-hoverable:hover::after,
+  a.dcard.is-hoverable:focus-visible::after {
+    opacity: 1;
+  }
+}
+a.dcard {
+  color: inherit;
+  display: block;
+}
+.dcard-title {
+  font: 600 1.1875rem/1.3 var(--font-sans); /* ~19px */
+  margin-top: 6px;
+  color: var(--ink);
+}
+.dcard-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* --- Case blocks: PROBLEM / CONSTRAINT flat on grid -------------------- */
+.block {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.block > .eb {
+  margin-top: 3px;
+}
+.block-body {
+  flex: 1;
+  background: rgba(251, 249, 244, 0.8); /* paper wash for legibility on grid */
+}
+
+/* --- Evidence plate (blue-tinted, software register) ------------------- */
+.evidence {
+  background: var(--evidence-bg);
+  border: 1px solid var(--evidence-bd);
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.evidence-figs {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+.evidence-figs > * {
+  flex: 1;
+}
+
+/* --- Result band (green, leads with metrics) --------------------------- */
+.result {
+  background: var(--result-bg);
+  border: 1px solid var(--result-bd);
+  border-left: 4px solid var(--green);
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.result-metrics {
+  font-family: var(--font-mono);
+  font-size: var(--fs-prose);
+  color: var(--green);
+  font-weight: 600;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* --- Lesson pull-quote (bare, over grid) ------------------------------- */
+.lesson {
+  font: italic 500 1.25rem/1.6 var(--font-sans); /* ~20px */
+  color: var(--ink-body);
+  background: rgba(251, 249, 244, 0.8);
+}
+.lesson-label {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-weight: 600;
+  font-size: var(--fs-mono);
+  color: var(--label);
+  letter-spacing: 0.1em;
+}
+
+/* --- Footer ------------------------------------------------------------ */
+.ft {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-top: 16px;
+}
+.ftl {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  color: var(--label);
+  letter-spacing: 0.04em;
+}
+
+/* --- Reserved-ratio placeholder (CLS 0) -------------------------------- */
+.ph {
+  border: 1.5px dashed #b5a888;
+  background: rgba(var(--sepia), 0.05);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+}
+.ph-slug {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-mono);
+  color: var(--blue);
+}
+.ph-kind {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--fs-mono);
+  color: var(--label);
+  letter-spacing: 0.06em;
+}

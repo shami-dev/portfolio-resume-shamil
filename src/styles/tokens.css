@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Design tokens — locked, from Phase 5 §5.0 "tokens, applied everywhere".
+   Light mode only. Phase 7 F-01 correction applied (label gray darkened).
+   ========================================================================== */
+
+:root {
+  /* --- Color: 5-token core + supporting ------------------------------- */
+  --paper: #fbf9f4; /* page surface */
+  --canvas: #eceade; /* desk / body background */
+  --ink: #1a1a1a; /* headings, hard-action fill */
+  --ink-body: #3a3a3a; /* body prose */
+  --blue: #2a5f9e; /* decision blue — kickers, links, record №s */
+  --blue-hover: #1a4578;
+  --green: #1f6f43; /* result green — metrics, RESULT bands */
+
+  /* Phase 7 F-01: #8a857a (3.5:1, FAIL) -> #6f6a5e (5.1:1 on paper) */
+  --label: #6f6a5e; /* labels, captions, footers, placeholders */
+  --nav-rest: #555; /* nav at rest (7.5:1 on white) */
+  --maroon: #7a2e2e; /* error / 404 */
+
+  /* Blue tinted chips / plates */
+  --stk-bg: #eef2f8;
+  --stk-bd: #b8c4d6;
+  --evidence-bg: #f2f5fa;
+  --evidence-bd: #ccd7e6;
+  --result-bg: #eef7ef;
+  --result-bd: #bcd9c5;
+
+  /* Neutral chip (drafting register) */
+  --chip-bg: #f6f2e8;
+  --chip-bd: #c8bfa8;
+  --chip-fg: #5a5446;
+
+  /* Borders */
+  --bd-card: #d5cdbb; /* software register */
+  --bd-page: #a89f8c; /* sheet edge */
+  --bd-rule: #444; /* drafting register / rail */
+  --bd-hair: #eee9dd;
+
+  /* Grid texture — sepia base, used as rgba(var(--sepia), a) */
+  --sepia: 160, 120, 60;
+
+  --focus: #2a5f9e;
+
+  /* --- Type ----------------------------------------------------------- */
+  --font-sans: Archivo, system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Floors (Phase 5 + Phase 7 F-02): body 16, case prose 18, mono 13 */
+  --fs-body: 1rem; /* 16px */
+  --fs-prose: 1.125rem; /* 18px — case reading column */
+  --fs-mono: 0.8125rem; /* 13px — mono floor, never below */
+
+  --fs-h1: 3rem; /* 48px — home hero */
+  --fs-h1-case: 2.5rem; /* 40px — case headline */
+  --fs-kicker: 0.9375rem; /* 15px mono kicker */
+
+  /* --- Spacing / layout ---------------------------------------------- */
+  --sheet-max: 1400px;
+  --rail-w: 300px;
+  --grid-major: 25px;
+  --grid-minor: 5px;
+
+  /* --- Motion (Phase 6A/B) -------------------------------------------- */
+  --e-out: cubic-bezier(0.2, 0, 0, 1); /* arriving */
+  --e-in: cubic-bezier(0.4, 0, 1, 1); /* returning */
+  --e-turn: cubic-bezier(0.45, 0, 0.25, 1); /* chevron only */
+  --t-hover: 150ms;
+  --t-lift: 180ms;
+  --t-enter: 450ms;
+  --t-enter-lg: 550ms;
+}
