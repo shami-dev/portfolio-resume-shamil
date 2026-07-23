@@ -6,6 +6,7 @@
 :root {
   /* --- Color: 5-token core + supporting ------------------------------- */
   --paper: #fbf9f4; /* page surface */
+  --white: #fff; /* rail/cell/skip-link ground — distinct from --paper */
   --canvas: #eceade; /* desk / body background */
   --ink: #1a1a1a; /* headings, hard-action fill */
   --ink-body: #3a3a3a; /* body prose */
@@ -36,6 +37,7 @@
   --bd-page: #a89f8c; /* sheet edge */
   --bd-rule: #444; /* drafting register / rail */
   --bd-hair: #eee9dd;
+  --bd-placeholder: #b5a888; /* .ph dashed border */
 
   /* Grid texture — sepia base, used as rgba(var(--sepia), a) */
   --sepia: 160, 120, 60;
