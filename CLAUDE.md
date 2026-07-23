@@ -4,7 +4,7 @@
 
 - One task / one logical change per commit.
 - Implement, then stop — show a summary of the diff and wait for explicit approval before committing. Never commit automatically.
-- `pnpm lint` and `pnpm format:check` must both pass before a commit.
+- `pnpm lint`, `pnpm format:check`, and `pnpm typecheck` must all pass before a commit.
 - No `Co-Authored-By` trailer — solo project.
 
 ## Commit message rules
