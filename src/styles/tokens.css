@@ -76,6 +76,24 @@
   --grid-major: 25px;
   --grid-minor: 5px;
 
+  /* Spacing scale — reverse-engineered from real padding/margin/gap
+     values across the canonical mockups (Phase 5, Phase 7,
+     motion_step_a/b, motion_followup_v2, phase_5a_v2 dark-mode doc),
+     scaled 1.636x (Phase 7's 880px-mockup -> ~1440px-real factor) and
+     clustered by weighted frequency. Base-4 fits the scaled real
+     distribution better than a 5px (grid-unit) base (~1.04px vs
+     ~1.25px avg error) — an independently verified fit, not a match
+     to --grid-major/--grid-minor, which are a different concern (the
+     literal drafting-paper texture) and don't need to align with it. */
+  --space-1: 4px; /* label -> value micro-gap */
+  --space-2: 8px; /* tight gaps (strongest cluster) */
+  --space-3: 12px; /* badge / chip padding */
+  --space-4: 16px; /* secondary chip / cell padding */
+  --space-5: 20px; /* home decision-card padding */
+  --space-6: 24px; /* evidence / result plate padding */
+  --space-7: 44px; /* case-column vertical padding */
+  --space-8: 56px; /* case-column / hero horizontal padding */
+
   /* --- Motion (Phase 6A/B) -------------------------------------------- */
   --e-out: cubic-bezier(0.2, 0, 0, 1); /* arriving */
   --e-in: cubic-bezier(0.4, 0, 1, 1); /* returning */
