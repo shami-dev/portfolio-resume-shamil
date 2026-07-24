@@ -1,0 +1,15 @@
+---
+// Phase 7: "Rail = <aside>, title-block labels are NOT headings." Content
+// varies meaningfully per page (Home: NAME/TITLE + stack chips + results;
+// case-detail: RECORD/ROLE + tools chips + link) — pages compose their own
+// cells/Nav/footer into this shared chrome rather than one rigid prop API.
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"aside">;
+
+const rest = Astro.props as Props;
+---
+
+<aside class="rail" {...rest}>
+  <slot />
+</aside>
