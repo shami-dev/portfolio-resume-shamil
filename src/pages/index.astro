@@ -1,17 +1,148 @@
 ---
+// Home (Phase 5 §5.1) — MEDIUM intensity: grid fades out below the hero,
+// metrics live in the rail, 3 of 5 decision-record previews. Home gets
+// zero drawn strokes/beats (Phase 6C override) — no motion.js hook here.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Rail from "../components/Rail.astro";
+import Nav from "../components/Nav.astro";
+import MetricCell from "../components/MetricCell.astro";
+import TickRule from "../components/TickRule.astro";
+import DecisionCard from "../components/DecisionCard.astro";
+import Footer from "../components/Footer.astro";
 
+// Phase 7 C1 meta table, verbatim.
+const title = "Shamil Khaibullov — Full-Stack Developer, Porto";
+const description =
+  "Evidence over opinion: React/TypeScript developer in Porto. Five decision records with proof — 100% completion, ~€1,000 saved, 0 downtime.";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-  </head>
-  <body>
-    <h1>Astro</h1>
-  </body>
-</html>
+<BaseLayout title={title} description={description}>
+  <Rail>
+    <div class="cell">
+      <div class="clab">NAME</div>
+      <div class="cell-name">Shamil Khaibullov</div>
+    </div>
+    <div class="cell">
+      <div class="clab">TITLE</div>
+      <div class="cell-val">Full-Stack Developer<br />front-end-focused</div>
+    </div>
+    <div class="cell-pair">
+      <div class="cell">
+        <div class="clab">LOC</div>
+        <div class="cell-val-mono">Porto, PT</div>
+      </div>
+      <div class="cell">
+        <div class="clab">AUTH</div>
+        <div class="cell-val-mono">EU permit</div>
+      </div>
+    </div>
+    <div class="rail-chips">
+      <span class="stk">React</span>
+      <span class="stk">TypeScript</span>
+      <span class="stk">Node</span>
+      <span class="stk">Prisma</span>
+      <span class="stk">OpenAI</span>
+      <span class="stk">Astro</span>
+    </div>
+    <Nav current="home" />
+    <MetricCell metrics={["100% completion", "€1,000+ saved", "0 downtime"]} />
+  </Rail>
+
+  <div class="col">
+    <div class="mm hero">
+      <h1 class="h1">Evidence over opinion.</h1>
+      <p class="hero-body">
+        Web developer in Porto building fast, accessible React/TypeScript apps —
+        shaped by a decade of engineering leadership and mission-critical
+        systems before the web. Every claim below carries its evidence.
+      </p>
+    </div>
+
+    <TickRule style="margin: 0 56px" />
+
+    <div class="decisions">
+      <div class="mrow">
+        <span class="klab">SELECTED DECISIONS — 3 OF 5</span>
+        <a href="/work" class="records-link">ALL 5 RECORDS →</a>
+      </div>
+
+      <DecisionCard
+        href="/work/maltalink"
+        kicker="DECISION №01 — REGISTRATION PLATFORM · MALTALINK 2025"
+        duration="5 MO"
+        title="Ticket Tailor over Eventbrite — proven by a live side-by-side demo"
+        evidence="EVIDENCE — €84 vs ~13x cost"
+        outcome={{ text: "RESULT — 100% completion · 0 downtime" }}
+      />
+      <DecisionCard
+        href="/work/mystore"
+        kicker="DECISION №02 — API DESIGN · MYSTORE"
+        duration="2 WK"
+        title="Versioned REST + Zod validation, documented for review"
+        evidence="EVIDENCE — README · curl · Postman"
+        outcome={{ text: "DELIVERED — full-stack scope" }}
+      />
+      <DecisionCard
+        href="/work/ai-projects"
+        kicker="DECISION №03 — LLM EXTRACTION, NOT OCR · AI PROJECTS"
+        duration="14 D"
+        title="OpenAI-backed receipts analyzer — accuracy measured, refined in the open"
+        evidence="EVIDENCE — accuracy log"
+        outcome={{ text: "STATUS — ITERATING", variant: "status" }}
+      />
+
+      <p class="pre-web">
+        Before the web: 13 years — CAD engineer → design-team manager → 500+
+        ATMs at 97%+ uptime. <a href="/about" class="full-arc">The full arc →</a
+        >
+      </p>
+    </div>
+
+    <TickRule variant="light" />
+
+    <Footer>
+      <span class="ftl" slot="left">S.KHAIBULLOV — DECISION LOG</span>
+      <span class="ftl" slot="right">COLOPHON · ANALYTICS ↗ · © 2026</span>
+    </Footer>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Mock padding "34px 34px 26px" x1.636 (Phase 7 scale factor) */
+  .hero {
+    padding: 56px 56px 43px;
+  }
+
+  /* Mock padding "20px 34px 26px", gap "10px" x1.636 */
+  .decisions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 33px 56px 43px;
+  }
+
+  /* One-off badge-style link; mock font-size 9px / padding "4px 9px" x1.636
+     — 9px lands exactly on --fs-kicker (15px), so reuse that tier token. */
+  .records-link {
+    font-family: var(--font-mono);
+    font-size: var(--fs-kicker);
+    font-weight: 600;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    padding: 7px 15px;
+  }
+
+  /* Mock font-size 12px, below the hero paragraph's 13px -> next tier down
+     from --fs-prose (used for the hero), so --fs-body. Mock color #555 has
+     no direct token match; --label is the closest existing muted-text role. */
+  .pre-web {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--label);
+  }
+
+  .full-arc {
+    font-weight: 600;
+  }
+</style>

@@ -357,6 +357,9 @@ a:hover {
   color: var(--ink-body);
   max-width: 44ch;
   margin-top: 16px;
+  /* paper wash for legibility over .mm grid, mock 0.75 alpha — same
+     pattern as .block-body's 0.8 */
+  background: rgb(var(--paper-rgb), 0.75);
 }
 .kicker {
   font-family: var(--font-mono);

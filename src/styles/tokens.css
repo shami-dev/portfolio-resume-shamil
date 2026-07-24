@@ -6,6 +6,9 @@
 :root {
   /* --- Color: 5-token core + supporting ------------------------------- */
   --paper: #fbf9f4; /* page surface */
+  --paper-rgb:
+    251, 249, 244; /* channels of --paper, for alpha compositing
+    via rgb(var(--paper-rgb), a) — same pattern as --sepia */
   --white: #fff; /* rail/cell/skip-link ground — distinct from --paper */
   --card-surface: var(
     --white
