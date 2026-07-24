@@ -61,14 +61,33 @@
   --font-sans: Archivo, system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
 
-  /* Floors (Phase 5 + Phase 7 F-02): body 16, case prose 18, mono 13 */
+  /* Floors (Phase 5 + Phase 7 F-02): body 16, case prose 18, mono 13.
+     Sizes below reverse-engineered from the canonical mockups, scaled
+     1.636x (Phase 7's 880px-mockup -> ~1440px-real factor), same
+     methodology as the spacing scale. */
   --fs-body: 1rem; /* 16px */
   --fs-prose: 1.125rem; /* 18px — case reading column */
-  --fs-mono: 0.8125rem; /* 13px — mono floor, never below */
+  --fs-mono: 0.8125rem; /* 13px floor — .clab/.chip/.klab (mock 7.5-8px,
+    clamped to the Phase 7 F-02 floor) */
+  --fs-mono-md: 0.875rem; /* 14px — .stk/.eb/.rb/.ftl badge tier (mock
+    8.5-9px x1.636) */
+  --fs-mono-lg: 1rem; /* 16px — .nrow/.nrow-a (mock 10px x1.636) */
 
-  --fs-h1: 3rem; /* 48px — home hero */
-  --fs-h1-case: 2.5rem; /* 40px — case headline */
-  --fs-kicker: 0.9375rem; /* 15px mono kicker */
+  --fs-h1: 3rem; /* 48px — home hero, mock 30px */
+  --fs-h1-case: 2.25rem; /* 36px — case headline. 4 of 5 cases use mock
+    22px (x1.636); MALTALINK's 24px is a deliberate one-off ("exemplar"
+    case), not the norm. */
+  --fs-kicker: 0.9375rem; /* 15px mono kicker, mock 9-9.5px */
+
+  /* Line-height / letter-spacing — only the values reused across 2+
+     components are tokenized; single-consumer values (e.g. .lesson's
+     1.6, .result-metrics' 1.5) stay as literals in their own rule. */
+  --lh-tight: 1.15; /* headlines — .h1, .h1-case */
+  --lh-body: 1.65; /* main prose — .hero-body, .prose (mockup .body class) */
+  --ls-tight: -0.01em; /* headlines */
+  --ls-wide: 0.06em; /* badges, nav rows, footer labels */
+  --ls-wider: 0.08em; /* kicker, placeholder sub-label */
+  --ls-widest: 0.1em; /* micro-labels (.klab/.clab, smallest text) */
 
   /* --- Spacing / layout ---------------------------------------------- */
   --sheet-max: 1400px;

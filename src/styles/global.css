@@ -125,7 +125,7 @@ a:hover {
   font-family: var(--font-mono);
   font-weight: 600;
   font-size: var(--fs-mono);
-  letter-spacing: 0.1em;
+  letter-spacing: var(--ls-widest);
   color: var(--label);
   text-transform: uppercase;
 }
@@ -135,17 +135,18 @@ a:hover {
 .stk {
   font-family: var(--font-mono);
   font-weight: 500;
-  font-size: var(--fs-mono);
   padding: 3px 8px;
   border-radius: 2px; /* software-adjacent tokens; sharp-ish */
   white-space: nowrap;
 }
 .chip {
+  font-size: var(--fs-mono);
   border: 1px solid var(--chip-bd);
   background: var(--chip-bg);
   color: var(--chip-fg);
 }
 .stk {
+  font-size: var(--fs-mono-md);
   border: 1px solid var(--stk-bd);
   background: var(--stk-bg);
   color: var(--blue);
@@ -156,10 +157,10 @@ a:hover {
 .rb {
   font-family: var(--font-mono);
   font-weight: 600;
-  font-size: var(--fs-mono);
+  font-size: var(--fs-mono-md);
   padding: 3px 8px;
   border-radius: 2px;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--ls-wide);
   white-space: nowrap;
 }
 .eb {
@@ -188,7 +189,7 @@ a:hover {
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--ls-wide);
   padding: 10px 14px;
   transition: top 0ms;
 }
@@ -261,7 +262,7 @@ a:hover {
 }
 .cell-val-mono {
   font-family: var(--font-mono);
-  font-size: var(--fs-mono);
+  font-size: var(--fs-kicker); /* 15px — rail LOC/AUTH/SPAN/YEAR, mock 9px */
   margin-top: 3px;
 }
 .cell-pair {
@@ -281,7 +282,7 @@ a:hover {
 }
 .rail-link {
   font-family: var(--font-mono);
-  font-size: var(--fs-mono);
+  font-size: var(--fs-mono-md); /* 14px, mock 8.5px */
   color: var(--blue);
   margin-top: 10px;
   display: inline-block;
@@ -297,8 +298,8 @@ a:hover {
 .nrow-a {
   font-family: var(--font-mono);
   font-weight: 600;
-  font-size: var(--fs-mono);
-  letter-spacing: 0.06em;
+  font-size: var(--fs-mono-lg);
+  letter-spacing: var(--ls-wide);
   padding: 13px 14px;
   display: block;
 }
@@ -335,16 +336,16 @@ a:hover {
 
 /* --- Headlines --------------------------------------------------------- */
 .h1 {
-  font: 700 var(--fs-h1) / 1.12 var(--font-sans);
-  letter-spacing: -0.01em;
+  font: 700 var(--fs-h1) / var(--lh-tight) var(--font-sans);
+  letter-spacing: var(--ls-tight);
 }
 .h1-case {
-  font: 700 var(--fs-h1-case) / 1.15 var(--font-sans);
-  letter-spacing: -0.01em;
+  font: 700 var(--fs-h1-case) / var(--lh-tight) var(--font-sans);
+  letter-spacing: var(--ls-tight);
 }
 .hero-body {
   font-size: var(--fs-prose);
-  line-height: 1.6;
+  line-height: var(--lh-body);
   color: var(--ink-body);
   max-width: 44ch;
   margin-top: 16px;
@@ -353,7 +354,7 @@ a:hover {
   font-family: var(--font-mono);
   font-weight: 600;
   font-size: var(--fs-kicker);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--ls-wider);
   color: var(--blue);
   text-transform: uppercase;
 }
@@ -361,7 +362,7 @@ a:hover {
 /* --- Prose (case reading column: 18px floor) --------------------------- */
 .prose {
   font-size: var(--fs-prose);
-  line-height: 1.62;
+  line-height: var(--lh-body);
   color: var(--ink-body);
 }
 
@@ -406,7 +407,7 @@ a.dcard {
   display: block;
 }
 .dcard-title {
-  font: 600 1.1875rem/1.3 var(--font-sans); /* ~19px */
+  font: 600 1.3125rem/1.3 var(--font-sans); /* 21px, mock 13px */
   margin-top: 6px;
   color: var(--ink);
 }
@@ -466,7 +467,7 @@ a.dcard {
 
 /* --- Lesson pull-quote (bare, over grid) ------------------------------- */
 .lesson {
-  font: italic 500 1.25rem/1.6 var(--font-sans); /* ~20px */
+  font: italic 500 1.375rem/1.6 var(--font-sans); /* 22px, mock 13.5px */
   color: var(--ink-body);
   background: rgb(251 249 244 / 80%);
 }
@@ -474,9 +475,9 @@ a.dcard {
   font-family: var(--font-mono);
   font-style: normal;
   font-weight: 600;
-  font-size: var(--fs-mono);
+  font-size: var(--fs-mono-md); /* 14px, mock 8.5px */
   color: var(--label);
-  letter-spacing: 0.1em;
+  letter-spacing: var(--ls-widest);
 }
 
 /* --- Footer ------------------------------------------------------------ */
@@ -489,9 +490,9 @@ a.dcard {
 }
 .ftl {
   font-family: var(--font-mono);
-  font-size: var(--fs-mono);
+  font-size: var(--fs-mono-md);
   color: var(--label);
-  letter-spacing: 0.04em;
+  letter-spacing: var(--ls-wide);
 }
 
 /* --- Reserved-ratio placeholder (CLS 0) -------------------------------- */
@@ -509,7 +510,7 @@ a.dcard {
 .ph-slug {
   font-family: var(--font-mono);
   font-weight: 600;
-  font-size: var(--fs-mono);
+  font-size: var(--fs-kicker); /* 15px, mock 9px */
   color: var(--blue);
 }
 .ph-kind {
@@ -517,5 +518,5 @@ a.dcard {
   font-weight: 500;
   font-size: var(--fs-mono);
   color: var(--label);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--ls-wider);
 }
