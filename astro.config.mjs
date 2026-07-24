@@ -21,7 +21,10 @@ export default defineConfig({
       cssVariable: "--font-ibm-plex-mono",
       weights: [400, 500, 600],
       styles: ["normal"],
-      subsets: ["latin"],
+      // cyrillic (not just latin): Archivo has no glyph for "№" (U+2116)
+      // in any subset, so it's rendered in mono everywhere instead —
+      // Plex Mono's cyrillic subset is confirmed to cover it.
+      subsets: ["latin", "cyrillic"],
     },
   ],
 });
