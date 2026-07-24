@@ -1,0 +1,13 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  /** "full" = major+minor stroke (.tick); "light" = single lighter stroke (.tick-lt) */
+  variant?: "full" | "light";
+}
+
+const { variant = "full", ...rest } = Astro.props;
+const tickClass = variant === "light" ? "tick-lt" : "tick";
+---
+
+<div class={tickClass} {...rest}></div>
