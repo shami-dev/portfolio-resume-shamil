@@ -7,6 +7,10 @@
   /* --- Color: 5-token core + supporting ------------------------------- */
   --paper: #fbf9f4; /* page surface */
   --white: #fff; /* rail/cell/skip-link ground — distinct from --paper */
+  --card-surface: var(
+    --white
+  ); /* raised .dcard ground — diverges from
+    --white in dark/anoitecer (Phase 5a·v2 Tungsten), identical in light */
   --canvas: #eceade; /* desk / body background */
   --ink: #1a1a1a; /* headings, hard-action fill */
   --ink-body: #3a3a3a; /* body prose */
@@ -38,6 +42,15 @@
   --bd-rule: #444; /* drafting register / rail */
   --bd-hair: #eee9dd;
   --bd-placeholder: #b5a888; /* .ph dashed border */
+  --tick-ink: var(
+    --bd-rule
+  ); /* tick/timeline major stroke — diverges from
+    --bd-rule in dark/anoitecer (amber/umber ink vs. structural border) */
+  --tick-ink-minor: var(
+    --bd-page
+  ); /* tick minor stroke + .tick-lt — in
+    dark/anoitecer this equals --bd-rule's value there, not --bd-page's
+    (the two tokens' roles diverge per mode; kept separate to stay exact) */
 
   /* Grid texture — sepia base, used as rgba(var(--sepia), a) */
   --sepia: 160, 120, 60;
@@ -71,4 +84,113 @@
   --t-lift: 180ms;
   --t-enter: 450ms;
   --t-enter-lg: 550ms;
+}
+
+/* ==========================================================================
+   Dark modes — Tungsten (Phase 5a·v2, design-v2/phase_5a_v2/
+   dark_mode_directions_with_selected.html), density-tested and corrected
+   against a full case-detail page + the About career timeline.
+
+   Not a binary switch — three real states (LIGHT / ANOITECER / DARK),
+   set via [data-theme] on :root. "Anoitecer" is a genuine middle
+   luminance (kraft/manila stock), not a dimmed dark.
+
+   Binding rules from the density-test findings (apply when building
+   components/pages that consume these tokens, not just when reading colors):
+   - Finding 1: anoitecer has only TWO text tiers (--ink, --ink-body).
+     Its muted tier is retired — labels differentiate by size/weight only,
+     never a third color. Full dark keeps all three tiers.
+   - Finding 2: on anoitecer, any surface that lightens above the page
+     ground must use top-tier (--ink) text only — no --ink-body or
+     --label on raised surfaces there.
+   - Finding 3: on anoitecer, EVIDENCE must not use a tinted fill (a cool
+     fill was found to outshout DECISION on the warm kraft ground) — it
+     carries its blue only through --evidence-bd and the badge, so
+     --evidence-bg is set to the page ground itself, not a distinct tint.
+   - Finding 4 (deferred — no page built yet): on FULL-intensity
+     case-detail pages specifically, full dark's grid alpha must drop one
+     step from the values below (major 0.15→0.10, minor 0.06→0.04) or the
+     amber grid buzzes against six stacked text blocks. Needs a page-level
+     modifier once /work/[case] exists (task 4) — the values below are the
+     general-purpose (Home/rail-density) values, matching the swatch.
+   - Not specified by the source (no dark-mode example rendered) —
+     --blue-hover, --maroon, neutral --chip-*, and a --canvas distinct
+     from --paper. --focus below is my own convention (= --blue per
+     mode), not an extracted value.
+   ========================================================================== */
+
+:root[data-theme="dark"] {
+  --paper: #1d1712; /* page ground */
+  --white: #241c15; /* rail/cell chrome */
+  --card-surface: #292018; /* raised .dcard ground */
+  --canvas: var(--paper); /* no desk-margin example in source; same as paper */
+  --ink: #f0e9dd; /* heading / primary text */
+  --ink-body: #cfc5b4; /* body prose — AA 10.4:1 */
+  --label: #b8ac99; /* muted tier retained in full dark — AA 7.9:1 */
+  --nav-rest: #b8ac99;
+  --blue: #8ab4e8; /* AA kicker 8.2:1 */
+  --blue-hover: #8ab4e8; /* not specified by source — placeholder, same as --blue */
+  --green: #8fd6a2; /* AA green-on-plate 8.7:1 */
+  --maroon: #7a2e2e; /* not specified by source — carried over from light */
+
+  --stk-bg: #212a3c;
+  --stk-bd: #3a4a66;
+  --evidence-bg: #212a3c;
+  --evidence-bd: #3a4a66;
+  --result-bg: #1e2b1f;
+  --result-bd: #35513a;
+
+  --chip-bg: #212a3c; /* no neutral (non-blue) chip example — reuses stk tone */
+  --chip-bd: #3a4a66;
+  --chip-fg: #cfc5b4;
+
+  --bd-card: #40342a; /* converges with --bd-page in this mode (source) */
+  --bd-page: #40342a;
+  --bd-rule: #6b5a45;
+  --bd-hair: #35291e;
+  --bd-placeholder: #6b5a42;
+  --tick-ink: #caa06a; /* amber tick/timeline major stroke */
+  --tick-ink-minor: #6b5a45; /* diverges from --bd-page (#40342a) here */
+
+  --sepia: 216, 164, 90; /* amber grid base */
+  --focus: var(--blue);
+}
+
+:root[data-theme="anoitecer"] {
+  --paper: #6a5d4d; /* kraft/manila ground — oklch L≈0.47–0.49 */
+  --white: #756855; /* rail/cell chrome */
+  --card-surface: #786a58; /* raised .dcard ground */
+  --canvas: var(--paper); /* no desk-margin example in source; same as paper */
+  --ink: #f6f0e4; /* heading / primary text — AA 5.6:1 */
+  --ink-body: #e6dcc9; /* body prose — AA 4.7:1 */
+  --label: var(--ink-body); /* Finding 1: muted tier retired at anoitecer */
+  --nav-rest: var(--ink-body);
+  --blue: #c9e0f8; /* AA kicker 4.7:1 */
+  --blue-hover: #c9e0f8; /* not specified by source — placeholder, same as --blue */
+  --green: #cdeed6; /* AA green-on-plate 5.5:1 */
+  --maroon: #7a2e2e; /* not specified by source — carried over from light */
+
+  --stk-bg: #535f77;
+  --stk-bd: #6b7896;
+  /* Finding 3: no tinted fill — EVIDENCE reads as page ground, blue via
+     border + badge only. */
+  --evidence-bg: var(--paper);
+  --evidence-bd: var(--blue);
+  --result-bg: #4e5f4b;
+  --result-bd: #6b8066;
+
+  --chip-bg: #535f77; /* no neutral (non-blue) chip example — reuses stk tone */
+  --chip-bd: #6b7896;
+  --chip-fg: #e6dcc9;
+
+  --bd-card: #8a7b66; /* converges with --bd-page in this mode (source) */
+  --bd-page: #8a7b66;
+  --bd-rule: #4a3a26;
+  --bd-hair: #5b5041;
+  --bd-placeholder: #4a3a26;
+  --tick-ink: #3a2a18; /* printed-umber tick/timeline major stroke */
+  --tick-ink-minor: #4a3a26; /* diverges from --bd-page (#8a7b66) here */
+
+  --sepia: 43, 30, 16; /* printed-ink grid base, dark-on-kraft */
+  --focus: var(--blue);
 }

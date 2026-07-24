@@ -87,14 +87,18 @@ a:hover {
 /* --- Tick-rule dividers (drafting scales) ------------------------------ */
 .tick {
   height: 11px;
-  border-bottom: 1.5px solid var(--bd-rule);
+  border-bottom: 1.5px solid var(--tick-ink);
   background-image:
     repeating-linear-gradient(
       90deg,
-      var(--bd-rule) 0 1px,
+      var(--tick-ink) 0 1px,
       transparent 1px 25px
     ),
-    repeating-linear-gradient(90deg, var(--bd-page) 0 1px, transparent 1px 5px);
+    repeating-linear-gradient(
+      90deg,
+      var(--tick-ink-minor) 0 1px,
+      transparent 1px 5px
+    );
   background-size:
     100% 11px,
     100% 5px;
@@ -104,10 +108,10 @@ a:hover {
 
 .tick-lt {
   height: 7px;
-  border-bottom: 1px solid var(--bd-page);
+  border-bottom: 1px solid var(--tick-ink-minor);
   background-image: repeating-linear-gradient(
     90deg,
-    var(--bd-page) 0 1px,
+    var(--tick-ink-minor) 0 1px,
     transparent 1px 25px
   );
   background-size: 100% 7px;
@@ -364,7 +368,7 @@ a:hover {
 /* --- Decision-record card: the ONE elevation (software register, 4px) --- */
 .dcard {
   position: relative;
-  background: var(--white);
+  background: var(--card-surface);
   border: 1px solid var(--bd-card);
   border-left: 3px solid transparent;
   border-radius: 4px;
