@@ -465,7 +465,10 @@ a.dcard {
 }
 .block-body {
   flex: 1;
-  background: rgb(251 249 244 / 80%); /* paper wash for legibility on grid */
+  background: rgb(
+    var(--paper-rgb),
+    0.8
+  ); /* paper wash for legibility on grid */
 }
 
 /* --- Evidence plate (blue-tinted, software register) ------------------- */
