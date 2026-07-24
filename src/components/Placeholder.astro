@@ -1,0 +1,19 @@
+---
+// Reserved-ratio placeholder (CLS 0) — §"Reserved-ratio placeholder" in
+// global.css. Mockup markup uses shorthand .phs/.phk; this repo's CSS
+// normalizes those to .ph-slug/.ph-kind (see global.css), so this
+// component follows the CSS, not the raw mockup class names.
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  slug: string; // e.g. "maltalink-hero" -> renders "[ maltalink-hero ]"
+  kind: string; // e.g. "WIDE / HERO — 16:7 DESKTOP · 16:9 MOBILE"
+}
+
+const { slug, kind, ...rest } = Astro.props;
+---
+
+<div class="ph" {...rest}>
+  <span class="ph-slug">[ {slug} ]</span>
+  <span class="ph-kind">{kind}</span>
+</div>
