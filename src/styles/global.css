@@ -425,6 +425,31 @@ a.dcard {
   gap: 8px;
   margin-top: 12px;
 }
+.dcard-kicker {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  /* mock 9px, close enough to the 9.5px .kicker tier to share it */
+  font-size: var(--fs-kicker);
+  /* mock 0.06em — distinct from .kicker's 0.08em */
+  letter-spacing: var(--ls-wide);
+  color: var(--blue);
+}
+.dcard-duration {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-md); /* 14px, mock 8.5px */
+  color: var(--label);
+}
+.status-chip {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-mono-md);
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  padding: 2px 7px; /* 1px less than .eb/.rb — border consumes the difference, per mock */
+  border-radius: 2px;
+  letter-spacing: var(--ls-wide);
+  white-space: nowrap;
+}
 
 /* --- Case blocks: PROBLEM / CONSTRAINT flat on grid -------------------- */
 .block {

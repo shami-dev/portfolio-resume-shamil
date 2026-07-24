@@ -1,0 +1,33 @@
+---
+// Home's compact decision-record preview cards (§5.1). The case-detail
+// page's own DECISION block also uses .dcard, but as a static (non-link,
+// non-hoverable) prose block with different internal content — that's
+// composed directly in the case page, not through this component.
+interface Props {
+  href: string;
+  kicker: string; // e.g. "DECISION №01 — REGISTRATION PLATFORM · MALTALINK 2025"
+  duration: string; // e.g. "5 MO"
+  title: string;
+  evidence: string; // e.g. "EVIDENCE — €84 vs ~13× cost"
+  outcome: {
+    text: string; // e.g. "RESULT — 100% completion · 0 downtime"
+    /** "rb" = green result/delivered chip; "status" = blue-outlined (iterating) */
+    variant?: "rb" | "status";
+  };
+}
+
+const { href, kicker, duration, title, evidence, outcome } = Astro.props;
+const outcomeClass = outcome.variant === "status" ? "status-chip" : "rb";
+---
+
+<a href={href} class="dcard is-hoverable">
+  <div class="mrow">
+    <span class="dcard-kicker">{kicker}</span>
+    <span class="dcard-duration">{duration}</span>
+  </div>
+  <div class="dcard-title">{title}</div>
+  <div class="dcard-badges">
+    <span class="eb">{evidence}</span>
+    <span class={outcomeClass}>{outcome.text}</span>
+  </div>
+</a>
