@@ -1,0 +1,17 @@
+---
+// Footer content varies per page (plain labels on Home/About, prev/next
+// case links on case-detail, colophon links elsewhere) and mixes text
+// with real <a> elements — same rationale as Rail: pages compose their
+// own left/right content into this shared .ft chrome rather than a
+// rigid text/href prop API.
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"div">;
+
+const rest = Astro.props as Props;
+---
+
+<div class="ft" {...rest}>
+  <slot name="left" />
+  <slot name="right" />
+</div>
