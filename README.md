@@ -1,43 +1,45 @@
-# Astro Starter Kit: Minimal
+# Portfolio — Shamil Khaibullov
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+Personal portfolio/resume site, built with [Astro](https://astro.build) as a static site and deployed to Cloudflare via Wrangler.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The design follows a locked, multi-phase spec (see `../design-v2/`): a "drafting-instrument / decision-log" aesthetic on a millimetre-paper texture, with three real color modes — light (default), dark, and anoitecer (a genuine middle luminance, not a dimmed dark) — plus a precise "Detent & Settle" motion system. Design tokens (color, spacing, type) are reverse-engineered from the canonical mockup files rather than invented; see `CLAUDE.md` for the conventions this repo follows.
 
-## 🚀 Project Structure
+## Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+- [Astro](https://astro.build) 6 (static output)
+- Plain CSS with custom properties (no Tailwind) — `src/styles/tokens.css` + `src/styles/global.css`
+- Self-hosted [Archivo](https://fonts.google.com/specimen/Archivo) + [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono) via `@fontsource`
+- ESLint + Prettier (JS/TS/Astro), Stylelint (CSS, including `.astro` `<style>` blocks)
+- Deployed as static assets to Cloudflare via `wrangler`
+
+## Project structure
 
 ```text
 /
-├── public/
+├── public/              # static assets (favicons, etc.)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── pages/           # file-based routes
+│   └── styles/
+│       ├── tokens.css   # design tokens (:root + [data-theme] mode blocks)
+│       └── global.css   # reset, base type, textures, shared component classes
+├── CLAUDE.md             # commit workflow + design-system conventions
+└── wrangler.jsonc        # Cloudflare static-asset deploy config
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+All commands run from the root of this project:
 
-Any static assets, like images, can be placed in the `public/` directory.
+| Command             | Action                                             |
+| :------------------ | :------------------------------------------------- |
+| `pnpm install`      | Install dependencies                               |
+| `pnpm dev`          | Start local dev server at `localhost:4321`         |
+| `pnpm build`        | Build the production site to `./dist/`             |
+| `pnpm preview`      | Preview the build locally, before deploying        |
+| `pnpm lint`         | Lint JS/TS/Astro files with ESLint                 |
+| `pnpm format`       | Format the codebase with Prettier                  |
+| `pnpm format:check` | Check formatting without writing changes           |
+| `pnpm typecheck`    | Type-check `.astro`/`.ts` files with `astro check` |
+| `pnpm stylelint`    | Lint CSS, including `.astro` `<style>` blocks      |
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `pnpm install`         | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+All of the above must pass before a commit — see `CLAUDE.md` for the full workflow.
