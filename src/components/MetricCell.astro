@@ -1,0 +1,26 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import TickRule from "./TickRule.astro";
+
+interface Props extends HTMLAttributes<"div"> {
+  label?: string;
+  metrics: string[];
+}
+
+const { label = "RESULTS TO DATE", metrics, ...rest } = Astro.props;
+---
+
+<div class="rail-foot" {...rest}>
+  <TickRule variant="light" style="margin-bottom: 8px" />
+  <div class="clab">{label}</div>
+  <div class="rail-metrics">
+    {
+      metrics.map((metric, i) => (
+        <>
+          {i > 0 && <br />}
+          {metric}
+        </>
+      ))
+    }
+  </div>
+</div>

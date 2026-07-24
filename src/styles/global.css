@@ -287,6 +287,14 @@ a:hover {
   margin-top: 10px;
   display: inline-block;
 }
+.rail-metrics {
+  font-family: var(--font-mono);
+  /* 18px, mock 10.5px (close to .result-metrics' 11px) */
+  font-size: var(--fs-prose);
+  color: var(--green);
+  line-height: 1.75;
+  margin-top: 4px;
+}
 
 /* --- Nav rows (drafting register) -------------------------------------- */
 .nav {
