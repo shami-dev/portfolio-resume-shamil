@@ -1,0 +1,40 @@
+---
+// Phase 7: "Build notes already commit to semantic <a>/<button>/<nav>
+// (demo divs are demo-only)" — the mockup's <div class="nrow"> is a
+// design-doc preview convention, not the intended real markup.
+interface Props {
+  current: "home" | "work" | "about" | "contact";
+  /** Case-detail context, e.g. "1/5" -> renders "WORK · 1/5" on the active item */
+  workSuffix?: string;
+}
+
+const { current, workSuffix } = Astro.props as Props;
+
+const items = [
+  { key: "home", label: "HOME", href: "/" },
+  { key: "work", label: "WORK", href: "/work" },
+  { key: "about", label: "ABOUT", href: "/about" },
+  { key: "contact", label: "CONTACT", href: "/contact" },
+] as const;
+---
+
+<nav class="nav">
+  {
+    items.map((item) => {
+      const isActive = item.key === current;
+      const label =
+        isActive && item.key === "work" && workSuffix
+          ? `${item.label} · ${workSuffix}`
+          : item.label;
+      return (
+        <a
+          href={item.href}
+          class={isActive ? "nrow-a" : "nrow"}
+          aria-current={isActive ? "page" : undefined}
+        >
+          {label}
+        </a>
+      );
+    })
+  }
+</nav>
