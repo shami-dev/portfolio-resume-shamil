@@ -1,0 +1,58 @@
+---
+import { Font } from "astro:assets";
+
+import "../styles/tokens.css";
+import "../styles/global.css";
+
+interface Props {
+  title: string; // <=60 chars, metric-led (Phase 7 C1)
+  description: string; // <=155 chars
+}
+
+const { title, description } = Astro.props;
+
+// No custom domain is configured yet (astro.config.mjs has no `site`),
+// so canonical reflects the actual request URL rather than a guessed
+// domain. Once a real domain is chosen, set `site` in astro.config.mjs
+// for the sitemap integration (task 5) to pick up too.
+const canonical = Astro.url.href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+
+    <!-- Astro's Font API: handles fallback metrics automatically; preload
+         is scoped to just the two above-the-fold weights (Phase 7 F-08) —
+         verified against astro's PreloadFilter type, `preload` alone
+         would otherwise preload all 11 configured weight/style files. -->
+    <Font
+      cssVariable="--font-archivo"
+      preload={[{ weight: 700, style: "normal" }]}
+    />
+    <Font
+      cssVariable="--font-ibm-plex-mono"
+      preload={[{ weight: 600, style: "normal" }]}
+    />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="sheet">
+      <slot />
+    </div>
+  </body>
+</html>
