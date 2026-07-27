@@ -758,6 +758,18 @@ a.dcard {
   flex: 1;
 }
 
+/* Paired figures stack below sm (Phase 5 §5.6 M-P3, "STACKS ON MOBILE" /
+   "STACKED ON MOBILE" on the placeholder's own kind label). 40rem is a
+   second, narrower breakpoint than the 64rem header/nav collapse: two
+   180px-tall figures already fit side by side in a single mobile column
+   at typical phone widths, so they only need to stack once the column
+   itself gets narrow. */
+@media (width < 40rem) {
+  .evidence-figs {
+    flex-direction: column;
+  }
+}
+
 /* --- Result band (green, leads with metrics) --------------------------- */
 .result {
   background: var(--result-bg);
