@@ -295,6 +295,11 @@ a:hover {
   color: var(--ink-body);
   margin-top: 3px;
 }
+/* Segments of a title, one per line. Was a literal <br>, which the mobile
+   header cannot re-join into the mockup's single "a · b" line. */
+.cell-val > span {
+  display: block;
+}
 .cell-val-mono {
   font-family: var(--font-mono);
   font-size: var(--fs-kicker); /* 15px — rail LOC/AUTH/SPAN/YEAR, mock 9px */
@@ -354,8 +359,56 @@ a:hover {
     border: 0;
     padding: 0;
   }
+
+  /* Scan block, per M-P1: name, one title line, one mono meta line.
+     Sizes x1.44 — name 13 -> 19px, title 9 -> 13px; the 8px meta line
+     would land at 11.5px so it sits at the --fs-mono 13px floor. */
+  .cell-name {
+    font-size: 1.1875rem; /* 19px, mock 13px */
+  }
+  .cell-val {
+    font-size: 0.8125rem; /* 13px, mock 9px */
+    color: var(--nav-rest); /* mock #555, one tier lighter than desktop */
+  }
+  .cell-val > span {
+    display: inline;
+  }
+  .cell-val > span + span::before {
+    content: " · ";
+  }
+
+  /* M-P1's header carries values only — no NAME/TITLE/LOC/AUTH labels —
+     and LOC + AUTH collapse to one "PORTO, PT · EU PERMIT" line. The
+     labels are hidden the same way as .visually-hidden rather than
+     removed from the accessibility tree, so a screen reader still hears
+     which value is which. .rail-foot's label is outside .cell and is
+     unaffected. */
   .cell-pair {
-    gap: 14px;
+    display: block; /* one text line, not two columns */
+  }
+  .cell-pair > .cell {
+    display: inline;
+  }
+  .cell-pair .cell-val-mono {
+    display: inline;
+    font-size: var(--fs-mono); /* mock 8px x1.44 = 11.5, at the 13px floor */
+    color: var(--label);
+    text-transform: uppercase;
+  }
+  .rail .cell .clab {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+  .cell-pair > .cell + .cell::before {
+    content: " · ";
+    color: var(--label);
   }
   .rail-chips {
     margin-top: 8px;
