@@ -1,0 +1,48 @@
+{
+  "seo": {
+    "title": "FOLTirana — scheduling logic for $19 · №05",
+    "description": "Social-activities registration with overlap warnings and a live shared database — delivered in a week for $19 total."
+  },
+  "rail": {
+    "record": "№05 FOLTIRANA",
+    "role": "Website Manager — registration experience end to end, with designer & content editor",
+    "cellPair": [
+      { "label": "SPAN", "value": "~1 wk" },
+      { "label": "COST", "value": "$19" }
+    ],
+    "navWorkSuffix": "5/5",
+    "tools": ["Fillout + AI", "d109conf.org"],
+    "link": {
+      "href": "https://conference2026.district109.org",
+      "label": "↗ conference2026.district109.org"
+    }
+  },
+  "kicker": "DECISION №05 — RIGHT-SIZED TOOLING · UX TRIAGE",
+  "headline": "Complex scheduling logic, one week, nineteen dollars.",
+  "ledeMetrics": "OVERLAP WARNINGS · LIVE SHARED DB · COST CALCULATOR · $19 TOTAL",
+  "hero": {
+    "slug": "foltirana-hero",
+    "kind": "WIDE / HERO"
+  },
+  "problem": "The social activities program had overlapping time slots, durations, and locations, and four pricing models at once — free, tip-based, pay-at-meeting-point, and pay-in-advance. The final activity list locked only about a week before launch; until then, planning data lived across shifting spreadsheet versions.",
+  "constraint": "Roughly one week from final data to launch. The team wanted something small and sufficient, not a heavier commerce platform — but it still needed scheduling-conflict logic and a live shared database.",
+  "decision": "Ticket Tailor — the right call at MALTALINK — was evaluated and ruled out here: it only pays off when collecting payment directly, and most activities were free, tip-based, or paid in person. Same thread, opposite verdict. With source data unstable, the highest-leverage work was UX triage with the designer: essentials (time, duration, price, days) on the card surface, everything else behind a \"More details\" toggle, copy shaped with the content editor. Fillout AI carried the registration mechanics on one month of its paid plan.",
+  "evidence": {
+    "figures": [
+      { "slug": "foltirana-cards", "kind": "WIDE" },
+      { "slug": "foltirana-expanded", "kind": "WIDE — DETAILS TOGGLE" }
+    ],
+    "caption": "Card browsing grouped by payment type; the expanded state shows the triage line — what earned the surface vs the toggle."
+  },
+  "result": {
+    "variant": "banner",
+    "label": "RESULT",
+    "metrics": "~1 WEEK · $19 TOTAL · CONFLICT WARNINGS · LIVE SHARED DB",
+    "body": "A fully custom registration experience — overlapping-event warnings, editable confirmation emails, auto-hiding of activities within two days of their start, and a running cost calculator for pay-at-meeting-point totals — delivered in about a week for $19 total, with strong informal praise from the team."
+  },
+  "lesson": "When source data is late and unstable, the highest-leverage work is deciding what belongs on the surface — not waiting for the data to settle.",
+  "footerNav": {
+    "prev": { "href": "/work/campaign-site", "label": "← №04 CAMPAIGN SITE" },
+    "next": { "href": "/work/maltalink", "label": "№01 MALTALINK →" }
+  }
+}

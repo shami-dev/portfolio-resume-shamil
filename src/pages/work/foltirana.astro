@@ -1,0 +1,202 @@
+---
+// Case №05 FOLTIRANA (Phase 5 §5.3) — same D/E/R anatomy as MALTALINK.
+// Closing case in the circular pager: footerNav.next wraps back to
+// MALTALINK, closing the loop MALTALINK started.
+import { getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Rail from "../../components/Rail.astro";
+import Nav from "../../components/Nav.astro";
+import TickRule from "../../components/TickRule.astro";
+import Placeholder from "../../components/Placeholder.astro";
+import Footer from "../../components/Footer.astro";
+
+const caseEntry = await getEntry("cases", "foltirana");
+if (!caseEntry)
+  throw new Error("Missing content collection entry: cases/foltirana");
+const {
+  seo,
+  rail,
+  kicker,
+  headline,
+  ledeMetrics,
+  hero,
+  problem,
+  constraint,
+  decision,
+  evidence,
+  result,
+  lesson,
+  footerNav,
+} = caseEntry.data;
+---
+
+<BaseLayout title={seo.title} description={seo.description} motion>
+  <Rail>
+    <div class="cell">
+      <div class="clab">RECORD</div>
+      <div class="cell-name">{rail.record}</div>
+    </div>
+    <div class="cell">
+      <div class="clab">ROLE</div>
+      <div class="cell-val">
+        {rail.role}
+      </div>
+    </div>
+    <div class="cell-pair">
+      {
+        rail.cellPair.map((cell) => (
+          <div class="cell">
+            <div class="clab">{cell.label}</div>
+            <div
+              class="cell-val-mono"
+              style={cell.accent ? "color: var(--blue)" : undefined}
+            >
+              {cell.value}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <Nav current="work" workSuffix={rail.navWorkSuffix} />
+    <div class="rail-foot">
+      <div class="clab">TOOLS</div>
+      <div class="rail-chips" style="margin-top: 4px">
+        {rail.tools.map((tool) => <span class="stk">{tool}</span>)}
+      </div>
+      {
+        rail.link && (
+          <a
+            href={rail.link.href}
+            class="rail-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {rail.link.label}
+          </a>
+        )
+      }
+    </div>
+  </Rail>
+
+  <div class="mm col case">
+    <span class="kicker" data-register>{kicker}</span>
+    <h1 class="h1-case" data-register>
+      {headline}
+    </h1>
+    <p class="case-lede-metrics">
+      {ledeMetrics}
+    </p>
+
+    <Placeholder
+      slug={hero.slug}
+      kind={hero.kind}
+      style="aspect-ratio: 16 / 7"
+      data-register="lg"
+    />
+
+    <div class="block" data-register>
+      <span class="eb eb-neutral">PROBLEM</span>
+      <p class="prose block-body">
+        {problem}
+      </p>
+    </div>
+
+    <div class="block" data-register>
+      <span class="eb eb-neutral">CONSTRAINT</span>
+      <p class="prose block-body">
+        {constraint}
+      </p>
+    </div>
+
+    <div class="dcard dcard-static" data-register="lg">
+      <span class="eb">DECISION</span>
+      <p class="prose block-note">
+        {decision}
+      </p>
+    </div>
+
+    <div class="evidence" data-register="lg">
+      <span class="eb">EVIDENCE</span>
+      <div class="evidence-figs">
+        {
+          evidence.figures.map((fig) => (
+            <Placeholder
+              slug={fig.slug}
+              kind={fig.kind}
+              style="height: 180px"
+            />
+          ))
+        }
+      </div>
+      <p class="prose evidence-caption">
+        {evidence.caption}
+      </p>
+    </div>
+
+    <div class="result" data-register="lg" data-register-beat>
+      <span class="rb">{result.label}</span>
+      {
+        result.variant === "banner" && (
+          <p class="result-metrics">{result.metrics}</p>
+        )
+      }
+      <p class="prose block-note">
+        {result.body}
+      </p>
+    </div>
+
+    {
+      lesson && (
+        <div data-register>
+          <TickRule
+            variant="light"
+            style="max-width: 196px; margin-bottom: 8px"
+          />
+          <p class="lesson">
+            <span class="lesson-label">LESSON — </span>
+            {lesson}
+          </p>
+        </div>
+      )
+    }
+
+    <TickRule variant="light" />
+
+    <Footer data-register>
+      <a href={footerNav.prev.href} class="ftl" slot="left"
+        >{footerNav.prev.label}</a
+      >
+      <a href={footerNav.next.href} class="ftl" slot="right"
+        >{footerNav.next.label}</a
+      >
+    </Footer>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Mock padding "28px 34px", gap "11px" x1.636 (Phase 7 scale factor) —
+     1px narrower than MALTALINK's exemplar gap (12px mock -> 20px) */
+  .case {
+    gap: 18px;
+    padding: 46px var(--col-pad);
+  }
+
+  /* Mobile collapses to the uniform inset, same as Home: mock 10px and
+     7px x1.44 -> --space-4 and --space-3 on the existing scale. */
+  @media (width < 64rem) {
+    .case {
+      gap: var(--space-3);
+      padding: var(--space-4) var(--col-pad);
+    }
+  }
+
+  /* DECISION/RESULT body text, mock margin-top "6px" x1.636 */
+  .block-note {
+    margin-top: 10px;
+  }
+
+  /* EVIDENCE caption, mock margin-top "8px" x1.636 */
+  .evidence-caption {
+    margin-top: 13px;
+  }
+</style>
