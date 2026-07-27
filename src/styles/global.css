@@ -307,10 +307,18 @@ a:hover {
 }
 .cell-pair {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 .cell-pair > .cell {
   flex: 1;
+}
+/* Two short values fit the 300px rail side by side; a third does not —
+   every value wraps mid-word. Anything past the second takes its own
+   row. They stay inside .cell-pair so the mobile " · " join still
+   picks them up. */
+.cell-pair > .cell:nth-child(n + 3) {
+  flex-basis: 100%;
 }
 .rail-chips {
   display: flex;
