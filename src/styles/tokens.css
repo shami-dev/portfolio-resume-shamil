@@ -164,6 +164,7 @@
 
 :root[data-theme="dark"] {
   --paper: #1d1712; /* page ground */
+  --paper-rgb: 29, 23, 18; /* channels of --paper */
   --white: #241c15; /* rail/cell chrome */
   --card-surface: #292018; /* raised .dcard ground */
   --canvas: var(--paper); /* no desk-margin example in source; same as paper */
@@ -201,6 +202,7 @@
 
 :root[data-theme="anoitecer"] {
   --paper: #6a5d4d; /* kraft/manila ground — oklch L≈0.47–0.49 */
+  --paper-rgb: 106, 93, 77; /* channels of --paper */
   --white: #756855; /* rail/cell chrome */
   --card-surface: #786a58; /* raised .dcard ground */
   --canvas: var(--paper); /* no desk-margin example in source; same as paper */
