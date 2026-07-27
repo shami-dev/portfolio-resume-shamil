@@ -78,9 +78,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <div class="sheet">
+    <main id="main" class="sheet">
       <slot />
-    </div>
+    </main>
     {motion && <script>import "../scripts/motion";</script>}
   </body>
 </html>
