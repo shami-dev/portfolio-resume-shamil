@@ -11,11 +11,10 @@ interface Props {
 
 const { title, description } = Astro.props;
 
-// No custom domain is configured yet (astro.config.mjs has no `site`),
-// so canonical reflects the actual request URL rather than a guessed
-// domain. Once a real domain is chosen, set `site` in astro.config.mjs
-// for the sitemap integration (task 5) to pick up too.
-const canonical = Astro.url.href;
+// Built from `site` (astro.config.mjs) rather than the request URL, so
+// canonical/OG stay on the production origin no matter which host served
+// the page (dev, preview, *.workers.dev).
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <!doctype html>
