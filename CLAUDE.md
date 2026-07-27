@@ -15,6 +15,11 @@
 - Classify as one of: `fix`, `feat`, `refactor`, `chore`, `docs`, `test`, `build`, `perf`. If more than one applies, pick the dominant type and note the secondary in one sentence.
 - Summary line: max 72 chars, imperative mood.
 
+## Framework & platform APIs
+
+- Verify Astro and Cloudflare APIs, config options, and version availability against the docs MCP servers (`.mcp.json`) before asserting them — do not answer from memory. Model knowledge lags both products; several APIs this project depends on (`security.csp`, `Astro.logger`, the adapter's `imageService` default) shipped after the cutoff.
+- Check the version an API was added in against the installed version before using it.
+
 ## Design-system conventions
 
 - Colors, spacing, and type are reverse-engineered from the canonical mockups (design-v2/files_for_implementation/ + phase_5a_v2's dark-mode doc), not invented. Cite the source mockup value and the scale factor applied (desktop 1.636x, mobile 1.44x — from Phase 7) in a token comment.
