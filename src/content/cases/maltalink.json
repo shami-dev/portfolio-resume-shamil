@@ -1,0 +1,44 @@
+{
+  "seo": {
+    "title": "MALTALINK 2025 — 100% registration completion · №01",
+    "description": "One flow instead of two systems: Ticket Tailor over Eventbrite, proven by live demo — 100% completion, 0 downtime, ~€1,000 saved."
+  },
+  "rail": {
+    "record": "№01 MALTALINK",
+    "role": "Web development — sole owner; worked closely with co-designer (PR Manager)",
+    "span": "4-5 mo",
+    "year": "2025",
+    "navWorkSuffix": "1/5",
+    "tools": ["Ticket Tailor", "WordPress", "Astra"],
+    "link": {
+      "href": "https://conference2025.district109.org",
+      "label": "↗ conference2025.district109.org"
+    }
+  },
+  "kicker": "DECISION №01 — REGISTRATION PLATFORM",
+  "headline": "One flow instead of two systems — every purchaser registered.",
+  "ledeMetrics": "100% COMPLETION · ~€1,000 SAVED · 0 DOWNTIME · 4.55/5 SURVEY",
+  "hero": {
+    "slug": "maltalink-hero",
+    "kind": "WIDE / HERO — 16:7 DESKTOP · 16:9 MOBILE"
+  },
+  "problem": "The 2024 conference ran on two disconnected systems — Eventbrite took payment while a separate Google Form collected registration details. Attendees dropped off between the two steps, the datasets never quite matched, and organizers spent evenings manually chasing people who had paid but never registered. The District IT Manager named this the single biggest pain point to fix for 2025.",
+  "constraint": "Phased deadlines across 4-5 months, with registration, finance, and volunteering teams each holding requirements. The IT Manager favored the fast path — tools already familiar and licensed — and time pressure made pragmatic shortcuts tempting throughout.",
+  "decision": "One stakeholder with real influence said further research wasn't worth doing. I ran a focused comparison anyway — respectfully — and brought a live demo instead of an argument. Side by side, Astra + Ticket Tailor won on flexibility, richer registration forms, centralized PDF/CSV export, automatic QR-code check-in, and far lower ongoing fees. The demo, not my opinion, moved the decision — and registration became a mandatory step inside checkout, collapsing two systems into one flow.",
+  "evidence": {
+    "figures": [
+      { "slug": "maltalink-before-after", "kind": "PAIRED — STACKS ON MOBILE" },
+      { "slug": "maltalink-ticket-tailor", "kind": "WIDE" }
+    ],
+    "caption": "Ticket Tailor cost €84 total for the conference vs ~13x that on Eventbrite for the same job — close to €1,000 kept. The before/after shows the fragmented two-system flow against the single checkout."
+  },
+  "result": {
+    "metrics": "100% COMPLETION · 0 DOWNTIME · 4.55/5 SURVEY · ~€1,000 SAVED",
+    "body": "Every ticket purchaser completed registration — the mandatory checkout step made drop-off structurally impossible. Launched November 2025 and ran without downtime through the conference; the post-conference survey rated registration and website 4.55/5. Recognition followed: an official certificate of appreciation, a public LinkedIn recommendation citing ownership, vision, and a crash-free launch, and an invitation into the Website Manager role for 2026."
+  },
+  "lesson": "Sometimes the person with influence will tell you research isn't worth doing. Run it anyway, respectfully, and let the side-by-side make the case. Compromise on the day-to-day; hold firm with evidence on the few calls that matter.",
+  "footerNav": {
+    "prev": { "href": "/work/foltirana", "label": "← №05 FOLTIRANA" },
+    "next": { "href": "/work/mystore", "label": "№02 MYSTORE →" }
+  }
+}

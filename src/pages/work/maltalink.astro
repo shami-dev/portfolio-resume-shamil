@@ -5,6 +5,7 @@
 // Phase 6B register (motion prop): kicker/headline/hero settle at load;
 // PROBLEM onward join via scroll-reveal. RESULT is the numeric outcome
 // band, so it carries the one-per-page beat (data-register-beat).
+import { getEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Rail from "../../components/Rail.astro";
 import Nav from "../../components/Nav.astro";
@@ -12,66 +13,75 @@ import TickRule from "../../components/TickRule.astro";
 import Placeholder from "../../components/Placeholder.astro";
 import Footer from "../../components/Footer.astro";
 
-// Phase 7 C1 meta table, verbatim.
-const title = "MALTALINK 2025 — 100% registration completion · №01";
-const description =
-  "One flow instead of two systems: Ticket Tailor over Eventbrite, proven by live demo — 100% completion, 0 downtime, ~€1,000 saved.";
+const caseEntry = await getEntry("cases", "maltalink");
+if (!caseEntry)
+  throw new Error("Missing content collection entry: cases/maltalink");
+const {
+  seo,
+  rail,
+  kicker,
+  headline,
+  ledeMetrics,
+  hero,
+  problem,
+  constraint,
+  decision,
+  evidence,
+  result,
+  lesson,
+  footerNav,
+} = caseEntry.data;
 ---
 
-<BaseLayout title={title} description={description} motion>
+<BaseLayout title={seo.title} description={seo.description} motion>
   <Rail>
     <div class="cell">
       <div class="clab">RECORD</div>
-      <div class="cell-name">№01 MALTALINK</div>
+      <div class="cell-name">{rail.record}</div>
     </div>
     <div class="cell">
       <div class="clab">ROLE</div>
       <div class="cell-val">
-        Web development — sole owner; worked closely with co-designer (PR
-        Manager)
+        {rail.role}
       </div>
     </div>
     <div class="cell-pair">
       <div class="cell">
         <div class="clab">SPAN</div>
-        <div class="cell-val-mono">4-5 mo</div>
+        <div class="cell-val-mono">{rail.span}</div>
       </div>
       <div class="cell">
         <div class="clab">YEAR</div>
-        <div class="cell-val-mono">2025</div>
+        <div class="cell-val-mono">{rail.year}</div>
       </div>
     </div>
-    <Nav current="work" workSuffix="1/5" />
+    <Nav current="work" workSuffix={rail.navWorkSuffix} />
     <div class="rail-foot">
       <div class="clab">TOOLS</div>
       <div class="rail-chips" style="margin-top: 4px">
-        <span class="stk">Ticket Tailor</span>
-        <span class="stk">WordPress</span>
-        <span class="stk">Astra</span>
+        {rail.tools.map((tool) => <span class="stk">{tool}</span>)}
       </div>
       <a
-        href="https://conference2025.district109.org"
+        href={rail.link.href}
         class="rail-link"
         target="_blank"
-        rel="noopener noreferrer">↗ conference2025.district109.org</a
+        rel="noopener noreferrer">{rail.link.label}</a
       >
     </div>
   </Rail>
 
   <div class="mm col case">
-    <span class="kicker" data-register
-      >DECISION №01 — REGISTRATION PLATFORM</span
-    >
+    <span class="kicker" data-register>{kicker}</span>
     <h1 class="h1-case exemplar" data-register>
-      One flow instead of two systems — every purchaser registered.
+      {headline}
     </h1>
     <p class="case-lede-metrics">
-      100% COMPLETION · ~€1,000 SAVED · 0 DOWNTIME · 4.55/5 SURVEY
+      {ledeMetrics}
     </p>
 
     <Placeholder
-      slug="maltalink-hero"
-      kind="WIDE / HERO — 16:7 DESKTOP · 16:9 MOBILE"
+      slug={hero.slug}
+      kind={hero.kind}
       style="aspect-ratio: 16 / 7"
       data-register="lg"
     />
@@ -79,90 +89,68 @@ const description =
     <div class="block" data-register>
       <span class="eb eb-neutral">PROBLEM</span>
       <p class="prose block-body">
-        The 2024 conference ran on two disconnected systems — Eventbrite took
-        payment while a separate Google Form collected registration details.
-        Attendees dropped off between the two steps, the datasets never quite
-        matched, and organizers spent evenings manually chasing people who had
-        paid but never registered. The District IT Manager named this the single
-        biggest pain point to fix for 2025.
+        {problem}
       </p>
     </div>
 
     <div class="block" data-register>
       <span class="eb eb-neutral">CONSTRAINT</span>
       <p class="prose block-body">
-        Phased deadlines across 4-5 months, with registration, finance, and
-        volunteering teams each holding requirements. The IT Manager favored the
-        fast path — tools already familiar and licensed — and time pressure made
-        pragmatic shortcuts tempting throughout.
+        {constraint}
       </p>
     </div>
 
     <div class="dcard dcard-static" data-register="lg">
       <span class="eb">DECISION</span>
       <p class="prose block-note">
-        One stakeholder with real influence said further research wasn't worth
-        doing. I ran a focused comparison anyway — respectfully — and brought a
-        live demo instead of an argument. Side by side, Astra + Ticket Tailor
-        won on flexibility, richer registration forms, centralized PDF/CSV
-        export, automatic QR-code check-in, and far lower ongoing fees. The
-        demo, not my opinion, moved the decision — and registration became a
-        mandatory step inside checkout, collapsing two systems into one flow.
+        {decision}
       </p>
     </div>
 
     <div class="evidence" data-register="lg">
       <span class="eb">EVIDENCE</span>
       <div class="evidence-figs">
-        <Placeholder
-          slug="maltalink-before-after"
-          kind="PAIRED — STACKS ON MOBILE"
-          style="height: 180px"
-        />
-        <Placeholder
-          slug="maltalink-ticket-tailor"
-          kind="WIDE"
-          style="height: 180px"
-        />
+        {
+          evidence.figures.map((fig) => (
+            <Placeholder
+              slug={fig.slug}
+              kind={fig.kind}
+              style="height: 180px"
+            />
+          ))
+        }
       </div>
       <p class="prose evidence-caption">
-        Ticket Tailor cost €84 total for the conference vs ~13x that on
-        Eventbrite for the same job — close to €1,000 kept. The before/after
-        shows the fragmented two-system flow against the single checkout.
+        {evidence.caption}
       </p>
     </div>
 
     <div class="result" data-register="lg" data-register-beat>
       <span class="rb">RESULT</span>
       <p class="result-metrics">
-        100% COMPLETION · 0 DOWNTIME · 4.55/5 SURVEY · ~€1,000 SAVED
+        {result.metrics}
       </p>
       <p class="prose block-note">
-        Every ticket purchaser completed registration — the mandatory checkout
-        step made drop-off structurally impossible. Launched November 2025 and
-        ran without downtime through the conference; the post-conference survey
-        rated registration and website 4.55/5. Recognition followed: an official
-        certificate of appreciation, a public LinkedIn recommendation citing
-        ownership, vision, and a crash-free launch, and an invitation into the
-        Website Manager role for 2026.
+        {result.body}
       </p>
     </div>
 
     <div data-register>
       <TickRule variant="light" style="max-width: 196px; margin-bottom: 8px" />
       <p class="lesson">
-        <span class="lesson-label">LESSON — </span>Sometimes the person with
-        influence will tell you research isn't worth doing. Run it anyway,
-        respectfully, and let the side-by-side make the case. Compromise on the
-        day-to-day; hold firm with evidence on the few calls that matter.
+        <span class="lesson-label">LESSON — </span>{lesson}
       </p>
     </div>
 
     <TickRule variant="light" />
 
     <Footer data-register>
-      <a href="/work/foltirana" class="ftl" slot="left">← №05 FOLTIRANA</a>
-      <a href="/work/mystore" class="ftl" slot="right">№02 MYSTORE →</a>
+      <a href={footerNav.prev.href} class="ftl" slot="left"
+        >{footerNav.prev.label}</a
+      >
+      <a href={footerNav.next.href} class="ftl" slot="right"
+        >{footerNav.next.label}</a
+      >
     </Footer>
   </div>
 </BaseLayout>
