@@ -1,0 +1,45 @@
+{
+  "seo": {
+    "title": "AI projects, measured in the open · №03",
+    "description": "Receipts Analyzer and Task2Check — real OpenAI integrations with extraction accuracy measured and published as it improves."
+  },
+  "rail": {
+    "record": "№03 AI PROJECTS",
+    "role": "Architecture, prompt engineering & product decisions mine; implementation AI-assisted",
+    "cellPair": [
+      { "label": "SPAN", "value": "14 d + ongoing" },
+      { "label": "STATUS", "value": "iterating", "accent": true }
+    ],
+    "navWorkSuffix": "3/5",
+    "tools": ["React Router 7", "TS", "OpenAI API"]
+  },
+  "kicker": "DECISION №03 — LLM EXTRACTION, NOT OCR",
+  "headline": "Two shipped AI integrations, measured in the open.",
+  "ledeMetrics": "RECEIPTS ANALYZER — 14 DAYS (5 PLANNING, 9 BUILDING) · TASK2CHECK — IELTS FEEDBACK",
+  "hero": {
+    "slug": "ai-receipts-dashboard",
+    "kind": "WIDE / HERO"
+  },
+  "problem": "Two personal problems worth solving properly: a family needed visibility into purchase frequency and spend across time ranges without manual data entry, and IELTS candidates need Writing Part 2 feedback that is specific, fast, and repeatable.",
+  "constraint": "Self-directed and solo: 5 days of planning, 9 of building for the Receipts Analyzer. Working style stated plainly — architecture, prompt engineering, and product decisions are mine; implementation is AI-assisted. Neither overstated as hand-coding nor undersold as \"AI wrote it.\"",
+  "decision": "Receipts Analyzer: OpenAI API for extraction instead of OCR — messy receipts yield structured line items directly, at the cost of an accuracy loop that has to be measured rather than assumed. Task2Check: prompt-engineered IELTS Writing Part 2 feedback against the band criteria, deliberately shipped without an auth system — scoped to exactly the job it does. Both on React Router 7 (framework mode) + TypeScript.",
+  "evidence": {
+    "figures": [
+      {
+        "slug": "ai-receipts-review",
+        "kind": "TALL / REPORT — SCROLLABLE CROP"
+      },
+      { "slug": "ai-task2check-report", "kind": "TALL / REPORT" }
+    ],
+    "caption": "The review screen is the honesty mechanism: extraction output is checked against the source receipt, and corrections feed the accuracy log."
+  },
+  "result": {
+    "variant": "status",
+    "label": "STATUS — ITERATING",
+    "body": "Extraction accuracy is still being refined — measured, tracked, and published here as it improves. This record is presented as active iteration, not a finished claim: evidence of direction in AI integration, deliberately distinct from production AI experience."
+  },
+  "footerNav": {
+    "prev": { "href": "/work/mystore", "label": "← №02 MYSTORE" },
+    "next": { "href": "/work/campaign-site", "label": "№04 CAMPAIGN SITE →" }
+  }
+}
