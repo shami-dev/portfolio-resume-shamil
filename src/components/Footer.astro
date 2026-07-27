@@ -4,7 +4,18 @@
 // with real <a> elements — same rationale as Rail: pages compose their
 // own left/right content into this shared .ft chrome rather than a
 // rigid text/href prop API.
+//
+// ModeSwitch lives here rather than in the rail (where the 5D dark-mode
+// doc places it) so that one instance serves both layouts. The mobile
+// header has no room for it without pushing the scan below the fold, and
+// relocating a single node across the rail/column boundary is not
+// something CSS can do without breaking focus order. Rendering it in the
+// footer keeps DOM order and visual order agreed at every width, and
+// puts it with the rest of the set-once chrome. The rail is not sticky,
+// so this costs less on desktop than it looks: the control was never
+// persistently visible there either.
 import type { HTMLAttributes } from "astro/types";
+import ModeSwitch from "./ModeSwitch.astro";
 
 type Props = HTMLAttributes<"div">;
 
@@ -15,3 +26,4 @@ const rest = Astro.props as Props;
   <slot name="left" />
   <slot name="right" />
 </div>
+<ModeSwitch />

@@ -501,6 +501,10 @@ a:hover {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
+/* Rendered by Footer, so it trails the colophon line as its own row. */
+.ft + .mode-switch {
+  margin-top: 12px;
+}
 
 /* --- Nav rows (drafting register) -------------------------------------- */
 .nav {
