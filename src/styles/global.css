@@ -385,12 +385,13 @@ a:hover {
     content: " · ";
   }
 
-  /* M-P1's header carries values only — no NAME/TITLE/LOC/AUTH labels —
-     and LOC + AUTH collapse to one "PORTO, PT · EU PERMIT" line. The
-     labels are hidden the same way as .visually-hidden rather than
-     removed from the accessibility tree, so a screen reader still hears
-     which value is which. .rail-foot's label is outside .cell and is
-     unaffected. */
+  /* M-P1's header carries values only — no NAME/TITLE/LOC/AUTH labels,
+     and no RESULTS TO DATE above the metrics — while LOC + AUTH collapse
+     to one "PORTO, PT · EU PERMIT" line. All of these are hidden the
+     same way as .visually-hidden rather than removed from the
+     accessibility tree, so a screen reader still hears which value is
+     which. Kept as one rule so the label selectors cannot end up in
+     descending specificity order. */
   .cell-pair {
     display: block; /* one text line, not two columns */
   }
@@ -403,6 +404,7 @@ a:hover {
     color: var(--label);
     text-transform: uppercase;
   }
+  .rail-foot > .clab,
   .rail .cell .clab {
     position: absolute;
     width: 1px;
@@ -423,6 +425,45 @@ a:hover {
   }
   .rail-foot {
     margin-top: 8px;
+  }
+
+  /* Metrics -> M-P1's compact 3-up row: three bordered cells, equal
+     width, centered, figure over an uppercased caption. Sizes x1.44 —
+     gap and padding 5 -> 8px, value 9 -> 13px, caption 6 -> 8.6px. Both
+     type sizes land on the --fs-mono 13px floor (Phase 7 F-02), so the
+     hierarchy the mockup drew with size is carried by weight and color
+     instead. Horizontal padding is trimmed below the scaled value to
+     keep the longest caption on one line at 320px, which the floor
+     would otherwise break.
+
+     M-P1 shows no label or tick rule above the row: the label is
+     clipped rather than removed so it still names the group for a
+     screen reader, and the rule is purely decorative. */
+  .rail-foot > .tick-lt {
+    display: none;
+  }
+  .rail-metrics {
+    display: flex;
+    gap: 8px;
+    font-size: var(--fs-mono);
+    line-height: 1.4;
+    margin-top: 0;
+  }
+  .metric {
+    flex: 1;
+    min-width: 0;
+    border: 1.5px solid var(--bd-rule);
+    padding: 8px 4px;
+    text-align: center;
+  }
+  .metric-val {
+    display: block;
+    font-weight: 600;
+  }
+  .metric-cap {
+    display: block;
+    color: var(--label);
+    text-transform: uppercase;
   }
 }
 
