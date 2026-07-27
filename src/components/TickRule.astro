@@ -6,8 +6,8 @@ interface Props extends HTMLAttributes<"div"> {
   variant?: "full" | "light";
 }
 
-const { variant = "full", ...rest } = Astro.props;
+const { variant = "full", class: className, ...rest } = Astro.props;
 const tickClass = variant === "light" ? "tick-lt" : "tick";
 ---
 
-<div class={tickClass} {...rest}></div>
+<div class={[tickClass, className].filter(Boolean).join(" ")} {...rest}></div>
