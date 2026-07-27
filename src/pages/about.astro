@@ -1,0 +1,336 @@
+---
+// About (Phase 5 §5.4) — LIGHT intensity: major grid lines only (.mm2),
+// the same faded-texture class as /colophon, distinct from the case
+// pages' full .mm grid and Home's grid-fades-below-the-hero split.
+// RESUME.PDF is the rail's heaviest element (Phase 7 KPI 1) — sharp
+// corners, drafting register, per the radius rule (hard actions never
+// get the 4px software-register radius).
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Rail from "../components/Rail.astro";
+import Nav from "../components/Nav.astro";
+import TickRule from "../components/TickRule.astro";
+import Placeholder from "../components/Placeholder.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "About — 14 years, one arc · Shamil Khaibullov";
+const description =
+  "CAD engineer → design-team manager → 500+ ATMs at 97%+ uptime → web. The arc is the argument. Resume as a direct PDF.";
+
+const stations = [
+  {
+    label: "CAD ENGINEER",
+    sub: "4 YRS · IC",
+    offset: "0%",
+    accent: false,
+  },
+  {
+    label: "CAD MANAGER",
+    sub: "4 YRS · PROMOTED, LED TEAM",
+    offset: "28.5%",
+    accent: false,
+  },
+  {
+    label: "ATM RELIABILITY",
+    sub: "2 YRS · 97%+ UPTIME",
+    offset: "57%",
+    accent: false,
+  },
+  {
+    label: "WEB — NOW",
+    sub: "4 YRS · REACT/TS",
+    offset: "71.5%",
+    accent: true,
+  },
+] as const;
+---
+
+<BaseLayout title={title} description={description} motion>
+  <Rail>
+    <div class="cell">
+      <div class="clab">NAME</div>
+      <div class="cell-name">Shamil Khaibullov</div>
+    </div>
+    <div class="cell-pair">
+      <div class="cell">
+        <div class="clab">LOC</div>
+        <div class="cell-val-mono">Porto, PT</div>
+      </div>
+      <div class="cell">
+        <div class="clab">AUTH</div>
+        <div class="cell-val-mono">EU permit</div>
+      </div>
+    </div>
+    <Nav current="about" />
+    <div class="rail-foot">
+      <a href="/resume.pdf" class="resume-btn">RESUME.PDF ↓</a>
+      <p class="resume-caption">direct file URL — forwardable</p>
+    </div>
+  </Rail>
+
+  <div class="mm2 col about">
+    <div class="about-intro">
+      <div class="about-copy">
+        <h1 class="h1-case" data-register>The arc is the argument.</h1>
+        <p class="prose about-body" data-register>
+          I'm a web developer in Porto building fast, accessible
+          React/TypeScript applications. Before development: 4 years as a CAD
+          engineer, 4 more managing the design team, then 2 years keeping 500+
+          ATM and payment-kiosk systems at 97%+ uptime. That arc — IC to lead to
+          reliability — is where the instinct for ownership and end-to-end
+          responsibility comes from. I've carried it into web work since:
+          running the technical infrastructure behind international conferences
+          serving 500+ attendees across 15 countries, usually as the only person
+          responsible for the whole stack, alongside sites built for real
+          organizations and individuals with real deadlines — conferences,
+          election campaigns — and self-directed projects integrating AI into
+          working products. Schengen residence card, Portuguese work permit;
+          remote and cross-border B2B across the EU.
+        </p>
+      </div>
+      <Placeholder
+        slug="portrait-shamil"
+        kind="PORTRAIT — SUPPLIED SEPARATELY"
+        style="width: 245px; aspect-ratio: 5 / 6; flex: none"
+        data-register="lg"
+      />
+    </div>
+
+    <div class="klab about-track-label" data-register>
+      CAREER TRACK — 14 YEARS ON ONE SCALE · STATION MARKS AT TRANSITIONS
+    </div>
+
+    <div class="about-track" data-register="lg">
+      <TickRule style="position: absolute; left: 0; right: 0; bottom: 0" />
+      {
+        stations.map((station) => (
+          <div class="track-station" style={`left: ${station.offset}`}>
+            <div
+              class={
+                station.accent ? "track-mark track-mark-accent" : "track-mark"
+              }
+            />
+            <div class="track-label">
+              <div
+                class={
+                  station.accent
+                    ? "track-label-name track-label-name-accent"
+                    : "track-label-name"
+                }
+              >
+                {station.label}
+              </div>
+              <div class="track-label-sub">{station.sub}</div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="about-cols" data-register>
+      <div class="about-col">
+        <div class="klab">SKILLS — GROUPED</div>
+        <p class="prose about-skills">
+          <strong>Front-end:</strong> React, TypeScript, Astro, Tailwind
+          <br />
+          <strong>Back-end:</strong> Node, Express, Prisma, PostgreSQL, Zod
+          <br />
+          <strong>AI:</strong> OpenAI API, prompt engineering
+          <br />
+          <strong>Ops:</strong> Vercel, Cloudflare, GitHub CI
+        </p>
+      </div>
+      <div class="about-col">
+        <div class="klab">RECOGNITION</div>
+        <p class="prose about-quote">
+          "…ownership, vision, and a crash-free launch." — public LinkedIn
+          recommendation, MALTALINK 2025
+        </p>
+        <p class="prose about-recognition">
+          Certificate of appreciation for outstanding leadership & teamwork ·
+          Toastmasters speaker
+        </p>
+      </div>
+    </div>
+
+    <TickRule variant="light" />
+
+    <Footer data-register>
+      <a href="/colophon" class="ftl" slot="left"
+        >HOW THIS SITE WAS BUILT → COLOPHON</a
+      >
+      <span class="ftl" slot="right">ANALYTICS ↗ · © 2026</span>
+    </Footer>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Mock padding "28px 34px", gap "13px" x1.636 (Phase 7 scale factor) */
+  .about {
+    gap: 21px;
+    padding: 46px var(--col-pad);
+  }
+
+  @media (width < 64rem) {
+    .about {
+      gap: var(--space-3);
+      padding: var(--space-4) var(--col-pad);
+    }
+  }
+
+  /* Copy + portrait row, mock gap "18px" x1.636 */
+  .about-intro {
+    display: flex;
+    gap: 29px;
+  }
+  .about-copy {
+    flex: 1;
+    min-width: 0;
+  }
+  /* Mock margin-top "8px" x1.636 */
+  .about-body {
+    margin-top: 13px;
+  }
+
+  @media (width < 40rem) {
+    .about-intro {
+      flex-direction: column;
+    }
+  }
+
+  /* Mock margin-top "4px" x1.636 */
+  .about-track-label {
+    margin-top: 7px;
+  }
+
+  /* Ruled-track timeline: relative box. All four station labels align
+     at one height above the tick rule (no zigzag stagger) — height is
+     sized for one label's two text lines plus clearance above. */
+  .about-track {
+    position: relative;
+    height: 100px;
+    margin-top: 18px;
+  }
+  .track-station {
+    position: absolute;
+    bottom: 0;
+  }
+  /* Mock width "2.5px", height "20px" x1.636 */
+  .track-mark {
+    width: 4px;
+    height: 33px;
+    background: var(--label);
+  }
+  .track-mark-accent {
+    background: var(--green);
+  }
+  .track-label {
+    position: absolute;
+    left: 0;
+    bottom: 43px; /* mock 26px x1.636 */
+  }
+  .track-label-name {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-md); /* 14px, mock 9px */
+    font-weight: 600;
+    color: var(--blue);
+  }
+  .track-label-name-accent {
+    color: var(--green);
+  }
+  .track-label-sub {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono); /* 13px floor, mock 8px */
+    color: var(--label);
+  }
+
+  /* Below 40rem, the percentage-offset stations sit too close together
+     for real (F-02-floor) text — "ATM RELIABILITY" and "WEB — NOW" are
+     only 14.5% apart and start colliding. Same pattern as the
+     evidence-figs stack: fall back to a plain vertical list instead of
+     forcing the desktop ruled-track geometry into a column too narrow
+     for it. */
+  @media (width < 40rem) {
+    .about-track {
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .about-track > .tick {
+      display: none;
+    }
+    .track-station {
+      position: static;
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+    }
+    .track-mark {
+      width: 20px;
+      height: 3px;
+      flex: none;
+    }
+    .track-label {
+      position: static;
+    }
+  }
+
+  /* Skills / recognition row, mock gap "20px" x1.636 */
+  .about-cols {
+    display: flex;
+    gap: 33px;
+  }
+  .about-col {
+    flex: 1;
+    min-width: 0;
+  }
+  @media (width < 40rem) {
+    .about-cols {
+      flex-direction: column;
+    }
+  }
+
+  /* Mock margin-top "6px" x1.636, line-height 1.8 verbatim */
+  .about-skills {
+    margin-top: 10px;
+    line-height: 1.8;
+  }
+  /* Mock margin-top "6px" x1.636 */
+  .about-quote {
+    margin-top: 10px;
+    font-style: italic;
+  }
+  /* Mock margin-top "4px" x1.636 */
+  .about-recognition {
+    margin-top: 7px;
+  }
+
+  /* Hard action (drafting register): sharp corners, instant hover swap —
+     no easing, per the radius rule (RESUME/SEND/404 never get the 4px
+     software-register radius). Mock padding "10px 12px" x1.636 */
+  .resume-btn {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-md);
+    font-weight: 600;
+    letter-spacing: var(--ls-wide);
+    text-align: center;
+    color: var(--white);
+    background: var(--ink);
+    padding: 16px 20px;
+  }
+  .resume-btn:hover,
+  .resume-btn:focus-visible {
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  /* Mock margin-top "5px" x1.636 */
+  .resume-caption {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono); /* 13px floor, mock 7.5px */
+    color: var(--label);
+    text-align: center;
+    margin-top: 8px;
+  }
+</style>
