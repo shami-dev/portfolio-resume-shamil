@@ -286,6 +286,49 @@ a:hover {
   }
 }
 
+/* --- Cross-document view transitions (native, no ClientRouter) --------- */
+/* CSS-only opt-in — ClientRouter reruns page logic via astro:page-load
+   instead of a real navigation, which the mode-restore/motion.js scripts
+   both assume, and it complicates the security.csp planned later. Every
+   navigation stays a real page load; unsupported browsers just ignore
+   this at-rule and get a plain navigation — pure progressive enhancement.
+
+   This is a deliberate, considered reversal of 6B.1's "view-transition
+   crossfade: rejected" verdict (same pattern as the 6C follow-up's other
+   reversals) — a true crossfade, not the Step A exits-are-0ms rule
+   stretched to cover page navigation. Retimed to the page-load register's
+   own duration/curve (--t-enter/--e-out) rather than the browser default.
+
+   Rail gets its own view-transition-name so it's carved out of the root
+   capture, then has its animation removed entirely — a hard, instant
+   swap, "pinned" per 6B's rail-never-animates rule.
+
+   Astro's automatic prefers-reduced-motion handling only covers
+   <ClientRouter>; this needs its own guard. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-group(rail),
+::view-transition-old(rail),
+::view-transition-new(rail) {
+  animation: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--t-enter);
+  animation-timing-function: var(--e-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 /* ==========================================================================
    Structural classes (centralized so slotted rail content is styled too)
    ========================================================================== */
@@ -300,6 +343,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  view-transition-name: rail; /* pinned across navigations — see Phase 6B */
 }
 
 .cell {
