@@ -1,0 +1,49 @@
+{
+  "seo": {
+    "title": "Election site in 3 days, €0, two cycles · №04",
+    "description": "Static-first Astro build for a district election — zero budget, reused across two cycles; the client won round two."
+  },
+  "rail": {
+    "record": "№04 CAMPAIGN SITE",
+    "role": "Sole designer & developer; layout/colors chosen with client",
+    "cellPair": [
+      { "label": "SPAN", "value": "3 days" },
+      { "label": "BUDGET", "value": "€0" }
+    ],
+    "navWorkSuffix": "4/5",
+    "tools": ["Astro", "Tailwind", "Vercel", "Cloudflare"],
+    "link": {
+      "href": "https://deniztoastmasters.com",
+      "label": "↗ deniztoastmasters.com"
+    }
+  },
+  "kicker": "DECISION №04 — STATIC-FIRST, ZERO-COST STACK",
+  "headline": "Three days, zero budget, two election cycles.",
+  "ledeMetrics": "[ LIGHTHOUSE — PENDING FINAL RE-RUN ] · 3 DAYS · €0 · REUSED 2025 → 2026",
+  "hero": {
+    "slug": "deniz-hero",
+    "kind": "WIDE / HERO"
+  },
+  "problem": "A friend running in a competitive district-level Toastmasters election had no web presence beyond social media. The election date was fixed; a credible, professional site had to exist fast.",
+  "constraint": "€0 build budget — the client covers only the annual domain renewal — a turnaround tied to the election date, requirements and assets arriving over WhatsApp, and no technical staff on her side after launch.",
+  "decision": "Static-first, zero-cost, zero-maintenance: Astro + Tailwind, Cloudflare for the domain, free Vercel hosting with GitHub auto-deploy, one fully responsive page with optimized assets and semantic markup. Layout, colors, and typography chosen together with the client; built and deployed solo in ~3 days.",
+  "evidence": {
+    "figures": [
+      { "slug": "deniz-lighthouse", "kind": "WIDE — PENDING RE-RUN" },
+      { "slug": "deniz-testimonials", "kind": "BANNER" },
+      { "slug": "deniz-highlights", "kind": "BANNER" }
+    ],
+    "caption": "Performance evidence intentionally held for a fresh Lighthouse run under stable conditions — a stale score was pulled rather than shown."
+  },
+  "result": {
+    "variant": "banner",
+    "label": "RESULT",
+    "metrics": "LAUNCHED IN ~3 DAYS · €0 · TWO ELECTION CYCLES",
+    "body": "Launched for the 2025 election — she lost that round. The site was refreshed and reused for 2026, when she won the Program Quality Director role. A zero-cost, low-maintenance build that carried real stakes twice."
+  },
+  "lesson": "A fast, zero-cost, low-maintenance site can carry real stakes when timing matters — and this one wasn't a one-off; it served two election cycles.",
+  "footerNav": {
+    "prev": { "href": "/work/ai-projects", "label": "← №03 AI PROJECTS" },
+    "next": { "href": "/work/foltirana", "label": "№05 FOLTIRANA →" }
+  }
+}
