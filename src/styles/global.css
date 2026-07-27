@@ -63,6 +63,26 @@ a:hover {
   align-items: stretch;
 }
 
+/* ==========================================================================
+   Breakpoints
+
+   Two, because the design has two structural transitions — not a full
+   framework scale. Values are Tailwind 4's `lg` and `sm`, in rem (v4
+   switched from px) so they track the user's font size, which matters
+   given the Phase 7 F-02 type floors.
+
+     64rem / 1024px  rail + column  ->  header + single column
+     40rem /  640px  paired figures stack (Phase 5 5.6)
+
+   64rem is not borrowed on faith: measured against the case-page prose,
+   the two-column layout yields 56 characters per line at 1024px, 45 at
+   ~930px and 37 at 860px, so it stops being readable around 930-975px.
+   64rem is the nearest conventional value above that.
+
+   Custom properties are invalid in media conditions, so these are
+   literals below; range syntax (`width < 64rem`) avoids 63.999rem.
+   ========================================================================== */
+
 /* --- Millimetre-paper grid (verbatim periods: minor 5px, major 25px) --- */
 .mm {
   background-image:
@@ -309,6 +329,40 @@ a:hover {
   color: var(--green);
   line-height: 1.75;
   margin-top: 4px;
+}
+
+/* Rail -> header below lg (Phase 5 §5.6 M-P1). Structural collapse only:
+   the sheet stacks, the rail spans full width and swaps its right border
+   for a bottom one, and the cells drop their individual borders so the
+   scan block reads as the mockup's single merged header cell rather than
+   three stacked boxes. The header's internal treatment (merged DOM, the
+   "·"-joined LOC/AUTH line, mobile type sizes) is deliberately not here —
+   it changes markup, not just layout. */
+@media (width < 64rem) {
+  .sheet {
+    flex-direction: column;
+  }
+  .rail {
+    width: auto;
+    flex: none;
+    border-right: 0;
+    border-bottom: 1.5px solid var(--bd-rule);
+    padding: 14px; /* mock 10px x1.44 */
+    gap: 2px;
+  }
+  .rail .cell {
+    border: 0;
+    padding: 0;
+  }
+  .cell-pair {
+    gap: 14px;
+  }
+  .rail-chips {
+    margin-top: 8px;
+  }
+  .rail-foot {
+    margin-top: 8px;
+  }
 }
 
 /* --- Mode switch (hard-control register: sharp corners) ---------------- */
