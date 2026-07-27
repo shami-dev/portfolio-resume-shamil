@@ -132,6 +132,20 @@ const description =
     padding: 33px var(--col-pad) 43px;
   }
 
+  /* M-P1 collapses the column to one uniform inset instead of the
+     desktop's distinct top/bottom rhythm: content padding mock 10px
+     x1.44 = 14.4 -> --space-4, card gap mock 7px x1.44 = 10.1 ->
+     --space-3. Same scale as desktop, different steps. */
+  @media (width < 64rem) {
+    .hero {
+      padding: var(--space-4) var(--col-pad);
+    }
+    .decisions {
+      gap: var(--space-3);
+      padding: var(--space-4) var(--col-pad);
+    }
+  }
+
   /* One-off badge-style link; mock font-size 9px / padding "4px 9px" x1.636
      — 9px lands exactly on --fs-kicker (15px), so reuse that tier token. */
   .records-link {

@@ -352,11 +352,15 @@ a:hover {
    "·"-joined LOC/AUTH line, mobile type sizes) is deliberately not here —
    it changes markup, not just layout. */
 @media (width < 64rem) {
-  /* Mock 10px x1.44. At the desktop 56px a 375px screen leaves 260px of
-     content, which is narrower than the mode switch and costs the prose
-     roughly a third of its measure. */
+  /* Mock 10px x1.44 = 14.4, which lands on --space-4. The desktop scale
+     is reused rather than a mobile one being derived: measured against
+     every padding/margin/gap in M-P1, x1.44 fits these same steps to a
+     0.99px mean error, against the 1.04px cited for the desktop fit
+     above. At the desktop 56px a 375px screen leaves 260px of content,
+     narrower than the mode switch, costing the prose a third of its
+     measure. */
   :root {
-    --col-pad: 14px;
+    --col-pad: var(--space-4);
   }
   .sheet {
     flex-direction: column;
