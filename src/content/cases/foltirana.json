@@ -17,6 +17,11 @@
       "label": "↗ conference2026.district109.org"
     }
   },
+  "index": {
+    "title": "FOLTirana — social activities registration",
+    "metric": "$19 · 1 week",
+    "summary": "Right-sized tooling: scheduling-conflict logic and a live shared database under a 1-week deadline."
+  },
   "kicker": "DECISION №05 — RIGHT-SIZED TOOLING · UX TRIAGE",
   "headline": "Complex scheduling logic, one week, nineteen dollars.",
   "ledeMetrics": "OVERLAP WARNINGS · LIVE SHARED DB · COST CALCULATOR · $19 TOTAL",

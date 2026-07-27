@@ -25,6 +25,12 @@ const cases = defineCollection({
       tools: z.array(z.string()),
       link: z.object({ href: z.string(), label: z.string() }).optional(),
     }),
+    index: z.object({
+      title: z.string(),
+      metric: z.string(),
+      metricAccent: z.boolean().optional(),
+      summary: z.string(),
+    }),
     kicker: z.string(),
     headline: z.string(),
     ledeMetrics: z.string(),

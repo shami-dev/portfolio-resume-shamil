@@ -13,6 +13,12 @@
     "navWorkSuffix": "3/5",
     "tools": ["React Router 7", "TS", "OpenAI API"]
   },
+  "index": {
+    "title": "AI projects — receipts analyzer & Task2Check",
+    "metric": "OpenAI · iterating",
+    "metricAccent": true,
+    "summary": "Real OpenAI API integration; extraction accuracy measured and refined in the open."
+  },
   "kicker": "DECISION №03 — LLM EXTRACTION, NOT OCR",
   "headline": "Two shipped AI integrations, measured in the open.",
   "ledeMetrics": "RECEIPTS ANALYZER — 14 DAYS (5 PLANNING, 9 BUILDING) · TASK2CHECK — IELTS FEEDBACK",

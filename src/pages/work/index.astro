@@ -1,0 +1,167 @@
+---
+// Work index (Phase 5 §5.2) — HIGH intensity: unlike Home's fading grid,
+// the full .mm grid runs the whole column (same pattern as the case
+// pages). Five ranked records generated from the cases collection
+// (rather than hand-listed) so this page can't drift out of sync with
+// the case pages themselves — order is the single canonical array
+// below, not duplicated content.
+import { getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Rail from "../../components/Rail.astro";
+import Nav from "../../components/Nav.astro";
+import MetricCell from "../../components/MetricCell.astro";
+import TickRule from "../../components/TickRule.astro";
+import Footer from "../../components/Footer.astro";
+
+const order = [
+  "maltalink",
+  "mystore",
+  "ai-projects",
+  "campaign-site",
+  "foltirana",
+] as const;
+
+const records = await Promise.all(
+  order.map(async (id) => {
+    const entry = await getEntry("cases", id);
+    if (!entry)
+      throw new Error(`Missing content collection entry: cases/${id}`);
+    return entry;
+  }),
+);
+
+const title = "Decision Log — 5 records, ranked · Shamil Khaibullov";
+const description =
+  "Five web projects as decision records, ranked by weight of evidence — each opens to problem → decision → evidence → result.";
+---
+
+<BaseLayout title={title} description={description} motion>
+  <Rail>
+    <div class="cell">
+      <div class="clab">NAME</div>
+      <div class="cell-name">Shamil Khaibullov</div>
+    </div>
+    <div class="cell-pair">
+      <div class="cell">
+        <div class="clab">LOC</div>
+        <div class="cell-val-mono">Porto, PT</div>
+      </div>
+      <div class="cell">
+        <div class="clab">AUTH</div>
+        <div class="cell-val-mono">EU permit</div>
+      </div>
+    </div>
+    <Nav current="work" />
+    <MetricCell
+      metrics={[
+        { value: "100%", caption: "completion" },
+        { value: "€1,000+", caption: "saved" },
+        { value: "0", caption: "downtime" },
+      ]}
+    />
+  </Rail>
+
+  <div class="mm col index">
+    <h1 class="h1-case" data-register>Decision log</h1>
+    <p class="index-caption" data-register>
+      5 RECORDS, RANKED · EACH OPENS TO PROBLEM → DECISION → EVIDENCE → RESULT
+    </p>
+
+    <TickRule data-register />
+
+    <div class="index-list">
+      {
+        records.map((entry, i) => (
+          <a
+            href={`/work/${entry.id}`}
+            class="dcard is-hoverable work-row"
+            data-register
+          >
+            <div class="mrow">
+              <div>
+                <span class="dcard-kicker">№0{i + 1}</span>
+                <span class="work-title">{entry.data.index.title}</span>
+              </div>
+              <span
+                class="work-metric"
+                style={
+                  entry.data.index.metricAccent
+                    ? "color: var(--blue)"
+                    : undefined
+                }
+              >
+                {entry.data.index.metric}
+              </span>
+            </div>
+            <p class="prose work-desc">{entry.data.index.summary}</p>
+          </a>
+        ))
+      }
+    </div>
+
+    <TickRule variant="light" data-register />
+
+    <Footer data-register>
+      <span class="ftl" slot="left">RANKED BY WEIGHT OF EVIDENCE</span>
+      <span class="ftl" slot="right">COLOPHON · ANALYTICS ↗ · © 2026</span>
+    </Footer>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Mock padding "30px 34px" x1.636 (Phase 7 scale factor), gap loosely
+     covers the h1/caption/tick/list/tick/footer rhythm — same uniform-gap
+     simplification the case pages already make for kicker/h1/lede. */
+  .index {
+    gap: 18px;
+    padding: 49px var(--col-pad);
+  }
+
+  @media (width < 64rem) {
+    .index {
+      gap: var(--space-3);
+      padding: var(--space-4) var(--col-pad);
+    }
+  }
+
+  .index-caption {
+    font-family: var(--font-mono);
+    font-size: var(--fs-kicker); /* 15px, mock 9.5px */
+    color: var(--label);
+    letter-spacing: var(--ls-wide);
+  }
+
+  /* Mock gap "8px" x1.636 — the record rows' own tighter internal rhythm,
+     distinct from .index's outer gap */
+  .index-list {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  a.work-row {
+    color: inherit;
+  }
+
+  /* Mock font-size 14px x1.636, distinct from .dcard-title's 21px (13px
+     mock) used on Home's larger preview cards — this index packs 5 rows
+     more densely */
+  .work-title {
+    font: 600 1.4375rem/1.3 var(--font-sans); /* 23px */
+    margin-left: 8px;
+  }
+
+  /* Mock font-size 10px x1.636 -> --fs-mono-lg */
+  .work-metric {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-lg);
+    color: var(--green);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* Mock margin-top "3px" x1.636 */
+  .work-desc {
+    margin-top: 5px;
+  }
+</style>

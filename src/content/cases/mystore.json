@@ -13,6 +13,11 @@
     "navWorkSuffix": "2/5",
     "tools": ["React", "TS", "Vite", "DaisyUI", "Express", "Prisma", "Zod"]
   },
+  "index": {
+    "title": "myStore — full-stack storefront + versioned API",
+    "metric": "API v1 · 2 wks",
+    "summary": "React/TS storefront on a hand-built Express + Prisma + Zod backend, documented for review."
+  },
   "kicker": "DECISION №02 — API DESIGN FOR REVIEW",
   "headline": "A storefront and its backend, built to be checked.",
   "ledeMetrics": "VERSIONED REST /api/v1 · ZOD-VALIDATED · README + CURL + POSTMAN",

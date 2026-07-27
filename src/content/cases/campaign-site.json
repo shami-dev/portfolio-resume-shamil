@@ -17,6 +17,11 @@
       "label": "↗ deniztoastmasters.com"
     }
   },
+  "index": {
+    "title": "Election campaign site — Astro, 3 days, €0",
+    "metric": "×2 cycles · won R2",
+    "summary": "Static-first build reused across two election cycles; client won round two."
+  },
   "kicker": "DECISION №04 — STATIC-FIRST, ZERO-COST STACK",
   "headline": "Three days, zero budget, two election cycles.",
   "ledeMetrics": "[ LIGHTHOUSE — PENDING FINAL RE-RUN ] · 3 DAYS · €0 · REUSED 2025 → 2026",
