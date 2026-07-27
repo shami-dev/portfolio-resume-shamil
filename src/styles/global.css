@@ -173,6 +173,14 @@ a:hover {
 }
 
 /* --- Evidence / result badges ------------------------------------------ */
+/* No white-space: nowrap, unlike .chip/.stk: those hold short fixed tags
+   ("React"), these hold full sentences (DecisionCard's evidence/outcome
+   props, e.g. "RESULT — 100% completion · 0 downtime"). nowrap forced a
+   358px min-content width inside a ~340px mobile card, pushing it past
+   the card edge and widening the whole document (.col's min-width: 0
+   stops it forcing ancestors wider, but nothing clips the overflow, so
+   scrollWidth grows anyway). Wrapping is the fix, not shrinking type —
+   these already sit above the F-02 floor. */
 .eb,
 .rb {
   font-family: var(--font-mono);
@@ -181,7 +189,6 @@ a:hover {
   padding: 3px 8px;
   border-radius: 2px;
   letter-spacing: var(--ls-wide);
-  white-space: nowrap;
 }
 .eb {
   background: var(--stk-bg);
@@ -722,7 +729,6 @@ a.dcard {
   padding: 2px 7px; /* 1px less than .eb/.rb — border consumes the difference, per mock */
   border-radius: 2px;
   letter-spacing: var(--ls-wide);
-  white-space: nowrap;
 }
 
 /* --- Case blocks: PROBLEM / CONSTRAINT flat on grid -------------------- */
