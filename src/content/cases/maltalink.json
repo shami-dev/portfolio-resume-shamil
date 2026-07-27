@@ -6,8 +6,10 @@
   "rail": {
     "record": "№01 MALTALINK",
     "role": "Web development — sole owner; worked closely with co-designer (PR Manager)",
-    "span": "4-5 mo",
-    "year": "2025",
+    "cellPair": [
+      { "label": "SPAN", "value": "4-5 mo" },
+      { "label": "YEAR", "value": "2025" }
+    ],
     "navWorkSuffix": "1/5",
     "tools": ["Ticket Tailor", "WordPress", "Astra"],
     "link": {
@@ -33,6 +35,8 @@
     "caption": "Ticket Tailor cost €84 total for the conference vs ~13x that on Eventbrite for the same job — close to €1,000 kept. The before/after shows the fragmented two-system flow against the single checkout."
   },
   "result": {
+    "variant": "banner",
+    "label": "RESULT",
     "metrics": "100% COMPLETION · 0 DOWNTIME · 4.55/5 SURVEY · ~€1,000 SAVED",
     "body": "Every ticket purchaser completed registration — the mandatory checkout step made drop-off structurally impossible. Launched November 2025 and ran without downtime through the conference; the post-conference survey rated registration and website 4.55/5. Recognition followed: an official certificate of appreciation, a public LinkedIn recommendation citing ownership, vision, and a crash-free launch, and an invitation into the Website Manager role for 2026."
   },

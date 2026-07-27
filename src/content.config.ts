@@ -12,11 +12,18 @@ const cases = defineCollection({
     rail: z.object({
       record: z.string(),
       role: z.string(),
-      span: z.string(),
-      year: z.string(),
+      cellPair: z
+        .array(
+          z.object({
+            label: z.string(),
+            value: z.string(),
+            accent: z.boolean().optional(),
+          }),
+        )
+        .length(2),
       navWorkSuffix: z.string(),
       tools: z.array(z.string()),
-      link: z.object({ href: z.string(), label: z.string() }),
+      link: z.object({ href: z.string(), label: z.string() }).optional(),
     }),
     kicker: z.string(),
     headline: z.string(),
@@ -29,10 +36,19 @@ const cases = defineCollection({
       figures: z.array(z.object({ slug: z.string(), kind: z.string() })),
       caption: z.string(),
     }),
-    result: z.object({
-      metrics: z.string(),
-      body: z.string(),
-    }),
+    result: z.discriminatedUnion("variant", [
+      z.object({
+        variant: z.literal("banner"),
+        label: z.string(),
+        metrics: z.string(),
+        body: z.string(),
+      }),
+      z.object({
+        variant: z.literal("status"),
+        label: z.string(),
+        body: z.string(),
+      }),
+    ]),
     lesson: z.string(),
     footerNav: z.object({
       prev: z.object({ href: z.string(), label: z.string() }),
