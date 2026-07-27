@@ -22,6 +22,33 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Mode restore, before first paint. Must stay is:inline and in <head>:
+         a bundled module script is deferred, which would paint light first
+         and flash. Light is the bare :root token set, so it sets nothing.
+         prefers-color-scheme resolves to dark or light only — anoitecer is
+         a deliberate middle and is never auto-selected, which is the
+         "dimmed default" the dark-mode phase rules out.
+         Needs a CSP hash once security.csp is enabled. -->
+    <script is:inline>
+      (function () {
+        const root = document.documentElement;
+        let stored = null;
+        try {
+          stored = localStorage.getItem("mode");
+        } catch {
+          /* storage blocked — fall through to the system preference */
+        }
+        if (stored === "dark" || stored === "anoitecer") {
+          root.dataset.theme = stored;
+        } else if (
+          !stored &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+        ) {
+          root.dataset.theme = "dark";
+        }
+      })();
+    </script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
 

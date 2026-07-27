@@ -311,6 +311,41 @@ a:hover {
   margin-top: 4px;
 }
 
+/* --- Mode switch (hard-control register: sharp corners) ---------------- */
+/* Mockup: 1.5px #1a1a1a frame, 8.5px/600 mono segments at 6px 10px, active
+   filled #1a1a1a/#fff, rest #555. Sizes x1.636 (8.5 -> --fs-mono-md,
+   6/10 -> 10px/16px, same rounding as .nrow's 13px 14px). Every mockup
+   color maps to an existing token exactly; the active pair reuses
+   .nrow-a's --ink/--white rather than inventing an inverse. */
+.mode-switch {
+  display: flex;
+  width: fit-content;
+  border: 1.5px solid var(--ink);
+  padding: 0;
+  margin: 0;
+}
+.mode-seg {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-mono-md); /* 14px, mock 8.5px */
+  letter-spacing: 0.04em;
+  color: var(--nav-rest);
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.mode-seg + .mode-seg {
+  border-left: 1.5px solid var(--ink);
+}
+.mode-seg:has(input:checked) {
+  background: var(--ink);
+  color: var(--white);
+}
+/* The radio itself is visually hidden, so focus has to be drawn here. */
+.mode-seg:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
 /* --- Nav rows (drafting register) -------------------------------------- */
 .nav {
   display: flex;

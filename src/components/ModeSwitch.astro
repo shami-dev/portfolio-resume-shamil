@@ -1,0 +1,61 @@
+---
+// Mode control (Phase 5a·v2 dark-mode doc, "MODE CONTROL — SITE CHROME"):
+// segmented, three real states — not a binary switch. Sharp corners
+// (hard-control register). Lives in the rail above nav.
+//
+// Native radios rather than role="radio" buttons: three mutually exclusive
+// states is exactly a radiogroup, and the browser gives arrow-key roving
+// focus for free instead of us hand-rolling it.
+//
+// No option is marked checked in the markup: pages are prerendered, so any
+// hardcoded default would render wrong for anyone whose mode differs. The
+// script below checks the live one once it runs.
+const modes = [
+  { value: "light", label: "LIGHT" },
+  { value: "anoitecer", label: "ANOITECER" },
+  { value: "dark", label: "DARK" },
+] as const;
+---
+
+<fieldset class="mode-switch">
+  <legend class="visually-hidden">Color mode</legend>
+  {
+    modes.map((mode) => (
+      <label class="mode-seg">
+        <input
+          class="visually-hidden"
+          type="radio"
+          name="mode"
+          value={mode.value}
+        />
+        <span>{mode.label}</span>
+      </label>
+    ))
+  }
+</fieldset>
+
+<script>
+  const STORAGE_KEY = "mode";
+  const root = document.documentElement;
+  const inputs =
+    document.querySelectorAll<HTMLInputElement>('input[name="mode"]');
+
+  // Light is the bare :root token set, so it carries no data-theme.
+  const current = root.dataset.theme ?? "light";
+  for (const input of inputs) {
+    input.checked = input.value === current;
+    input.addEventListener("change", () => {
+      if (input.value === "light") {
+        delete root.dataset.theme;
+      } else {
+        root.dataset.theme = input.value;
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY, input.value);
+      } catch {
+        // Private mode / storage disabled: the mode still applies for
+        // this page view, it just will not survive navigation.
+      }
+    });
+  }
+</script>
