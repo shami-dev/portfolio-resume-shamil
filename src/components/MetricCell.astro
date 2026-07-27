@@ -2,9 +2,19 @@
 import type { HTMLAttributes } from "astro/types";
 import TickRule from "./TickRule.astro";
 
+interface Metric {
+  /** The figure itself, e.g. "100%". Leads on its own on mobile. */
+  value: string;
+  /** What the figure measures, e.g. "completion". */
+  caption: string;
+}
+
 interface Props extends HTMLAttributes<"div"> {
   label?: string;
-  metrics: string[];
+  /** Split rather than one string: the desktop rail reads them inline as
+      "100% completion", while M-P1's mobile row stacks the figure over an
+      uppercased caption. One shape, two renderings. */
+  metrics: Metric[];
 }
 
 const { label = "RESULTS TO DATE", metrics, ...rest } = Astro.props;
@@ -15,11 +25,11 @@ const { label = "RESULTS TO DATE", metrics, ...rest } = Astro.props;
   <div class="clab">{label}</div>
   <div class="rail-metrics">
     {
-      metrics.map((metric, i) => (
-        <>
-          {i > 0 && <br />}
-          {metric}
-        </>
+      metrics.map((metric) => (
+        <div class="metric">
+          <span class="metric-val">{metric.value}</span>{" "}
+          <span class="metric-cap">{metric.caption}</span>
+        </div>
       ))
     }
   </div>
