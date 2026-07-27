@@ -1,0 +1,43 @@
+{
+  "seo": {
+    "title": "myStore — a storefront built to be checked · №02",
+    "description": "Full-stack storefront on a versioned REST API — Zod-validated, documented with README, curl and Postman, built solo in ~2 weeks."
+  },
+  "rail": {
+    "record": "№02 MYSTORE",
+    "role": "Solo — full stack, for a company take-home assessment",
+    "cellPair": [
+      { "label": "SPAN", "value": "~2 wks" },
+      { "label": "STATUS", "value": "finished" }
+    ],
+    "navWorkSuffix": "2/5",
+    "tools": ["React", "TS", "Vite", "DaisyUI", "Express", "Prisma", "Zod"]
+  },
+  "kicker": "DECISION №02 — API DESIGN FOR REVIEW",
+  "headline": "A storefront and its backend, built to be checked.",
+  "ledeMetrics": "VERSIONED REST /api/v1 · ZOD-VALIDATED · README + CURL + POSTMAN",
+  "hero": {
+    "slug": "mystore-storefront",
+    "kind": "WIDE / HERO"
+  },
+  "problem": "A company take-home assessment: demonstrate genuine full-stack capability inside a fixed window. The real user is a reviewer with limited time — every feature has to be findable, runnable, and checkable without a walkthrough call.",
+  "constraint": "About two weeks, solo, from an empty repository. The scope had to be real enough to prove data modeling and validation depth without ballooning past what a reviewer can reasonably evaluate.",
+  "decision": "Treat the reviewer as the user. Backend: a versioned REST API (/api/v1) so changes can't silently break consumers, nested product/variant data modeling in Prisma over PostgreSQL, and defensive Zod validation returning proper 400s with readable messages instead of crashes. Frontend: React + TypeScript + Vite + DaisyUI covering the storefront's honest complexity — category filtering, product detail with size-variant selection, a cart with live count, out-of-stock states, and a full checkout flow. Documentation as a first-class deliverable: README with setup and endpoint reference, curl examples, and a Postman collection.",
+  "evidence": {
+    "figures": [
+      { "slug": "mystore-pdp-cart", "kind": "WIDE" },
+      { "slug": "mystore-grid-oos", "kind": "PAIRED — OOS STATES" }
+    ],
+    "caption": "The out-of-stock grid states and variant selection are where the data model earns its keep — the UI renders what the schema already knows."
+  },
+  "result": {
+    "variant": "banner",
+    "label": "DELIVERED",
+    "metrics": "API v1 · ZOD-VALIDATED · README + CURL + POSTMAN · ~2 WEEKS",
+    "body": "Complete storefront and hand-built Express/Prisma/PostgreSQL backend, finished in about two weeks. This record deliberately closes on technical scope — it exists to prove the full-stack half of the title, and every claim is reproducible from the repository."
+  },
+  "footerNav": {
+    "prev": { "href": "/work/maltalink", "label": "← №01 MALTALINK" },
+    "next": { "href": "/work/ai-projects", "label": "№03 AI PROJECTS →" }
+  }
+}

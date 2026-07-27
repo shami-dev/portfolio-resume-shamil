@@ -49,7 +49,7 @@ const cases = defineCollection({
         body: z.string(),
       }),
     ]),
-    lesson: z.string(),
+    lesson: z.string().optional(),
     footerNav: z.object({
       prev: z.object({ href: z.string(), label: z.string() }),
       next: z.object({ href: z.string(), label: z.string() }),
