@@ -253,13 +253,27 @@ a:hover {
 }
 
 /* --- Page-load register (Phase 6B) ------------------------------------- */
-/* Elements opt in with data-register; motion.js clears them into view.
+/* Elements opt in with data-register; motion.js reveals them through one
+   IntersectionObserver (threshold 15%, once, never re-animated) — the same
+   mechanism serves the initial above-the-fold reveal and later below-the-
+   fold scroll reveal, per 6B.1's "below-fold blocks join the same register".
+   data-register="lg" is the larger-plate duration (hero/card/plate blocks);
+   data-register-beat adds the one-per-page pre-pause (6B.0) ahead of an
+   outcome band. --register-delay is set per-element by motion.js to stagger
+   batches that cross the threshold together.
    Rail / title-block / metric strips never get data-register (pinned 0ms). */
 [data-register] {
   opacity: 0;
   transform: translateY(5px);
+  transition:
+    opacity var(--t-enter) var(--e-out),
+    transform var(--t-enter) var(--e-out);
+  transition-delay: var(--register-delay, 0ms);
 }
-.is-registered [data-register],
+[data-register="lg"] {
+  transition-duration: var(--t-enter-lg);
+}
+[data-register].is-registered,
 .no-motion [data-register] {
   opacity: 1;
   transform: none;

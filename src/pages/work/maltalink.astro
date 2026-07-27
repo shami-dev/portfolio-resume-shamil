@@ -2,7 +2,9 @@
 // Case №01 MALTALINK (Phase 5 §5.3) — the vertical slice's exemplar case:
 // full anatomy PROBLEM/CONSTRAINT flat on grid -> DECISION lifted card ->
 // EVIDENCE blue plate -> RESULT green band -> LESSON bare pull-quote.
-// No motion.js hook yet (Step 5) — same as Home.
+// Phase 6B register (motion prop): kicker/headline/hero settle at load;
+// PROBLEM onward join via scroll-reveal. RESULT is the numeric outcome
+// band, so it carries the one-per-page beat (data-register-beat).
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Rail from "../../components/Rail.astro";
 import Nav from "../../components/Nav.astro";
@@ -16,7 +18,7 @@ const description =
   "One flow instead of two systems: Ticket Tailor over Eventbrite, proven by live demo — 100% completion, 0 downtime, ~€1,000 saved.";
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} motion>
   <Rail>
     <div class="cell">
       <div class="clab">RECORD</div>
@@ -57,8 +59,10 @@ const description =
   </Rail>
 
   <div class="mm col case">
-    <span class="kicker">DECISION №01 — REGISTRATION PLATFORM</span>
-    <h1 class="h1-case exemplar">
+    <span class="kicker" data-register
+      >DECISION №01 — REGISTRATION PLATFORM</span
+    >
+    <h1 class="h1-case exemplar" data-register>
       One flow instead of two systems — every purchaser registered.
     </h1>
     <p class="case-lede-metrics">
@@ -69,9 +73,10 @@ const description =
       slug="maltalink-hero"
       kind="WIDE / HERO — 16:7 DESKTOP · 16:9 MOBILE"
       style="aspect-ratio: 16 / 7"
+      data-register="lg"
     />
 
-    <div class="block">
+    <div class="block" data-register>
       <span class="eb eb-neutral">PROBLEM</span>
       <p class="prose block-body">
         The 2024 conference ran on two disconnected systems — Eventbrite took
@@ -83,7 +88,7 @@ const description =
       </p>
     </div>
 
-    <div class="block">
+    <div class="block" data-register>
       <span class="eb eb-neutral">CONSTRAINT</span>
       <p class="prose block-body">
         Phased deadlines across 4-5 months, with registration, finance, and
@@ -93,7 +98,7 @@ const description =
       </p>
     </div>
 
-    <div class="dcard dcard-static">
+    <div class="dcard dcard-static" data-register="lg">
       <span class="eb">DECISION</span>
       <p class="prose block-note">
         One stakeholder with real influence said further research wasn't worth
@@ -106,7 +111,7 @@ const description =
       </p>
     </div>
 
-    <div class="evidence">
+    <div class="evidence" data-register="lg">
       <span class="eb">EVIDENCE</span>
       <div class="evidence-figs">
         <Placeholder
@@ -127,7 +132,7 @@ const description =
       </p>
     </div>
 
-    <div class="result">
+    <div class="result" data-register="lg" data-register-beat>
       <span class="rb">RESULT</span>
       <p class="result-metrics">
         100% COMPLETION · 0 DOWNTIME · 4.55/5 SURVEY · ~€1,000 SAVED
@@ -143,7 +148,7 @@ const description =
       </p>
     </div>
 
-    <div>
+    <div data-register>
       <TickRule variant="light" style="max-width: 196px; margin-bottom: 8px" />
       <p class="lesson">
         <span class="lesson-label">LESSON — </span>Sometimes the person with
@@ -155,7 +160,7 @@ const description =
 
     <TickRule variant="light" />
 
-    <Footer>
+    <Footer data-register>
       <a href="/work/foltirana" class="ftl" slot="left">← №05 FOLTIRANA</a>
       <a href="/work/mystore" class="ftl" slot="right">№02 MYSTORE →</a>
     </Footer>

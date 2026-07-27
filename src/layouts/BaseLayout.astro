@@ -7,9 +7,10 @@ import "../styles/global.css";
 interface Props {
   title: string; // <=60 chars, metric-led (Phase 7 C1)
   description: string; // <=155 chars
+  motion?: boolean; // opt-in per page — Phase 6B [data-register] hook
 }
 
-const { title, description } = Astro.props;
+const { title, description, motion = false } = Astro.props;
 
 // Built from `site` (astro.config.mjs) rather than the request URL, so
 // canonical/OG stay on the production origin no matter which host served
@@ -80,5 +81,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <div class="sheet">
       <slot />
     </div>
+    {motion && <script>import "../scripts/motion";</script>}
   </body>
 </html>

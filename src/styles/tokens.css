@@ -134,6 +134,13 @@
   --t-lift: 180ms;
   --t-enter: 450ms;
   --t-enter-lg: 550ms;
+
+  /* Phase 6B (motion_step_b 6B.0/6B.1): the one permitted pre-pause before
+     an outcome band's payoff, and the register/scroll-reveal batch offset
+     (spec range 100-120ms; 110 is its own exact figure for scroll-reveal
+     and case-block-reveals, and sits inside the range for load groups). */
+  --t-beat: 150ms;
+  --t-stagger: 110ms;
 }
 
 /* ==========================================================================
