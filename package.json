@@ -5,6 +5,7 @@
   "engines": {
     "node": ">=22.12.0"
   },
+  "packageManager": "pnpm@11.10.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -15,6 +16,7 @@
     "format:check": "prettier --check .",
     "typecheck": "astro check",
     "stylelint": "stylelint \"src/**/*.{css,astro}\"",
+    "a11y": "node scripts/a11y-check.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm stylelint"
   },
   "dependencies": {
@@ -24,12 +26,15 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@eslint/js": "^10.0.1",
+    "axe-core": "^4.12.1",
     "eslint": "^10.7.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^3.0.1",
+    "globals": "^17.8.0",
     "postcss-html": "^1.8.1",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
+    "puppeteer": "^25.3.0",
     "stylelint": "^17.14.1",
     "stylelint-config-standard": "^40.0.0",
     "stylelint-declaration-strict-value": "^1.11.1",
