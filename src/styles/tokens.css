@@ -119,6 +119,13 @@
   --space-7: 44px; /* case-column vertical padding */
   --space-8: 56px; /* case-column / hero horizontal padding */
 
+  /* Horizontal inset of the content column, as a token rather than a
+     literal because it is the one spacing value that changes at the
+     breakpoint: desktop mock 34px x1.636 = 56px, mobile mock 10px
+     x1.44 = 14px (overridden in global.css). Pages reference it so a
+     single declaration retargets every column. */
+  --col-pad: var(--space-8);
+
   /* --- Motion (Phase 6A/B) -------------------------------------------- */
   --e-out: cubic-bezier(0.2, 0, 0, 1); /* arriving */
   --e-in: cubic-bezier(0.4, 0, 1, 1); /* returning */

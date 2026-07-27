@@ -70,7 +70,7 @@ const description =
       </p>
     </div>
 
-    <TickRule style="margin: 0 56px" />
+    <TickRule style="margin: 0 var(--col-pad)" />
 
     <div class="decisions">
       <div class="mrow">
@@ -121,7 +121,7 @@ const description =
 <style>
   /* Mock padding "34px 34px 26px" x1.636 (Phase 7 scale factor) */
   .hero {
-    padding: 56px 56px 43px;
+    padding: 56px var(--col-pad) 43px;
   }
 
   /* Mock padding "20px 34px 26px", gap "10px" x1.636 */
@@ -129,7 +129,7 @@ const description =
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding: 33px 56px 43px;
+    padding: 33px var(--col-pad) 43px;
   }
 
   /* One-off badge-style link; mock font-size 9px / padding "4px 9px" x1.636

@@ -352,6 +352,12 @@ a:hover {
    "·"-joined LOC/AUTH line, mobile type sizes) is deliberately not here —
    it changes markup, not just layout. */
 @media (width < 64rem) {
+  /* Mock 10px x1.44. At the desktop 56px a 375px screen leaves 260px of
+     content, which is narrower than the mode switch and costs the prose
+     roughly a third of its measure. */
+  :root {
+    --col-pad: 14px;
+  }
   .sheet {
     flex-direction: column;
   }
