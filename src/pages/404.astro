@@ -1,0 +1,82 @@
+---
+// 404 (Phase 5 §5.5) — MINIMAL, no grid, "one cell, one beat": a single
+// centered card, no Rail/Nav chrome at all (this page intentionally
+// breaks from every other page's rail+column layout). Static output
+// (astro.config.mjs) prerenders this as 404.html, which Cloudflare Pages
+// serves with a real 404 status for unmatched routes — noindex here
+// plus the sitemap's own filter (astro.config.mjs) keep it out of
+// search results (Phase 7 F-11). Verify the real 404 status against the
+// actual Cloudflare deploy, not just astro dev/build.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import TickRule from "../components/TickRule.astro";
+
+const title = "Record not found";
+const description =
+  "noindex + real 404 status — the page you're looking for doesn't exist.";
+---
+
+<BaseLayout title={title} description={description} noindex>
+  <div class="notfound">
+    <div class="cell notfound-cell">
+      <div class="notfound-label">RECORD NOT FOUND</div>
+      <p class="prose notfound-body">97%+ uptime — you found the other 3%.</p>
+      <TickRule variant="light" style="margin: 20px 0" />
+      <div class="notfound-actions">
+        <a href="/" class="notfound-btn">HOME</a>
+        <a href="/work" class="notfound-btn">WORK</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .notfound {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--col-pad);
+  }
+
+  /* Mock width "250px", padding "18px" x1.636 */
+  .notfound-cell {
+    max-width: 380px;
+    padding: 30px;
+  }
+
+  /* Mock font-size 10px, color #7a2e2e */
+  .notfound-label {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: var(--fs-mono-lg); /* 16px */
+    color: var(--maroon);
+    letter-spacing: var(--ls-widest);
+  }
+
+  /* Mock margin-top "8px" x1.636 */
+  .notfound-body {
+    margin-top: 13px;
+  }
+
+  .notfound-actions {
+    display: flex;
+    gap: 13px; /* mock gap "8px" x1.636 */
+  }
+
+  /* Hard action (drafting register): sharp corners, instant hover swap —
+     same register as About's RESUME.PDF button. Mock padding "5px 10px" x1.636 */
+  .notfound-btn {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: var(--fs-kicker); /* 15px, mock 9px */
+    letter-spacing: var(--ls-wide);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 8px 16px;
+  }
+  .notfound-btn:hover,
+  .notfound-btn:focus-visible {
+    background: var(--ink);
+    color: var(--white);
+  }
+</style>
