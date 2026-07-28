@@ -1,7 +1,11 @@
 // Crawls every prerendered page in dist/ and runs axe-core against it via
 // a headless Chromium tab, using astro preview as the static server so
-// routes match production exactly. Fails (exit 1) if any page has
-// violations.
+// routes match production exactly. Each route is checked in all three
+// color modes (BaseLayout's inline script reads localStorage("mode")
+// before first paint, same mechanism ModeSwitch writes to) since the
+// dark-mode phase re-tuned tokens per mode and a contrast regression in
+// one mode wouldn't show up testing light alone. Fails (exit 1) if any
+// page/mode combination has violations.
 import { spawn } from "node:child_process";
 import { readFileSync, readdirSync } from "node:fs";
 import { join, relative, sep } from "node:path";
@@ -12,6 +16,7 @@ const rootDir = fileURLToPath(new URL("..", import.meta.url));
 const distDir = join(rootDir, "dist");
 const port = 4322;
 const baseUrl = `http://localhost:${port}`;
+const modes = ["light", "anoitecer", "dark"];
 
 function findHtmlFiles(dir, files = []) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -69,28 +74,37 @@ try {
 
   try {
     for (const route of routes) {
-      const page = await browser.newPage();
-      await page.goto(new URL(route, baseUrl).toString(), {
-        waitUntil: "networkidle0",
-      });
-      await page.evaluate(axeSource);
-      const { violations } = await page.evaluate(() => {
-        // eslint-disable-next-line no-undef -- axe is injected into the page above
-        return axe.run();
-      });
-      await page.close();
+      for (const mode of modes) {
+        const page = await browser.newPage();
+        // Same mechanism ModeSwitch persists to: BaseLayout's inline
+        // script reads this before first paint. Set via
+        // evaluateOnNewDocument so it's in place before that script runs.
+        await page.evaluateOnNewDocument((m) => {
+          localStorage.setItem("mode", m);
+        }, mode);
+        await page.goto(new URL(route, baseUrl).toString(), {
+          waitUntil: "networkidle0",
+        });
+        await page.evaluate(axeSource);
+        const { violations } = await page.evaluate(() => {
+          // eslint-disable-next-line no-undef -- axe is injected into the page above
+          return axe.run();
+        });
+        await page.close();
 
-      if (violations.length > 0) {
-        exitCode = 1;
-        console.error(`\n✖ ${route} — ${violations.length} violation(s)`);
-        for (const v of violations) {
-          console.error(
-            `  [${v.impact}] ${v.id}: ${v.help} (${v.nodes.length} node(s))`,
-          );
-          console.error(`    ${v.helpUrl}`);
+        const label = `${route} [${mode}]`;
+        if (violations.length > 0) {
+          exitCode = 1;
+          console.error(`\n✖ ${label} — ${violations.length} violation(s)`);
+          for (const v of violations) {
+            console.error(
+              `  [${v.impact}] ${v.id}: ${v.help} (${v.nodes.length} node(s))`,
+            );
+            console.error(`    ${v.helpUrl}`);
+          }
+        } else {
+          console.log(`✓ ${label}`);
         }
-      } else {
-        console.log(`✓ ${route}`);
       }
     }
   } finally {

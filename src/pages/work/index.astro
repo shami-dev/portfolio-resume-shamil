@@ -86,7 +86,7 @@ const description =
                 class="work-metric"
                 style={
                   entry.data.index.metricAccent
-                    ? "color: var(--blue)"
+                    ? "color: var(--blue-raised)"
                     : undefined
                 }
               >
@@ -151,11 +151,13 @@ const description =
     margin-left: 8px;
   }
 
-  /* Mock font-size 10px x1.636 -> --fs-mono-lg */
+  /* Mock font-size 10px x1.636 -> --fs-mono-lg. --green-raised (not
+     --green) — these rows are .dcard, a raised surface: anoitecer's
+     plain --green measures 4.19:1 there, below AA (a11y gate finding). */
   .work-metric {
     font-family: var(--font-mono);
     font-size: var(--fs-mono-lg);
-    color: var(--green);
+    color: var(--green-raised);
     font-weight: 600;
     white-space: nowrap;
   }
@@ -163,5 +165,10 @@ const description =
   /* Mock margin-top "3px" x1.636 */
   .work-desc {
     margin-top: 5px;
+  }
+  /* Same raised-surface issue as .work-metric — .prose's --ink-body
+     measures 3.86:1 on this card's --card-surface in anoitecer. */
+  :root[data-theme="anoitecer"] .work-desc {
+    color: var(--ink);
   }
 </style>

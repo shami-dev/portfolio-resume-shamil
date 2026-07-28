@@ -304,11 +304,13 @@ const description =
     align-items: baseline;
     gap: 6px;
   }
-  /* Mock font-size 9.5px, color #2a5f9e */
+  /* Mock font-size 9.5px, color #2a5f9e. --blue-raised (not --blue) —
+     this cell is raised (--white), where anoitecer's plain --blue
+     measures 4:1, below AA (a11y gate finding). */
   .copy-btn {
     font-family: var(--font-mono);
     font-size: var(--fs-kicker); /* 15px */
-    color: var(--blue);
+    color: var(--blue-raised);
     background: none;
     border: none;
     padding: 8px 0;

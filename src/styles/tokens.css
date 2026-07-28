@@ -20,6 +20,12 @@
   --blue: #2a5f9e; /* decision blue — kickers, links, record №s */
   --blue-hover: #1a4578;
   --green: #1f6f43; /* result green — metrics, RESULT bands */
+  /* Semantic alias for blue/green text on raised surfaces (rail chrome,
+     .dcard) — identical to --blue/--green here since light already
+     clears AA there; anoitecer overrides both to a paled tint instead
+     (see its own block) since its raw --blue/--green don't. */
+  --blue-raised: var(--blue);
+  --green-raised: var(--green);
 
   /* Phase 7 F-01: #8a857a (3.5:1, FAIL) -> #6f6a5e (5.1:1 on paper) */
   --label: #6f6a5e; /* labels, captions, footers, placeholders */
@@ -189,7 +195,14 @@
   --blue: #8ab4e8; /* AA kicker 8.2:1 */
   --blue-hover: #8ab4e8; /* not specified by source — placeholder, same as --blue */
   --green: #8fd6a2; /* AA green-on-plate 8.7:1 */
-  --maroon: #7a2e2e; /* not specified by source — carried over from light */
+  /* See :root's comment — full dark already clears AA on raised
+     surfaces with the plain values. */
+  --blue-raised: var(--blue);
+  --green-raised: var(--green);
+  --maroon: #d22d3a; /* not specified by source — light's #7a2e2e measured
+    1.8:1 on this mode's --white (#241c15), nowhere near AA. Computed for
+    3:1 against --white at large/bold text (404's only consumer is sized
+    accordingly) — 3.34:1. */
 
   --stk-bg: #212a3c;
   --stk-bd: #3a4a66;
@@ -222,12 +235,34 @@
   --canvas: var(--paper); /* no desk-margin example in source; same as paper */
   --ink: #f6f0e4; /* heading / primary text — AA 5.6:1 */
   --ink-body: #e6dcc9; /* body prose — AA 4.7:1 */
-  --label: var(--ink-body); /* Finding 1: muted tier retired at anoitecer */
-  --nav-rest: var(--ink-body);
+  /* Finding 2: raised kraft surfaces (rail/cell chrome, .dcard) have zero
+     headroom for body-tier text — measured 3.9:1 there, below AA.
+     "When a surface lightens, its text jumps to top tier" — confirmed
+     4.6:1 against --card-surface, so --label/--nav-rest go all the way
+     to --ink rather than stopping at --ink-body (Finding 1's step),
+     since every current consumer of these two tokens sits on a raised
+     surface, not flat kraft ground. */
+  --label: var(--ink);
+  --nav-rest: var(--ink);
   --blue: #c9e0f8; /* AA kicker 4.7:1 */
   --blue-hover: #c9e0f8; /* not specified by source — placeholder, same as --blue */
   --green: #cdeed6; /* AA green-on-plate 5.5:1 */
-  --maroon: #7a2e2e; /* not specified by source — carried over from light */
+  /* Finding 2, continued: --blue/--green measure 3.87/4.34 on --white —
+     verified for flat kraft ground only. .rail-link/.rail-metrics/
+     .work-metric have no existing chip-fill to borrow (unlike
+     .dcard-kicker/.status-chip, which reuse --stk-bg instead — see
+     global.css), so these are paled instead. Computed against
+     --card-surface (#786a58), not --white — it's lighter of the two
+     raised grounds and thus the binding case: 4.67:1 / 4.63:1 there,
+     4.83:1 / 4.79:1 against --white. */
+  --blue-raised: #e9f3fc;
+  --green-raised: #dff6eb;
+  --maroon: #f2c0c4; /* not specified by source — light's #7a2e2e measured
+    1.7:1 on this mode's --white (#756855), nowhere near AA. A red dark
+    enough to read as "error" can't clear 4.5:1 (normal-text threshold)
+    against this warm-mid background without going pale; computed for
+    3:1 at large/bold text instead (404's only consumer is sized
+    accordingly) — 3.39:1. */
 
   --stk-bg: #535f77;
   --stk-bd: #6b7896;

@@ -906,3 +906,36 @@ a.dcard {
   color: var(--label);
   letter-spacing: var(--ls-wider);
 }
+
+/* --- Anoitecer: accent text on raised surfaces (a11y gate fix) --------
+   The --label/--nav-rest bump in tokens.css (Finding 2) covers every
+   bare *muted* text instance. --blue/--green measure 3.87/4.34 against
+   --card-surface and --white — still below AA — because those values
+   were only verified against flat kraft ground (.kicker, evidence
+   captions), never the raised rail/.dcard chrome. Two different fixes,
+   matching how the source doc's own corrected reference (id 2b/1f)
+   actually treats each context:
+   - .dcard-kicker/.status-chip are small mono tags already conceptually
+     "chips" — give them the same darker fill (--stk-bg, already used
+     for .eb/.stk) the doc's own DECISION/EVIDENCE badges get on raised
+     grounds, verified 4.74:1, rather than paling the text itself.
+   - .rail-link/.rail-metrics are plain inline text with no chip
+     precedent to reuse, so they get a paler accent tint computed
+     directly for 4.5:1 against --white instead. */
+:root[data-theme="anoitecer"] .cell-val {
+  color: var(--ink);
+}
+:root[data-theme="anoitecer"] .dcard-kicker {
+  background: var(--stk-bg);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+:root[data-theme="anoitecer"] .status-chip {
+  background: var(--stk-bg);
+}
+:root[data-theme="anoitecer"] .rail-link {
+  color: var(--blue-raised);
+}
+:root[data-theme="anoitecer"] .rail-metrics {
+  color: var(--green-raised);
+}

@@ -18,7 +18,7 @@ const description =
 <BaseLayout title={title} description={description} noindex>
   <div class="notfound">
     <div class="cell notfound-cell">
-      <div class="notfound-label">RECORD NOT FOUND</div>
+      <h1 class="notfound-label">RECORD NOT FOUND</h1>
       <p class="prose notfound-body">97%+ uptime — you found the other 3%.</p>
       <TickRule variant="light" style="margin: 20px 0" />
       <div class="notfound-actions">
@@ -44,11 +44,16 @@ const description =
     padding: 30px;
   }
 
-  /* Mock font-size 10px, color #7a2e2e */
+  /* Mock font-size 10px, color #7a2e2e. Sized as WCAG "large text"
+     (>=18.66px + bold) rather than the mock's literal 10px-scaled
+     size: --maroon can't clear 4.5:1 (normal-text threshold) against
+     anoitecer/dark's warm-mid and near-black rail-chrome backgrounds
+     without going washed-out pale — bumping to large text unlocks the
+     3:1 threshold instead, verified via axe (see tokens.css). */
   .notfound-label {
     font-family: var(--font-mono);
-    font-weight: 600;
-    font-size: var(--fs-mono-lg); /* 16px */
+    font-weight: 700;
+    font-size: 1.25rem; /* 20px */
     color: var(--maroon);
     letter-spacing: var(--ls-widest);
   }
@@ -56,6 +61,11 @@ const description =
   /* Mock margin-top "8px" x1.636 */
   .notfound-body {
     margin-top: 13px;
+  }
+  /* .cell is raised (--white) — anoitecer's plain --ink-body (.prose)
+     measures 3.99:1 there, below AA (a11y gate finding). */
+  :root[data-theme="anoitecer"] .notfound-body {
+    color: var(--ink);
   }
 
   .notfound-actions {
