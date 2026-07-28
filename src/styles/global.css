@@ -644,10 +644,10 @@ a:hover {
     padding-bottom: env(safe-area-inset-bottom);
     background: var(--white);
     border-top: 1.5px solid var(--bd-rule);
-    /* iOS Safari repaints an un-promoted `position: fixed` element lazily
-       during momentum scroll, which flashes its background transparent
-       over whatever's scrolling underneath — worse on image-heavy case
-       pages. Forcing its own compositing layer keeps it opaque. */
+    /* Baseline compositing-layer promotion; nav-pin.ts (imported by
+       Nav.astro) overrides this inline with a live-corrected translate3d
+       once JS runs — see that file for the iOS 26 bug this works around.
+       Kept here as the no-JS fallback. */
     transform: translateZ(0);
   }
   .nrow,
