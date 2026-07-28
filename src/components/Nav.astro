@@ -3,7 +3,9 @@
 // (demo divs are demo-only)" — the mockup's <div class="nrow"> is a
 // design-doc preview convention, not the intended real markup.
 interface Props {
-  current: "home" | "work" | "about" | "contact";
+  /** Omit on footer-tier destinations (colophon, 404) that aren't in the
+      primary nav — every item renders inactive. */
+  current?: "home" | "work" | "about" | "contact";
   /** Case-detail context, e.g. "1/5" -> renders "WORK · 1/5" on the active item */
   workSuffix?: string;
 }

@@ -1,0 +1,119 @@
+---
+// Colophon (Phase 5 §5.4) — footer-tier destination, LIGHT intensity
+// (.mm2, major grid lines only, same tier as About). Not a primary-nav
+// item, so Nav renders with no active current per Phase 5's own mock
+// (all four nrows shown inactive).
+//
+// The Umami disclosure line stays plain text (no link) until a real
+// public dashboard share URL exists — Phase 7 D requires the
+// disclosure itself, not a placeholder href.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Rail from "../components/Rail.astro";
+import Nav from "../components/Nav.astro";
+import TickRule from "../components/TickRule.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "Colophon — how this site was built";
+const description =
+  "Designed in phases, each closing with a decision record — stack, type, texture, and the site's own public analytics.";
+---
+
+<BaseLayout title={title} description={description} motion>
+  <Rail>
+    <div class="cell">
+      <div class="clab">PAGE</div>
+      <div class="cell-name">Colophon</div>
+    </div>
+    <Nav />
+  </Rail>
+
+  <div class="mm2 col colophon">
+    <div data-register>
+      <h1 class="colophon-h1">How this site was built</h1>
+      <p class="prose colophon-body">
+        Evidence of process, applied to itself. Designed in phases — positioning
+        research, content strategy, reference audit, concept divergence,
+        wireframes, this design pass — each closing with a decision record, same
+        as the work it presents.
+      </p>
+    </div>
+
+    <TickRule variant="light" />
+
+    <div data-register>
+      <div class="klab">STACK</div>
+      <div class="rail-chips colophon-stack">
+        <span class="stk">Astro</span>
+        <span class="stk">TypeScript</span>
+        <span class="stk">Tailwind</span>
+        <span class="stk">Vercel</span>
+        <span class="stk">Umami</span>
+      </div>
+    </div>
+
+    <div data-register>
+      <div class="klab">TYPE & TEXTURE</div>
+      <p class="prose colophon-note">
+        Archivo + IBM Plex Mono · millimetre-paper grid · tick-rule dividers
+        after the drafting scales I started my career behind.
+      </p>
+    </div>
+
+    <TickRule variant="light" />
+
+    <p class="colophon-analytics" data-register>
+      Cookieless Umami analytics — this site's own numbers are public.
+    </p>
+
+    <Footer data-register>
+      <span class="ftl" slot="left">S.KHAIBULLOV — COLOPHON</span>
+      <span class="ftl" slot="right">© 2026</span>
+    </Footer>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Mock padding "26px 30px", gap "11px" x1.636 (Phase 7 scale factor) */
+  .colophon {
+    gap: 18px;
+    padding: 43px var(--col-pad);
+  }
+
+  @media (width < 64rem) {
+    .colophon {
+      gap: var(--space-3);
+      padding: var(--space-4) var(--col-pad);
+    }
+  }
+
+  /* Mock font-size 20px x1.636, between .dcard-title's 21px (13px mock)
+     and the case pages'/About's --fs-h1-case 36px (22px mock) */
+  .colophon-h1 {
+    font: 700 2.0625rem/1.15 var(--font-sans); /* 33px */
+    letter-spacing: var(--ls-tight);
+    color: var(--ink);
+  }
+
+  /* Mock: no explicit margin-top stated between heading and body in this
+     block — both sit in the outer .colophon gap already */
+  .colophon-body {
+    margin-top: 13px; /* mock implicit ~8px x1.636, matches About's rhythm */
+  }
+
+  .colophon-stack {
+    margin-top: 10px; /* mock margin-top "6px" x1.636 */
+  }
+
+  /* Mock font-size 11px, margin-top "4px" x1.636 */
+  .colophon-note {
+    font-size: var(--fs-body);
+    margin-top: 7px;
+  }
+
+  /* Mock font-size 9.5px, color #2a5f9e */
+  .colophon-analytics {
+    font-family: var(--font-mono);
+    font-size: var(--fs-kicker); /* 15px */
+    color: var(--blue);
+  }
+</style>
