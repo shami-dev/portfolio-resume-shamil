@@ -644,6 +644,11 @@ a:hover {
     padding-bottom: env(safe-area-inset-bottom);
     background: var(--white);
     border-top: 1.5px solid var(--bd-rule);
+    /* iOS Safari repaints an un-promoted `position: fixed` element lazily
+       during momentum scroll, which flashes its background transparent
+       over whatever's scrolling underneath — worse on image-heavy case
+       pages. Forcing its own compositing layer keeps it opaque. */
+    transform: translateZ(0);
   }
   .nrow,
   .nrow-a {
