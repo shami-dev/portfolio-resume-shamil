@@ -605,6 +605,14 @@ a:hover {
   background: var(--ink);
   color: var(--white);
 }
+/* Without this, the generic a:hover rule (higher specificity than
+   .nrow-a alone) repaints this bare anchor text to --blue-hover on
+   hover — a dark navy that nearly vanishes against this row's own
+   --ink fill, since there's no wrapping child to hold an independent
+   color the way every other component's hoverable text does. */
+.nrow-a:hover {
+  color: var(--white);
+}
 @media (hover: hover) {
   .nrow:hover {
     color: var(--blue);
