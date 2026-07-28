@@ -1,0 +1,352 @@
+---
+// Contact (Phase 5 §5.5) — MINIMAL, no grid, form primary (KPI 2).
+//
+// The form ships as real, validated markup — visible <label>s per
+// Phase 7 P0 fix #2 (placeholders alone fail contrast/vanish on
+// input) — but submission itself is deliberately not wired to a
+// backend yet (none has been chosen). It prevents default and shows
+// a status message pointing at the working channels (email, Calendly)
+// instead of faking a successful send. Umami event tracking
+// ("contact-form-submit" etc.) is out of scope here too — no
+// analytics script exists anywhere in the codebase yet; that's its
+// own integration decision, not part of this page.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Rail from "../components/Rail.astro";
+import Nav from "../components/Nav.astro";
+import TickRule from "../components/TickRule.astro";
+import Footer from "../components/Footer.astro";
+
+const title = "Contact — responds < 24h · Shamil Khaibullov";
+const description =
+  "Message, book 20 minutes, or email directly. Roles and contracts — remote or EU B2B, from Porto with an EU work permit.";
+---
+
+<BaseLayout title={title} description={description} motion>
+  <Rail>
+    <div class="cell">
+      <div class="clab">NAME</div>
+      <div class="cell-name">Shamil Khaibullov</div>
+    </div>
+    <div class="cell-pair">
+      <div class="cell">
+        <div class="clab">LOC</div>
+        <div class="cell-val-mono">Porto, PT</div>
+      </div>
+      <div class="cell">
+        <div class="clab">AUTH</div>
+        <div class="cell-val-mono">EU permit</div>
+      </div>
+    </div>
+    <Nav current="contact" />
+    <div class="rail-foot">
+      <p class="contact-avail">
+        AVAILABLE — ROLES + CONTRACTS<br />
+        REMOTE / EU B2B<br />
+        RESPONDS &lt; 24H
+      </p>
+    </div>
+  </Rail>
+
+  <div class="col contact">
+    <h1 class="h1-case" data-register>Reach me.</h1>
+
+    <div class="contact-row" data-register>
+      <div class="cell contact-form-card">
+        <div class="clab">MESSAGE — PRIMARY</div>
+        <form class="contact-form" id="contact-form">
+          <div class="field">
+            <label for="name" class="clab field-label">Name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              class="field-input"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="email" class="clab field-label">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              class="field-input"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="message" class="clab field-label">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              class="field-input field-textarea"
+              required></textarea>
+          </div>
+          <button type="submit" class="send-btn">SEND →</button>
+          <p
+            class="form-status"
+            id="form-status"
+            role="status"
+            aria-live="polite"
+          >
+          </p>
+        </form>
+        <p class="contact-privacy">
+          Name, email, and message are collected only to reply to your inquiry —
+          never shared, never stored longer than needed to respond.
+        </p>
+      </div>
+
+      <div class="contact-links">
+        <a
+          class="cell contact-link"
+          href="https://calendly.com/shamil-dev/"
+          target="_blank"
+          rel="noopener noreferrer">CALENDLY — BOOK 20 MIN →</a
+        >
+        <div class="cell contact-email">
+          <a class="contact-link" href="mailto:hello@shamil.dev">EMAIL →</a>
+          <div class="contact-copy-row">
+            <button type="button" class="copy-btn" data-email="hello@shamil.dev"
+              >⧉ copy address</button
+            >
+            <span class="copy-hint">· fallback if mailto fails</span>
+          </div>
+          <p
+            class="copy-status"
+            id="copy-status"
+            role="status"
+            aria-live="polite"
+          >
+          </p>
+        </div>
+        <div class="cell contact-social">
+          <a
+            href="https://www.linkedin.com/in/shamil-khaibullov/"
+            target="_blank"
+            rel="noopener noreferrer">LINKEDIN →</a
+          >
+          <span aria-hidden="true">·</span>
+          <a
+            href="https://github.com/shami-dev"
+            target="_blank"
+            rel="noopener noreferrer">GITHUB →</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <TickRule variant="light" />
+
+    <Footer data-register>
+      <span class="ftl" slot="left">PORTO, PT · EU WORK PERMIT</span>
+      <span class="ftl" slot="right"
+        ><a href="/colophon" class="ftl-link">COLOPHON</a> · ANALYTICS ↗ · © 2026</span
+      >
+    </Footer>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById(
+    "contact-form",
+  ) as HTMLFormElement | null;
+  const status = document.getElementById("form-status");
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (status) {
+      status.textContent =
+        "This form isn't connected yet — email hello@shamil.dev directly or book a call above.";
+    }
+  });
+
+  const copyBtn = document.querySelector<HTMLButtonElement>(".copy-btn");
+  const copyStatus = document.getElementById("copy-status");
+  copyBtn?.addEventListener("click", async () => {
+    const email = copyBtn.dataset.email ?? "";
+    try {
+      await navigator.clipboard.writeText(email);
+      if (copyStatus) copyStatus.textContent = "✓ Copied " + email;
+    } catch {
+      if (copyStatus)
+        copyStatus.textContent = "Couldn't copy — email address is " + email;
+    }
+  });
+</script>
+
+<style>
+  /* Mock padding "28px 34px", gap "12px" x1.636 (Phase 7 scale factor).
+     No .mm/.mm2 grid class on this container — MINIMAL intensity. */
+  .contact {
+    gap: 20px;
+    padding: 46px var(--col-pad);
+  }
+
+  @media (width < 64rem) {
+    .contact {
+      gap: var(--space-3);
+      padding: var(--space-4) var(--col-pad);
+    }
+  }
+
+  /* Mock line-height 1.7, color #6f6a5e -> --label */
+  .contact-avail {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono); /* 13px floor, mock 8.5px */
+    color: var(--label);
+    line-height: 1.7;
+  }
+
+  /* Mock gap "16px" x1.636 */
+  .contact-row {
+    display: flex;
+    gap: 26px;
+  }
+  @media (width < 40rem) {
+    .contact-row {
+      flex-direction: column;
+    }
+  }
+
+  /* Mock gap "8px" x1.636 */
+  .contact-form-card {
+    flex: 1.4;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .field-label {
+    color: var(--ink);
+  }
+  /* Mock border color #c8bfa8 -> --chip-bd, radius 2px, padding "7px 9px" x1.636 */
+  .field-input {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    color: var(--ink);
+    background: var(--white);
+    border: 1px solid var(--chip-bd);
+    border-radius: 2px;
+    padding: 11px 15px;
+  }
+  .field-textarea {
+    min-height: 92px; /* mock 56px x1.636 */
+    resize: vertical;
+    font-family: inherit;
+  }
+
+  /* Hard action (drafting register): sharp corners, instant hover swap —
+     same register as About's RESUME.PDF button. Mock padding "10px" x1.636 */
+  .send-btn {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-lg); /* 16px, mock 10px */
+    font-weight: 600;
+    letter-spacing: var(--ls-wide);
+    text-align: center;
+    color: var(--white);
+    background: var(--ink);
+    padding: 16px;
+    border: none;
+    cursor: pointer;
+    /* Extra breathing room above the button, on top of the card's own
+       gap — the mock's tighter rhythm reads as cramped once real focus
+       rings/type are in play. */
+    margin-top: var(--space-5);
+  }
+  .send-btn:hover,
+  .send-btn:focus-visible {
+    background: var(--blue);
+  }
+
+  .form-status:not(:empty) {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono); /* 13px floor */
+    color: var(--label);
+  }
+
+  /* Mock font-size 7.5px, clamped to the 13px floor (Phase 7 F-02) */
+  .contact-privacy {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    color: var(--label);
+  }
+
+  /* Mock gap "10px" x1.636 */
+  .contact-links {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-link {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-lg); /* 16px, mock 10px */
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .contact-email {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* mock margin-top "6px" x1.636 */
+  }
+
+  .contact-copy-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  /* Mock font-size 9.5px, color #2a5f9e */
+  .copy-btn {
+    font-family: var(--font-mono);
+    font-size: var(--fs-kicker); /* 15px */
+    color: var(--blue);
+    background: none;
+    border: none;
+    padding: 8px 0;
+    cursor: pointer;
+  }
+  .copy-hint {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    color: var(--label);
+  }
+  /* Visible confirmation (Phase 7 P0 fix #2: "SENT ✓ / ✓ COPIED as
+     role=status") — was visually-hidden, screen-reader-only text isn't
+     enough on its own. */
+  .copy-status:not(:empty) {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    font-weight: 600;
+    color: var(--green);
+    margin-top: var(--space-1);
+  }
+
+  .contact-social {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+  .contact-social a {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-lg); /* 16px, mock 10px */
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .contact-social span {
+    color: var(--label);
+  }
+
+  .ftl-link {
+    color: var(--label);
+  }
+</style>
