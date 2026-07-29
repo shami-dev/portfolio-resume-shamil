@@ -588,11 +588,6 @@ a:hover {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
-/* Rendered by Footer, so it trails the colophon line as its own row. */
-.ft + .mode-switch {
-  margin-top: 12px;
-}
-
 /* --- Nav rows (drafting register) -------------------------------------- */
 .nav {
   display: flex;
@@ -891,8 +886,20 @@ a.dcard {
 }
 
 /* --- Footer ------------------------------------------------------------ */
+/* flex-wrap, unconditional: .ft's 3 children (left slot, mode-switch,
+   right slot) only comfortably share one row on wide viewports — the
+   rail's fixed width plus the longest footer copy plus mode-switch's
+   own ~263px doesn't fit the column between the rail-collapse
+   breakpoint and roughly 1260px, and without wrap the text spans would
+   shrink and break mid-word instead of the row breaking between items.
+   No media query: the crossover point varies per page's own footer
+   copy length, so let the row reflow onto as many lines as it needs
+   wherever that happens to be, rather than guessing one shared pixel
+   threshold. DOM order is left as-is (no `order` property) so visual
+   order keeps matching focus order regardless of how it wraps. */
 .ft {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 16px;

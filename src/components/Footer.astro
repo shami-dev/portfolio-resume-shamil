@@ -14,6 +14,10 @@
 // puts it with the rest of the set-once chrome. The rail is not sticky,
 // so this costs less on desktop than it looks: the control was never
 // persistently visible there either.
+//
+// It sits between the left/right slots (not below them): .ft's existing
+// justify-content: space-between already spaces three children, so no
+// extra positioning rule was needed to seat it between the two lines.
 import type { HTMLAttributes } from "astro/types";
 import ModeSwitch from "./ModeSwitch.astro";
 
@@ -24,6 +28,6 @@ const rest = Astro.props as Props;
 
 <div class="ft" {...rest}>
   <slot name="left" />
+  <ModeSwitch />
   <slot name="right" />
 </div>
-<ModeSwitch />

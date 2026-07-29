@@ -1,7 +1,8 @@
 ---
 // Mode control (Phase 5a·v2 dark-mode doc, "MODE CONTROL — SITE CHROME"):
 // segmented, three real states — not a binary switch. Sharp corners
-// (hard-control register). Lives in the rail above nav.
+// (hard-control register). Renders inside Footer, not the rail — see
+// Footer.astro for why a single shared instance lives there instead.
 //
 // Native radios rather than role="radio" buttons: three mutually exclusive
 // states is exactly a radiogroup, and the browser gives arrow-key roving
