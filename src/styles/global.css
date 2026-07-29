@@ -430,9 +430,21 @@ a:hover {
   .sheet {
     flex-direction: column;
   }
+  /* position/z-index here are not layout — they order this whole subtree
+     against .col, which is what keeps the fixed bottom bar (.nav, below)
+     in front of page content. `view-transition-name: rail` makes .rail a
+     stacking context, so any z-index set on .nav itself is scoped to
+     .rail and can never outrank .col — the sibling .sheet flex item that
+     comes later in DOM order. Every .dcard is position: relative (its
+     ::after shadow overlay needs it), which lifts cards into the
+     positioned-paint layer and so above the entire rail subtree, bar
+     included. Ordering the two flex items explicitly is the fix, applied
+     at the level where they are actually siblings. */
   .rail {
     width: auto;
     flex: none;
+    position: relative;
+    z-index: 1;
     border-right: 0;
     border-bottom: 1.5px solid var(--bd-rule);
     padding: 14px; /* mock 10px x1.44 */
@@ -626,8 +638,13 @@ a:hover {
    with hairline dividers, active tab filled. Sizes x1.44 (mobile factor):
    44 -> 64px; 8px mono clamps up to the --fs-mono 13px floor (Phase 7
    F-02 — shorten copy, never shrink type). The bar keeps its early
-   position in the DOM, which is the correct focus order for navigation
-   even though it paints last.
+   position in the DOM, which is the correct focus order for navigation.
+
+   It carries no z-index of its own: position: fixed already paints it
+   over every (static) sibling inside .rail, and against page content a
+   z-index here is powerless — .rail's view-transition-name scopes it to
+   .rail's stacking context. What actually orders this bar above .col is
+   .rail's own z-index; see the comment on .rail above.
 
    Must stay below the base .nav/.nrow rules: a media query adds no
    specificity, so at equal specificity source order decides and the base
@@ -636,7 +653,6 @@ a:hover {
   .nav {
     position: fixed;
     inset: auto 0 0;
-    z-index: 10;
     flex-direction: row;
     margin-top: 0;
     min-height: 64px; /* used if env() is unsupported and height drops out */
@@ -644,11 +660,6 @@ a:hover {
     padding-bottom: env(safe-area-inset-bottom);
     background: var(--white);
     border-top: 1.5px solid var(--bd-rule);
-    /* Baseline compositing-layer promotion; nav-pin.ts (imported by
-       Nav.astro) overrides this inline with a live-corrected translate3d
-       once JS runs — see that file for the iOS 26 bug this works around.
-       Kept here as the no-JS fallback. */
-    transform: translateZ(0);
   }
   .nrow,
   .nrow-a {
