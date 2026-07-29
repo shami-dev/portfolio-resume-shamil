@@ -791,6 +791,14 @@ a.dcard {
   /* mock 0.06em — distinct from .kicker's 0.08em */
   letter-spacing: var(--ls-wide);
   color: var(--blue);
+  /* Unconditional padding/radius, not just anoitecer's — a flex item
+     (.mrow's child) grows the row's height by however much padding it
+     carries, so giving anoitecer its own box size caused every card's
+     row to grow ~4px on that mode alone: a real layout shift on every
+     mode switch, not just a color change. Background stays per-theme
+     below; the box itself now matches across all three. */
+  padding: 2px 6px;
+  border-radius: 2px;
 }
 .dcard-duration {
   font-family: var(--font-mono);
@@ -968,8 +976,6 @@ a.dcard {
 }
 :root[data-theme="anoitecer"] .dcard-kicker {
   background: var(--stk-bg);
-  padding: 2px 6px;
-  border-radius: 2px;
 }
 :root[data-theme="anoitecer"] .status-chip {
   background: var(--stk-bg);
