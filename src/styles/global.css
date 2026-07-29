@@ -904,6 +904,16 @@ a.dcard {
   color: var(--label);
   letter-spacing: var(--ls-wide);
 }
+/* Quiet in-copy link inside a .ftl row (footer's COLOPHON mention) — sits
+   at the surrounding mono row's color until interaction, rather than the
+   global `a` blue, so it doesn't outrank its non-link siblings. */
+.ftl-link {
+  color: inherit;
+}
+.ftl-link:hover,
+.ftl-link:focus-visible {
+  color: var(--blue-hover);
+}
 
 /* --- Reserved-ratio placeholder (CLS 0) -------------------------------- */
 .ph {
