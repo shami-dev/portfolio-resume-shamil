@@ -102,19 +102,24 @@ const description =
           class="cell contact-link"
           href="https://calendly.com/shamil-dev/"
           target="_blank"
-          rel="noopener noreferrer">CALENDLY — BOOK 20 MIN →</a
+          rel="noopener noreferrer"
+          >CALENDLY — BOOK 20 MIN <span class="arrow" aria-hidden="true">→</span
+          ></a
         >
         <div class="cell contact-email">
-          <a class="contact-link" href="mailto:hello@shamil.dev">EMAIL →</a>
-          <div class="contact-copy-row">
-            <button type="button" class="copy-btn" data-email="hello@shamil.dev"
-              >⧉ copy address</button
-            >
-            <span class="copy-hint">· fallback if mailto fails</span>
-          </div>
+          <a class="contact-link" href="mailto:hello@shamil.dev"
+            >hello@shamil.dev <span class="arrow" aria-hidden="true">→</span></a
+          >
+          <button
+            type="button"
+            class="copy-btn"
+            data-email="hello@shamil.dev"
+            data-default-label="⧉ Copy email address"
+            >⧉ Copy email address</button
+          >
           <p
-            class="copy-status"
-            id="copy-status"
+            class="visually-hidden"
+            id="copy-announce"
             role="status"
             aria-live="polite"
           >
@@ -124,13 +129,15 @@ const description =
           <a
             href="https://www.linkedin.com/in/shamil-khaibullov/"
             target="_blank"
-            rel="noopener noreferrer">LINKEDIN →</a
+            rel="noopener noreferrer"
+            >LINKEDIN <span class="arrow" aria-hidden="true">→</span></a
           >
           <span aria-hidden="true">·</span>
           <a
             href="https://github.com/shami-dev"
             target="_blank"
-            rel="noopener noreferrer">GITHUB →</a
+            rel="noopener noreferrer"
+            >GITHUB <span class="arrow" aria-hidden="true">→</span></a
           >
         </div>
       </div>
@@ -161,16 +168,44 @@ const description =
   });
 
   const copyBtn = document.querySelector<HTMLButtonElement>(".copy-btn");
-  const copyStatus = document.getElementById("copy-status");
+  const copyAnnounce = document.getElementById("copy-announce");
+  const defaultLabel = copyBtn?.dataset.defaultLabel ?? "";
+  let revertTimer: ReturnType<typeof setTimeout> | undefined;
+
+  // A live region announces reliably; aria-live on the button itself
+  // doesn't — VoiceOver races its own "activated" announcement against
+  // the live-region read, and by the time it gets to the latter the
+  // 2s revert had often already fired, so it read the reverted default
+  // label (sometimes twice) instead of the actual confirmation.
+  function announce(message: string) {
+    if (!copyAnnounce) return;
+    copyAnnounce.textContent = "";
+    // setTimeout, not requestAnimationFrame — this doesn't need paint
+    // timing, and rAF is throttled/paused whenever the tab isn't
+    // actively painting (backgrounded), which would silently drop the
+    // announcement instead of just delaying it.
+    setTimeout(() => {
+      copyAnnounce.textContent = message;
+    }, 0);
+  }
+
   copyBtn?.addEventListener("click", async () => {
     const email = copyBtn.dataset.email ?? "";
+    clearTimeout(revertTimer);
     try {
       await navigator.clipboard.writeText(email);
-      if (copyStatus) copyStatus.textContent = "✓ Copied " + email;
+      copyBtn.textContent = "✓ Copied";
+      copyBtn.dataset.state = "copied";
+      announce("Copied " + email + " to clipboard");
     } catch {
-      if (copyStatus)
-        copyStatus.textContent = "Couldn't copy — email address is " + email;
+      copyBtn.textContent = "✗ Couldn't copy";
+      delete copyBtn.dataset.state;
+      announce("Couldn't copy — email address is " + email);
     }
+    revertTimer = setTimeout(() => {
+      copyBtn.textContent = defaultLabel;
+      delete copyBtn.dataset.state;
+    }, 2000);
   });
 </script>
 
@@ -220,6 +255,17 @@ const description =
     display: flex;
     flex-direction: column;
     gap: 4px;
+  }
+  /* <form> itself has no display:flex, so .field divs stack via plain
+     block flow with zero margin between them — .contact-form-card's own
+     gap (above) only separates its direct children (.clab, <form>,
+     .contact-privacy), never reaching inside the form. --space-5 (20px)
+     rather than a smaller step: the global :focus-visible ring (2px
+     outline, 2px offset = 4px beyond the input's own box) needs
+     headroom on both sides of that gap without touching the field it's
+     reaching toward. */
+  .field + .field {
+    margin-top: var(--space-5);
   }
   .field-label {
     color: var(--ink);
@@ -299,11 +345,6 @@ const description =
     gap: 10px; /* mock margin-top "6px" x1.636 */
   }
 
-  .contact-copy-row {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-  }
   /* Mock font-size 9.5px, color #2a5f9e. --blue-raised (not --blue) —
      this cell is raised (--white), where anoitecer's plain --blue
      measures 4:1, below AA (a11y gate finding). */
@@ -314,22 +355,17 @@ const description =
     background: none;
     border: none;
     padding: 8px 0;
+    /* <button> defaults to text-align: center in the UA stylesheet;
+       stretched full-width by .contact-email's flex column, that
+       centered the label instead of flushing it left under the email
+       link above it. */
+    text-align: left;
     cursor: pointer;
   }
-  .copy-hint {
-    font-family: var(--font-mono);
-    font-size: var(--fs-mono);
-    color: var(--label);
-  }
-  /* Visible confirmation (Phase 7 P0 fix #2: "SENT ✓ / ✓ COPIED as
-     role=status") — was visually-hidden, screen-reader-only text isn't
-     enough on its own. */
-  .copy-status:not(:empty) {
-    font-family: var(--font-mono);
-    font-size: var(--fs-mono);
-    font-weight: 600;
-    color: var(--green);
-    margin-top: var(--space-1);
+  /* Same --green-raised (not --green) reasoning as --blue-raised above
+     — this cell's --white ground is a raised surface. */
+  .copy-btn[data-state="copied"] {
+    color: var(--green-raised);
   }
 
   .contact-social {
@@ -347,8 +383,20 @@ const description =
   .contact-social span {
     color: var(--label);
   }
-
-  .ftl-link {
-    color: var(--label);
+  /* Shared by all four arrow-suffixed links (Calendly, email,
+     LinkedIn, GitHub) — same "opens/goes to" register throughout
+     .contact-links, not just the two social ones. transition lives on
+     the base rule (not inside :hover) so the arrow animates back on
+     mouse-leave too, not just snapping — same pattern as
+     .dcard.is-hoverable in global.css. */
+  .contact-links .arrow {
+    display: inline-block;
+    transition: transform var(--t-hover) var(--e-out);
+  }
+  @media (hover: hover) {
+    .contact-links a:hover .arrow,
+    .contact-links a:focus-visible .arrow {
+      transform: translateX(3px);
+    }
   }
 </style>
