@@ -793,6 +793,36 @@ a:hover {
   }
 }
 
+/* Pressed states (Phase 5b 6.0 §3): ":hover has no mobile analog" — nav
+   rows and record cards get a blue-tinted :active fill instead, the same
+   tint as their desktop :hover. Scoped to the mobile band rather than
+   left unconditional, since these are a REPLACEMENT for hover (which is
+   already its own @media (hover: hover) guarded rule below/above), not
+   an addition to it — a mouse click on desktop shouldn't also trigger
+   this flatter, non-animated fill on top of the existing lift/translate.
+   -webkit-tap-highlight-color: transparent on each prevents the browser's
+   own default tap flash from showing alongside this fill (stylelint's
+   strict-value rule exempts `transparent` even though the property name
+   ends in -color). */
+@media (width < 48rem) {
+  .nrow,
+  a.dcard.is-hoverable,
+  .scan-bar {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nrow:active {
+    background: var(--stk-bg);
+    color: var(--blue);
+  }
+  a.dcard.is-hoverable:active {
+    border-left-color: var(--blue);
+    background: var(--stk-bg);
+  }
+  .scan-bar:active {
+    background: var(--stk-bg);
+  }
+}
+
 /* --- Mode switch (hard-control register: sharp corners) ---------------- */
 /* Mockup: 1.5px #1a1a1a frame, 8.5px/600 mono segments at 6px 10px, active
    filled #1a1a1a/#fff, rest #555. Sizes x1.636 (8.5 -> --fs-mono-md,

@@ -450,6 +450,24 @@ if (result?.error) {
     background: var(--blue);
   }
 
+  /* Pressed states (Phase 5b 6.0 §3) — hover has no mobile analog, so
+     .send-btn reuses its own :hover fill on :active instead; .copy-btn
+     has no hover treatment to reuse (plain inline text, no box), so it
+     gets the same light tint .nrow/.dcard use elsewhere in the mobile
+     band. */
+  @media (width < 48rem) {
+    .send-btn,
+    .copy-btn {
+      -webkit-tap-highlight-color: transparent;
+    }
+    .send-btn:active {
+      background: var(--blue);
+    }
+    .copy-btn:active {
+      background: var(--stk-bg);
+    }
+  }
+
   .form-status:not(:empty) {
     font-family: var(--font-mono);
     font-size: var(--fs-mono); /* 13px floor */

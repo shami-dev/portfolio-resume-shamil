@@ -390,6 +390,17 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     color: var(--white);
   }
 
+  /* Pressed state (Phase 5b 6.0 §3) — same blue swap as :hover, since
+     hover has no mobile analog to avoid doubling up with. */
+  @media (width < 48rem) {
+    .resume-btn {
+      -webkit-tap-highlight-color: transparent;
+    }
+    .resume-btn:active {
+      background: var(--blue);
+    }
+  }
+
   /* Mock margin-top "5px" x1.636 */
   .resume-caption {
     font-family: var(--font-mono);

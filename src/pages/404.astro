@@ -89,4 +89,16 @@ const description =
     background: var(--ink);
     color: var(--white);
   }
+
+  /* Pressed state (Phase 5b 6.0 §3) — same ink fill as :hover, since
+     hover has no mobile analog to avoid doubling up with. */
+  @media (width < 48rem) {
+    .notfound-btn {
+      -webkit-tap-highlight-color: transparent;
+    }
+    .notfound-btn:active {
+      background: var(--ink);
+      color: var(--white);
+    }
+  }
 </style>
