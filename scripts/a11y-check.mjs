@@ -1,11 +1,11 @@
-// Crawls every prerendered page in dist/ and runs axe-core against it via
-// a headless Chromium tab, using astro preview as the static server so
-// routes match production exactly. Each route is checked in all three
-// color modes (BaseLayout's inline script reads localStorage("mode")
-// before first paint, same mechanism ModeSwitch writes to) since the
-// dark-mode phase re-tuned tokens per mode and a contrast regression in
-// one mode wouldn't show up testing light alone. Fails (exit 1) if any
-// page/mode combination has violations.
+// Crawls every prerendered page in dist/client (plus onDemandRoutes below)
+// and runs axe-core against it via a headless Chromium tab, using astro
+// preview as the server so routes match production exactly. Each route is
+// checked in all three color modes (BaseLayout's inline script reads
+// localStorage("mode") before first paint, same mechanism ModeSwitch
+// writes to) since the dark-mode phase re-tuned tokens per mode and a
+// contrast regression in one mode wouldn't show up testing light alone.
+// Fails (exit 1) if any page/mode combination has violations.
 import { spawn } from "node:child_process";
 import { readFileSync, readdirSync } from "node:fs";
 import { join, relative, sep } from "node:path";
@@ -13,10 +13,18 @@ import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer";
 
 const rootDir = fileURLToPath(new URL("..", import.meta.url));
-const distDir = join(rootDir, "dist");
+// @astrojs/cloudflare nests static output under dist/client (see
+// astro.config.mjs/wrangler.jsonc) — routes must be computed relative to
+// that, not dist/ itself, or every route resolves one level too deep
+// (e.g. "/client/about/") and silently tests a 404/redirect instead of
+// the real page.
+const distDir = join(rootDir, "dist", "client");
 const port = 4322;
 const baseUrl = `http://localhost:${port}`;
 const modes = ["light", "anoitecer", "dark"];
+// On-demand routes (prerender = false) don't produce a dist/ file, so
+// findHtmlFiles() can't discover them — listed explicitly instead.
+const onDemandRoutes = ["/contact"];
 
 function findHtmlFiles(dir, files = []) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -51,7 +59,10 @@ function waitForServer(url, timeoutMs) {
   });
 }
 
-const routes = findHtmlFiles(distDir).map(toRoute).sort();
+const routes = findHtmlFiles(distDir)
+  .map(toRoute)
+  .concat(onDemandRoutes)
+  .sort();
 const axeSource = readFileSync(
   join(rootDir, "node_modules/axe-core/axe.min.js"),
   "utf8",
