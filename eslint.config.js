@@ -11,6 +11,7 @@ export default defineConfig([
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...eslintPluginAstro.configs.recommended,
+  ...eslintPluginAstro.configs["jsx-a11y-recommended"],
   eslintConfigPrettier,
   {
     files: ["scripts/**/*.mjs"],
