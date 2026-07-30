@@ -34,17 +34,36 @@ export const server = {
         return { ok: true };
       }
 
-      // `env` (from `cloudflare:workers`) is only populated in the real
-      // workerd runtime — optional-chained so a missing binding fails open
-      // rather than throwing, e.g. if it's ever unavailable locally.
-      const rateLimitResult = await env.CONTACT_RATE_LIMIT?.limit({
-        key: context.clientAddress,
-      });
-      if (rateLimitResult && !rateLimitResult.success) {
-        throw new ActionError({
-          code: "TOO_MANY_REQUESTS",
-          message: "Too many messages sent — please try again in a minute.",
+      // A missing binding must not look the same in dev and prod: locally
+      // it's a plausible (if now rare — Astro 6's dev server runs the real
+      // workerd runtime, so wrangler.jsonc's binding is normally present
+      // even in `astro dev`) tooling gap, worth logging but not worth
+      // blocking on. In production it means a misconfigured/failed deploy,
+      // and failing open there would be silent, unthrottled sends against
+      // the Resend quota and domain reputation — so only DEV is allowed to
+      // proceed; every other case is logged and blocked either way.
+      const rateLimiter = env.CONTACT_RATE_LIMIT;
+      if (!rateLimiter) {
+        context.logger.warn(
+          "CONTACT_RATE_LIMIT binding is missing — sends are unthrottled.",
+        );
+        if (!import.meta.env.DEV) {
+          throw new ActionError({
+            code: "INTERNAL_SERVER_ERROR",
+            message:
+              "Couldn't send your message — please email hello@shamil.dev directly.",
+          });
+        }
+      } else {
+        const rateLimitResult = await rateLimiter.limit({
+          key: context.clientAddress,
         });
+        if (!rateLimitResult.success) {
+          throw new ActionError({
+            code: "TOO_MANY_REQUESTS",
+            message: "Too many messages sent — please try again in a minute.",
+          });
+        }
       }
 
       const resendResponse = await fetch("https://api.resend.com/emails", {
