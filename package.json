@@ -7,14 +7,14 @@
   },
   "packageManager": "pnpm@11.10.0",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
+    "dev": "wrangler types && astro dev",
+    "build": "wrangler types && astro build",
+    "preview": "wrangler types && astro preview",
     "astro": "astro",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "astro check",
+    "typecheck": "wrangler types && astro check",
     "stylelint": "stylelint \"src/**/*.{css,astro}\"",
     "a11y": "node scripts/a11y-check.mjs",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm stylelint"

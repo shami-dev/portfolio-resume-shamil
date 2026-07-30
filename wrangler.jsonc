@@ -9,4 +9,17 @@
     // to /about instead of the Cloudflare default (auto-trailing-slash).
     "html_handling": "drop-trailing-slash",
   },
+  // Per-IP throttle for the contact action (src/actions/index.ts). Counters
+  // are per-Cloudflare-location and eventually consistent — a deterrent,
+  // not an accounting system (Cloudflare's own framing).
+  "ratelimits": [
+    {
+      "name": "CONTACT_RATE_LIMIT",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 3,
+        "period": 60,
+      },
+    },
+  ],
 }

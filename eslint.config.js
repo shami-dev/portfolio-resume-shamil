@@ -20,6 +20,12 @@ export default defineConfig([
     },
   },
   {
-    ignores: ["dist/**", ".astro/**", "node_modules/**"],
+    ignores: [
+      "dist/**",
+      ".astro/**",
+      ".wrangler/**",
+      "node_modules/**",
+      "worker-configuration.d.ts",
+    ],
   },
 ]);

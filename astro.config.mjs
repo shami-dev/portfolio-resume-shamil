@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig, envField, fontProviders } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
 
@@ -23,6 +23,15 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: "compile",
   }),
+
+  // Typed, server-only access to the Resend key from the contact action
+  // (src/actions/index.ts) via `astro:env/server`. `validateSecrets` stays
+  // at its default (false) so a build without the secret still succeeds.
+  env: {
+    schema: {
+      RESEND_API_KEY: envField.string({ context: "server", access: "secret" }),
+    },
+  },
 
   // Standalone prefetch — no <ClientRouter /> involved. 11 small pages, so
   // prefetch every internal link on hover rather than opting in per-link.
