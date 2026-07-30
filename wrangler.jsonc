@@ -2,6 +2,11 @@
   "name": "portfolio-resume-shamil",
   "compatibility_date": "2026-06-04",
   "assets": {
-    "directory": "./dist",
+    // @astrojs/cloudflare nests static output under dist/client (dist/server
+    // holds the worker bundle, unused while every page stays prerendered).
+    "directory": "./dist/client",
+    // Matches trailingSlash: "never" in astro.config.mjs: /about/ redirects
+    // to /about instead of the Cloudflare default (auto-trailing-slash).
+    "html_handling": "drop-trailing-slash",
   },
 }

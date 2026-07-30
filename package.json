@@ -20,6 +20,7 @@
     "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm stylelint"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^14.1.6",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.1.3"
   },
@@ -40,6 +41,6 @@
     "stylelint-declaration-strict-value": "^1.11.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.65.0",
-    "wrangler": "^4.113.0"
+    "wrangler": "^4.115.0"
   }
 }

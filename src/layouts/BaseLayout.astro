@@ -16,7 +16,11 @@ const { title, description, motion = false, noindex = false } = Astro.props;
 // Built from `site` (astro.config.mjs) rather than the request URL, so
 // canonical/OG stay on the production origin no matter which host served
 // the page (dev, preview, *.workers.dev).
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+// Astro.url.pathname always carries a trailing slash under the default
+// build.format ("directory"), regardless of `trailingSlash` — stripped
+// here to match the site's clean-URL convention (trailingSlash: "never").
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const canonical = new URL(pathname, Astro.site).href;
 ---
 
 <!doctype html>
