@@ -12,36 +12,85 @@ import TickRule from "../components/TickRule.astro";
 import Placeholder from "../components/Placeholder.astro";
 import Footer from "../components/Footer.astro";
 
-const title = "About — 14 years, one arc · Shamil Khaibullov";
-const description =
-  "CAD engineer → design-team manager → 500+ ATMs at 97%+ uptime → web. The arc is the argument. Resume as a direct PDF.";
-
-const stations = [
+// Roles only — the Jun 2018–Feb 2020 gap (unfinished CS Master's,
+// redirected into Automotive Engineering, no Germany semester) is
+// deliberately omitted from this timeline rather than shown as a 5th
+// station. Durations/offsets are computed from these dates rather than
+// hand-typed, so the "WEB — NOW" duration and the total-years figure
+// above the track stay correct as the site rebuilds over time instead
+// of quietly going stale (previously hardcoded as "4 YRS", off by
+// roughly a year against the real Dec 2009 start).
+const roles = [
   {
     label: "CAD ENGINEER",
-    sub: "4 YRS · IC",
-    offset: "0%",
+    note: "IC",
+    start: new Date(2009, 11, 1),
+    end: new Date(2013, 1, 1),
     accent: false,
   },
   {
     label: "CAD MANAGER",
-    sub: "4 YRS · PROMOTED, LED TEAM",
-    offset: "28.5%",
+    note: "LED TEAM",
+    start: new Date(2013, 1, 1),
+    end: new Date(2018, 5, 1),
     accent: false,
   },
   {
-    label: "ATM RELIABILITY",
-    sub: "2 YRS · 97%+ UPTIME",
-    offset: "57%",
+    // Real title (not the thematic "ATM Reliability" paraphrase) — also
+    // just short enough, at this station's tight ~119px gap to the next
+    // one, to fit its line without wrapping. "97%+" (not "UPTIME") for
+    // the same reason on the sub line; the word itself is already in
+    // the prose paragraph above.
+    label: "IT EXPERT",
+    note: "97%+",
+    start: new Date(2020, 1, 1),
+    end: new Date(2022, 2, 1),
     accent: false,
   },
   {
     label: "WEB — NOW",
-    sub: "4 YRS · REACT/TS",
-    offset: "71.5%",
+    note: "REACT/TS",
+    start: new Date(2022, 3, 1),
+    end: new Date(),
     accent: true,
   },
 ] as const;
+
+const MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000;
+const yearsBetween = (a: Date, b: Date) =>
+  (b.getTime() - a.getTime()) / MS_PER_YEAR;
+const formatDuration = (years: number) => {
+  const wholeYears = Math.floor(years);
+  const months = Math.round((years - wholeYears) * 12);
+  if (months === 0) return `${wholeYears}Y`;
+  if (months === 12) return `${wholeYears + 1}Y`;
+  return `${wholeYears}Y ${months}MO`;
+};
+
+const durations = roles.map((r) => yearsBetween(r.start, r.end));
+const totalYears = durations.reduce((sum, y) => sum + y, 0);
+const totalYearsRounded = Math.round(totalYears);
+
+let cumulative = 0;
+const stations = roles.map((role, i) => {
+  const offset = (cumulative / totalYears) * 100;
+  cumulative += durations[i];
+  return {
+    label: role.label,
+    sub: `${formatDuration(durations[i])} · ${role.note}`,
+    offset: `${offset.toFixed(1)}%`,
+    accent: role.accent,
+  };
+});
+
+const title = `About — ${totalYearsRounded} years, one arc · Shamil Khaibullov`;
+const description =
+  "CAD engineer → design-team manager → 500+ ATMs at 97%+ uptime → web. The arc is the argument. Resume as a direct PDF.";
+
+// Same source as the timeline, rounded for prose — so this sentence
+// can't drift out of sync with the stations again the way "4 years / 4
+// more / 2 years" had (real durations are 3y2mo / 5y4mo / 2y1mo).
+const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 ---
 
 <BaseLayout title={title} description={description} motion>
@@ -73,18 +122,18 @@ const stations = [
         <h1 class="h1-case" data-register>The arc is the argument.</h1>
         <p class="prose about-body" data-register>
           I'm a web developer in Porto building fast, accessible
-          React/TypeScript applications. Before development: 4 years as a CAD
-          engineer, 4 more managing the design team, then 2 years keeping 500+
-          ATM and payment-kiosk systems at 97%+ uptime. That arc — IC to lead to
-          reliability — is where the instinct for ownership and end-to-end
-          responsibility comes from. I've carried it into web work since:
-          running the technical infrastructure behind international conferences
-          serving 500+ attendees across 15 countries, usually as the only person
-          responsible for the whole stack, alongside sites built for real
-          organizations and individuals with real deadlines — conferences,
-          election campaigns — and self-directed projects integrating AI into
-          working products. Schengen residence card, Portuguese work permit;
-          remote and cross-border B2B across the EU.
+          React/TypeScript applications. Before development: {cadYears} years as a
+          CAD engineer, {managerYears} more managing the design team, then {
+            atmYears
+          } years keeping 500+ ATM and payment-kiosk systems at 97%+ uptime. That
+          arc — IC to lead to reliability — is where the instinct for ownership and
+          end-to-end responsibility comes from. I've carried it into web work since:
+          running the technical infrastructure behind international conferences serving
+          500+ attendees across 15 countries, usually as the only person responsible
+          for the whole stack, alongside sites built for real organizations and individuals
+          with real deadlines — conferences, election campaigns — and self-directed
+          projects integrating AI into working products. Schengen residence card,
+          Portuguese work permit; remote and cross-border B2B across the EU.
         </p>
       </div>
       <Placeholder
@@ -96,7 +145,7 @@ const stations = [
     </div>
 
     <div class="klab about-track-label" data-register>
-      CAREER TRACK — 14 YEARS ON ONE SCALE · STATION MARKS AT TRANSITIONS
+      CAREER TRACK — {totalYearsRounded} YEARS ON ONE SCALE · STATION MARKS AT TRANSITIONS
     </div>
 
     <div class="about-track" data-register="lg">
@@ -223,10 +272,24 @@ const stations = [
   .track-mark-accent {
     background: var(--green);
   }
+  /* .track-station has no explicit width (nothing needs one — .track-mark
+     is a fixed 4px, and this label is absolutely positioned so it takes
+     itself out of the shrink-to-fit calculation)... except that "taking
+     itself out" cuts both ways: .track-label's own containing block IS
+     .track-station, so with no in-flow sibling wider than 4px, its
+     available width collapsed to ~4px too — forcing even "CAD ENGINEER"
+     to wrap onto four lines. width: max-content sizes it off its own
+     content instead of that collapsed parent. max-width is a ceiling,
+     not the binding constraint for any station today — IT EXPERT sits
+     only ~119px (≈14% of the track) from WEB — NOW, which is why that
+     station's label/note were kept short enough to clear it unwrapped;
+     a longer label there would need this number revisited. */
   .track-label {
     position: absolute;
     left: 0;
     bottom: 43px; /* mock 26px x1.636 */
+    width: max-content;
+    max-width: 140px;
   }
   .track-label-name {
     font-family: var(--font-mono);
@@ -244,8 +307,8 @@ const stations = [
   }
 
   /* Below 40rem, the percentage-offset stations sit too close together
-     for real (F-02-floor) text — "ATM RELIABILITY" and "WEB — NOW" are
-     only 14.5% apart and start colliding. Same pattern as the
+     for real (F-02-floor) text — IT EXPERT and WEB — NOW are only ~14%
+     apart and start colliding. Same pattern as the
      evidence-figs stack: fall back to a plain vertical list instead of
      forcing the desktop ruled-track geometry into a column too narrow
      for it. */
