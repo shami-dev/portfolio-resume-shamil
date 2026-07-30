@@ -11,6 +11,15 @@
 // No option is marked checked in the markup: pages are prerendered, so any
 // hardcoded default would render wrong for anyone whose mode differs. The
 // script below checks the live one once it runs.
+//
+// mode-switch-label duplicates the legend's text, visually, for the
+// mobile pre-footer placement (Phase 5b 6.0 §4) — <legend> renders as a
+// special box that straddles the fieldset's own top border by design
+// (confirmed via getBoundingClientRect: legend.top === fieldset.top),
+// independent of the fieldset's display value, so un-hiding the real
+// legend there cut a visible notch through the border instead of sitting
+// above it. The legend itself stays permanently visually-hidden; this
+// span is aria-hidden so the accessible name isn't announced twice.
 const modes = [
   { value: "light", label: "LIGHT" },
   { value: "anoitecer", label: "ANOITECER" },
@@ -18,8 +27,9 @@ const modes = [
 ] as const;
 ---
 
+<span class="mode-switch-label" aria-hidden="true">THEME — SITE-WIDE</span>
 <fieldset class="mode-switch">
-  <legend class="visually-hidden">Color mode</legend>
+  <legend class="visually-hidden">THEME — SITE-WIDE</legend>
   {
     modes.map((mode) => (
       <label class="mode-seg">

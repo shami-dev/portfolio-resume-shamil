@@ -857,6 +857,49 @@ a:hover {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
+
+/* Theme control -> pre-footer (Phase 5b 6.0 §4). Desktop hosts it in the
+   rail's bottom slot; the rail is gone on mobile (Home dissolves, interior
+   pages collapse behind the scan bar), so it moves to the slot right
+   above the footer text on EVERY page instead — a 44px full-width
+   segmented cell. Rationale in the design doc: theme is a set-once
+   preference, not a per-visit control, and the pre-footer is the rail-
+   bottom's closest analog (end of the scan path). .mode-switch-label
+   (see ModeSwitch.astro) stands in for the real <legend>, which cannot
+   be un-hidden cleanly — it renders straddling the fieldset's own
+   border by design, not above it, regardless of display value. */
+.mode-switch-label {
+  display: none;
+}
+@media (width < 48rem) {
+  .mode-switch,
+  .mode-switch-label {
+    order: -1;
+  }
+  .mode-switch {
+    width: 100%;
+  }
+  .mode-switch-label {
+    display: block;
+    width: 100%;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: var(--fs-mono);
+    letter-spacing: var(--ls-widest);
+    color: var(--label);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .mode-seg {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 8px;
+  }
+}
+
 /* --- Nav rows (drafting register) -------------------------------------- */
 .nav {
   display: flex;
@@ -1235,6 +1278,43 @@ a.dcard {
 .ftl-link:hover,
 .ftl-link:focus-visible {
   color: var(--blue-hover);
+}
+
+/* Footer -> pre-footer theme slot (Phase 5b 6.0 §4, mobile). .ft's three
+   children are always [left slot, ModeSwitch, right slot] in that DOM
+   order, so :first-child/:last-child reliably mean "the left slot" and
+   "the right slot" regardless of what a page put there. */
+@media (width < 48rem) {
+  .ft {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Case pages only: both slots are real prev/next links (every other
+     page's Footer has at least one plain <span> in a slot), so this
+     :has() pair reaches exactly the "footer IS a nav pair" shape 6.3's
+     "PREV / NEXT — FOOTER PAIR" describes, without a page-specific class.
+     Two >=48px bordered cells side by side, theme control full-width
+     below them (order: 1, not the usual -1). */
+  .ft:has(> a.ftl:first-child):has(> a.ftl:last-child) {
+    flex-flow: row wrap;
+    gap: 6px;
+  }
+  .ft:has(> a.ftl:first-child):has(> a.ftl:last-child) > a.ftl {
+    flex: 1 1 calc(50% - 3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    font-weight: 600;
+    text-align: center;
+  }
+  .ft:has(> a.ftl:first-child):has(> a.ftl:last-child) .mode-switch {
+    order: 1;
+    flex: 1 1 100%;
+  }
 }
 
 /* --- Reserved-ratio placeholder (CLS 0) -------------------------------- */
