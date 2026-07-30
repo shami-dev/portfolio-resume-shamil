@@ -1,13 +1,25 @@
 ---
 // 404 (Phase 5 §5.5) — MINIMAL, no grid, "one cell, one beat": a single
-// centered card, no Rail/Nav chrome at all (this page intentionally
-// breaks from every other page's rail+column layout). Static output
-// (astro.config.mjs) prerenders this as 404.html, which Cloudflare Pages
-// serves with a real 404 status for unmatched routes — noindex here
-// plus the sitemap's own filter (astro.config.mjs) keep it out of
-// search results (Phase 7 F-11). Verify the real 404 status against the
-// actual Cloudflare deploy, not just astro dev/build.
+// centered card, no Rail/Nav chrome at desktop or tablet (this page
+// intentionally breaks from every other page's rail+column layout).
+// Static output (astro.config.mjs) prerenders this as 404.html, which
+// Cloudflare Pages serves with a real 404 status for unmatched routes —
+// noindex here plus the sitemap's own filter (astro.config.mjs) keep it
+// out of search results (Phase 7 F-11). Verify the real 404 status
+// against the actual Cloudflare deploy, not just astro dev/build.
+//
+// Phase 5b M-P11 adds mobile-only chrome — a header bar and the fixed
+// bottom nav — so 404 isn't the one page with no way back or to switch
+// theme on a phone. Rail and ModeSwitch render unconditionally but stay
+// display: none above 48rem (see the style block), so desktop/tablet are
+// pixel-identical to before this page had them in its markup at all.
+// Per Phase 5b flag F6: no scan accordion here (label only, no `scan`
+// slot) — this page has no scan job, and all four bottom-nav tabs render
+// inactive since neither 404 nor Colophon is a nav destination.
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Rail from "../components/Rail.astro";
+import Nav from "../components/Nav.astro";
+import ModeSwitch from "../components/ModeSwitch.astro";
 import TickRule from "../components/TickRule.astro";
 
 const title = "Record not found";
@@ -16,6 +28,9 @@ const description =
 ---
 
 <BaseLayout title={title} description={description} noindex>
+  <Rail label="S.K. / 404" class="rail-404">
+    <Nav />
+  </Rail>
   <div class="notfound">
     <div class="cell notfound-cell">
       <h1 class="notfound-label">RECORD NOT FOUND</h1>
@@ -27,9 +42,32 @@ const description =
       </div>
     </div>
   </div>
+  <div class="notfound-theme">
+    <ModeSwitch />
+  </div>
 </BaseLayout>
 
 <style>
+  /* Hidden above 48rem — .notfound already carries flex: 1, so with
+     .rail-404 taking no box a hidden rail leaves .sheet's flex row with
+     exactly the one visible child it had before this page had a Rail at
+     all, full width, centered, unchanged. */
+  .rail-404 {
+    display: none;
+  }
+  .notfound-theme {
+    display: none;
+  }
+  @media (width < 48rem) {
+    .rail-404 {
+      display: flex;
+    }
+    .notfound-theme {
+      display: block;
+      padding: 0 var(--col-pad) var(--space-4);
+    }
+  }
+
   .notfound {
     flex: 1;
     display: flex;
