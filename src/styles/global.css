@@ -511,6 +511,14 @@ a:hover {
      keeps the desktop inset. */
   :root {
     --col-pad: var(--space-4);
+    /* Phase 5b flag F3, adopted: the desktop 18px case-prose floor runs
+       ~34 characters per line at 358px, below the 45-75 comfortable
+       range, and lengthens the densest case pages by roughly another
+       half-viewport. 16px/1.6 (the existing --lh-body) holds ~46
+       characters. Redefining the token, not overriding .prose alone: it
+       reaches .hero-body, .case-lede-metrics and .result-metrics too,
+       matching 6.0 §6's "body & case prose 16px" as one floor, not two. */
+    --fs-prose: 1rem;
   }
   /* position/z-index here are not layout — they order this whole subtree
      against .col, which is what keeps the fixed bottom bar (.nav, below)
@@ -1157,6 +1165,25 @@ a.dcard {
   font-size: var(--fs-mono-md); /* 14px, mock 8.5px */
   color: var(--label);
 }
+
+/* M-P1/M-P2: .mrow's two-column row (kicker/title on the left, duration/
+   metric on the right) becomes a single flow at mobile. The same
+   `display: block` produces two different results because the two pages
+   nest different element types as .mrow's children: Home's DecisionCard
+   wraps both in <span>s (inline), so kicker and duration run together as
+   one wrapping line; work-index wraps kicker+title in a <div> (block),
+   so work-metric — the sibling after it — drops to its own line below,
+   exactly the M-P2 reflow, with no page-specific rule needed. Scoped to
+   a.dcard.is-hoverable, so Home's own "SELECTED DECISIONS" .mrow (not
+   inside a card) keeps its desktop flex row. */
+@media (width < 48rem) {
+  a.dcard.is-hoverable .mrow {
+    display: block;
+  }
+  .dcard-duration::before {
+    content: " · ";
+  }
+}
 .status-chip {
   font-family: var(--font-mono);
   font-weight: 600;
@@ -1241,6 +1268,57 @@ a.dcard {
   font-size: var(--fs-mono-md); /* 14px, mock 8.5px */
   color: var(--label);
   letter-spacing: var(--ls-widest);
+}
+
+/* Case detail reflow (Phase 5b 6.3): the D/E/R rhythm is held verbatim —
+   same cards, same colors, same weights — only the mechanics of two
+   patterns change at 390px. */
+@media (width < 48rem) {
+  /* PROBLEM/CONSTRAINT: desktop sets the sepia label in a column beside
+     the prose; at 358px that column leaves ~250px of text, so the label
+     lifts above a full-measure paragraph instead. */
+  .block {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* D/E/R padding tightens so the 4px radius still reads at this scale.
+     Split in two: Home's preview cards and work-index's rows (both
+     a.dcard.is-hoverable, always live links) get one value; the case
+     page's own DECISION/EVIDENCE/RESULT blocks (.dcard used without
+     .is-hoverable — the static DECISION card and, on /work/ai-projects,
+     the STATUS variant that swaps in for RESULT — plus .evidence and
+     .result directly) get another, both mock values from the same
+     doc section but scaled from different desktop numbers. */
+  a.dcard.is-hoverable {
+    padding: 12px 14px;
+  }
+  .dcard:not(.is-hoverable),
+  .evidence,
+  .result {
+    padding: 13px 14px;
+  }
+
+  /* LESSON is the only element between RESULT and the footer at this
+     width and has to hold its own without a border — up from the
+     desktop-relative 22px/13.5px-mock weight to a flat 17px. */
+  .lesson {
+    font-size: 1.0625rem;
+  }
+}
+
+/* Hero figure (WIDE/HERO family, Phase 5b 6.0 §5): ratio tightens
+   16:7 -> 16:9 on mobile. A class, not the page's inline
+   `style="aspect-ratio: ..."` — inline styles win over any stylesheet
+   rule regardless of specificity, so the mobile value has nowhere to
+   attach unless the property lives in CSS to begin with. */
+.hero-fig {
+  aspect-ratio: 16 / 7;
+}
+@media (width < 48rem) {
+  .hero-fig {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 /* --- Footer ------------------------------------------------------------ */

@@ -94,7 +94,7 @@ const [lighthouse, ...banners] = evidence.figures;
     <Placeholder
       slug={hero.slug}
       kind={hero.kind}
-      style="aspect-ratio: 16 / 7"
+      class="hero-fig"
       data-register="lg"
     />
 
@@ -125,12 +125,18 @@ const [lighthouse, ...banners] = evidence.figures;
         <Placeholder
           slug={lighthouse.slug}
           kind={lighthouse.kind}
-          style="height: 180px; flex: 1.4"
+          class="lighthouse-fig"
+          style="height: 180px"
         />
         <div class="evidence-fig-stack">
           {
             banners.map((fig) => (
-              <Placeholder slug={fig.slug} kind={fig.kind} style="flex: 1" />
+              <Placeholder
+                slug={fig.slug}
+                kind={fig.kind}
+                class="banner-fig"
+                style="flex: 1"
+              />
             ))
           }
         </div>
@@ -210,10 +216,46 @@ const [lighthouse, ...banners] = evidence.figures;
   /* Lighthouse (wide) + a stacked pair of banner figures, mock gap 10px
      x1.636 -> 16px between the two banners, same 1.4 flex weight as the
      mock's wider Lighthouse plate. Stack fills the row's cross-size via
-     the row's default stretch. */
+     the row's default stretch.
+
+     Lighthouse's flex weight lives here, in CSS, rather than inline
+     alongside its height: 180px — a flex-basis (what the `1.4` in
+     `flex: 1.4` sets) overrides an explicit height on the main axis
+     whenever both are definite values, and inline styles always beat a
+     stylesheet rule regardless of specificity or !important-free media
+     queries, so the mobile override below couldn't reach a `flex`
+     declared inline. Confirmed empirically: it rendered at 50px, not
+     180px, until flex-basis moved out here where a plain mobile-band
+     rule can reach it. */
+  .lighthouse-fig {
+    flex: 1.4;
+  }
   .evidence-fig-stack {
     display: flex;
     flex-direction: column;
     gap: 16px;
+  }
+
+  /* Phase 5b 6.3c: the nested stack flattens into the same vertical run
+     as the Lighthouse plate — three images, one rhythm — rather than a
+     sub-group inside it; the 1.4 flex weight on Lighthouse is already
+     meaningless once .evidence-figs (global.css) goes column, so it's
+     reset to `none`, letting its own explicit height: 180px (inline,
+     unaffected by column vs row either way) govern instead. The
+     banners' height came entirely from row-stretch against Lighthouse,
+     which a column layout has no equivalent for — aspect-ratio replaces
+     it, relaxed to ~3.2:1 per the BANNER family spec (6.0 §5) so the
+     strip stays readable at full width instead of running as tall as
+     the crop happens to be. */
+  @media (width < 48rem) {
+    .evidence-fig-stack {
+      display: contents;
+    }
+    .banner-fig {
+      aspect-ratio: 3.2 / 1;
+    }
+    .lighthouse-fig {
+      flex: none;
+    }
   }
 </style>

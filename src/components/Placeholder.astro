@@ -10,10 +10,11 @@ interface Props extends HTMLAttributes<"div"> {
   kind: string; // e.g. "WIDE / HERO — 16:7 DESKTOP · 16:9 MOBILE"
 }
 
-const { slug, kind, ...rest } = Astro.props;
+const { slug, kind, class: className, ...rest } = Astro.props;
+const phClass = ["ph", className].filter(Boolean).join(" ");
 ---
 
-<div class="ph" {...rest}>
+<div class={phClass} {...rest}>
   <span class="ph-slug">[ {slug} ]</span>
   <span class="ph-kind">{kind}</span>
 </div>

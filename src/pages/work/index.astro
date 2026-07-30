@@ -167,6 +167,19 @@ const description =
     white-space: nowrap;
   }
 
+  /* M-P2: the metric drops to its own line below the title (see .mrow's
+     mobile rule in global.css) — nowrap no longer needs to protect it
+     from squeezing against the title in the same row, and the longest
+     metric string (AI projects', "OpenAI · iterating") would overflow
+     the 390px card unwrapped. */
+  @media (width < 48rem) {
+    .work-metric {
+      display: block;
+      white-space: normal;
+      margin-top: 4px;
+    }
+  }
+
   /* Mock margin-top "3px" x1.636 */
   .work-desc {
     margin-top: 5px;
