@@ -94,21 +94,23 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 ---
 
 <BaseLayout title={title} description={description} motion>
-  <Rail>
-    <div class="cell">
-      <div class="clab">NAME</div>
-      <div class="cell-name">Shamil Khaibullov</div>
-    </div>
-    <div class="cell-pair">
+  <Rail label="S.K. / ABOUT">
+    <Fragment slot="scan">
       <div class="cell">
-        <div class="clab">LOC</div>
-        <div class="cell-val-mono">Porto, PT</div>
+        <div class="clab">NAME</div>
+        <div class="cell-name">Shamil Khaibullov</div>
       </div>
-      <div class="cell">
-        <div class="clab">AUTH</div>
-        <div class="cell-val-mono">EU permit</div>
+      <div class="cell-pair">
+        <div class="cell">
+          <div class="clab">LOC</div>
+          <div class="cell-val-mono">Porto, PT</div>
+        </div>
+        <div class="cell">
+          <div class="clab">AUTH</div>
+          <div class="cell-val-mono">EU permit</div>
+        </div>
       </div>
-    </div>
+    </Fragment>
     <Nav current="about" />
     <div class="rail-foot">
       <a href="/resume.pdf" class="resume-btn">RESUME.PDF ↓</a>

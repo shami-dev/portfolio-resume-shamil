@@ -52,29 +52,31 @@ if (result?.error) {
 ---
 
 <BaseLayout title={title} description={description} motion>
-  <Rail>
-    <div class="cell">
-      <div class="clab">NAME</div>
-      <div class="cell-name">Shamil Khaibullov</div>
-    </div>
-    <div class="cell-pair">
+  <Rail label="S.K. / CONTACT">
+    <Fragment slot="scan">
       <div class="cell">
-        <div class="clab">LOC</div>
-        <div class="cell-val-mono">Porto, PT</div>
+        <div class="clab">NAME</div>
+        <div class="cell-name">Shamil Khaibullov</div>
       </div>
-      <div class="cell">
-        <div class="clab">AUTH</div>
-        <div class="cell-val-mono">EU permit</div>
+      <div class="cell-pair">
+        <div class="cell">
+          <div class="clab">LOC</div>
+          <div class="cell-val-mono">Porto, PT</div>
+        </div>
+        <div class="cell">
+          <div class="clab">AUTH</div>
+          <div class="cell-val-mono">EU permit</div>
+        </div>
       </div>
-    </div>
+      <div class="rail-foot">
+        <p class="contact-avail">
+          AVAILABLE — ROLES + CONTRACTS<br />
+          REMOTE / EU B2B<br />
+          RESPONDS &lt; 24H
+        </p>
+      </div>
+    </Fragment>
     <Nav current="contact" />
-    <div class="rail-foot">
-      <p class="contact-avail">
-        AVAILABLE — ROLES + CONTRACTS<br />
-        REMOTE / EU B2B<br />
-        RESPONDS &lt; 24H
-      </p>
-    </div>
   </Rail>
 
   <div class="col contact">

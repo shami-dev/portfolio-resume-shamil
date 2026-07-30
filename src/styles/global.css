@@ -427,6 +427,24 @@ a:hover {
   margin-top: 4px;
 }
 
+/* --- Scan accordion (Phase 5b 6.0 §1-2, mobile-only interaction) -------
+   Desktop and tablet: both wrappers flatten via display: contents, so
+   .scan-panel's children (the cells + .rail-foot a page passes into the
+   `scan` slot) become ordinary flex items of .rail — same box tree as
+   before this existed. .scan-bar/.scan-bar-static render nowhere here.
+   Nesting rail-foot inside the scan slot puts it ahead of Nav in raw DOM
+   order (the slot only wraps the cells otherwise), so :has() restores the
+   original cells -> Nav -> rail-foot order without touching Home, whose
+   Rail never renders a `.scan` element. */
+.scan,
+.scan-panel {
+  display: contents;
+}
+.scan-bar,
+.scan-bar-static {
+  display: none;
+}
+
 /* Rail -> full-width header band below lg. TABLET BAND — structural only:
    the sheet stacks and the rail spans full width, swapping its right
    border for a bottom one. Everything about how the header reads
@@ -467,12 +485,14 @@ a:hover {
     flex-flow: row wrap;
     align-items: flex-start;
   }
-  .rail > .rail-head,
-  .rail > .scan-panel {
+  .rail > .rail-head {
     flex: 1 1 22rem;
   }
-  /* Without a basis these size to content, and "4-5 mo" wraps mid-value
-     in a cell with room to spare beside it. */
+  /* .scan-panel is display: contents (see the structural rule above), so
+     a flex-basis on it has nothing to size — its children are the real
+     flex items here. RECORD/ROLE size to content and wrap on their own;
+     only the pair needs a basis, because without one "4-5 mo" wraps
+     mid-value in a cell with room to spare beside it. */
   .rail > .cell-pair {
     flex: 1 1 18rem;
   }
@@ -623,6 +643,65 @@ a:hover {
     color: var(--label);
     text-transform: uppercase;
   }
+
+  /* Scan bar — the 48px collapsed header for interior pages (Phase 5b
+     6.0 §1-2). Mock: page label left, "▸ ID" right, sharp corners, same
+     register as .nrow. min-height 48px clears the >=44px target Phase 5b
+     requires for the toggle. */
+  .scan-bar,
+  .scan-bar-static {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 48px;
+    padding: 0 14px;
+    border-bottom: 1.5px solid var(--bd-rule);
+    background: none;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: var(--fs-mono-lg);
+    letter-spacing: var(--ls-wide);
+  }
+  .scan-bar {
+    width: 100%;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    cursor: pointer;
+  }
+  .scan-bar:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: -2px;
+  }
+  .scan-label {
+    color: var(--ink);
+  }
+  .scan-cue {
+    color: var(--blue);
+  }
+  .scan-cue::before {
+    content: "▸ ID";
+  }
+  .scan-bar[aria-expanded="true"] .scan-cue::before {
+    content: "▾ ID";
+  }
+
+  /* Panel: real box again (no longer display: contents), so [hidden]
+     needs an explicit override — the structural .scan-panel rule above
+     has higher specificity than the UA's own `[hidden] { display: none }`
+     and would otherwise keep showing it. Cells inside keep their base
+     bordered-box styling; only .rail > .cell (Home's merged header) was
+     ever stripped of it. */
+  .scan-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+  .scan-panel[hidden] {
+    display: none;
+  }
 }
 
 /* --- Mode switch (hard-control register: sharp corners) ---------------- */
@@ -664,6 +743,19 @@ a:hover {
   display: flex;
   flex-direction: column;
   margin-top: 4px;
+}
+/* Interior pages nest .rail-foot inside the scan slot (see the structural
+   .scan rules above), which puts it ahead of Nav in raw DOM order — these
+   restore the original cells -> Nav -> rail-foot sequence wherever an
+   accordion is present. Scoped with :has() rather than unconditionally so
+   Home, whose Rail never renders a `.scan` element, is untouched. Placed
+   after the base .nav/.rail-foot rules so stylelint's specificity-order
+   check reads it as the (correctly) more specific override it is. */
+.rail:has(.scan) .nav {
+  order: 1;
+}
+.rail:has(.scan) .rail-foot {
+  order: 2;
 }
 .nrow,
 .nrow-a {
@@ -746,7 +838,7 @@ a:hover {
   .nav {
     position: fixed;
     inset: auto 0 0;
-    flex: none;
+    flex-direction: row;
     margin-top: 0;
     min-height: 56px; /* used if env() is unsupported and height drops out */
     height: calc(56px + env(safe-area-inset-bottom));
@@ -756,11 +848,18 @@ a:hover {
   }
   .nrow,
   .nrow-a {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: var(--fs-mono);
     padding: 0;
+  }
+  .nrow {
+    border-bottom: 0;
+  }
+  .nav > * + * {
+    border-left: 1px solid var(--bd-hair);
   }
   /* Keep the end of the page clear of the bar. */
   body {

@@ -31,51 +31,53 @@ const {
 ---
 
 <BaseLayout title={seo.title} description={seo.description} motion>
-  <Rail>
-    <div class="cell">
-      <div class="clab">RECORD</div>
-      <div class="cell-name">{rail.record}</div>
-    </div>
-    <div class="cell">
-      <div class="clab">ROLE</div>
-      <div class="cell-val">
-        {rail.role}
+  <Rail label={rail.record}>
+    <Fragment slot="scan">
+      <div class="cell">
+        <div class="clab">RECORD</div>
+        <div class="cell-name">{rail.record}</div>
       </div>
-    </div>
-    <div class="cell-pair">
-      {
-        rail.cellPair.map((cell) => (
-          <div class="cell">
-            <div class="clab">{cell.label}</div>
-            <div
-              class="cell-val-mono"
-              style={cell.accent ? "color: var(--blue-raised)" : undefined}
-            >
-              {cell.value}
+      <div class="cell">
+        <div class="clab">ROLE</div>
+        <div class="cell-val">
+          {rail.role}
+        </div>
+      </div>
+      <div class="cell-pair">
+        {
+          rail.cellPair.map((cell) => (
+            <div class="cell">
+              <div class="clab">{cell.label}</div>
+              <div
+                class="cell-val-mono"
+                style={cell.accent ? "color: var(--blue-raised)" : undefined}
+              >
+                {cell.value}
+              </div>
             </div>
-          </div>
-        ))
-      }
-    </div>
-    <Nav current="work" workSuffix={rail.navWorkSuffix} />
-    <div class="rail-foot">
-      <div class="clab">TOOLS</div>
-      <div class="rail-chips" style="margin-top: 4px">
-        {rail.tools.map((tool) => <span class="stk">{tool}</span>)}
+          ))
+        }
       </div>
-      {
-        rail.link && (
-          <a
-            href={rail.link.href}
-            class="rail-link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {rail.link.label}
-          </a>
-        )
-      }
-    </div>
+      <div class="rail-foot">
+        <div class="clab">TOOLS</div>
+        <div class="rail-chips" style="margin-top: 4px">
+          {rail.tools.map((tool) => <span class="stk">{tool}</span>)}
+        </div>
+        {
+          rail.link && (
+            <a
+              href={rail.link.href}
+              class="rail-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {rail.link.label}
+            </a>
+          )
+        }
+      </div>
+    </Fragment>
+    <Nav current="work" workSuffix={rail.navWorkSuffix} />
   </Rail>
 
   <div class="mm col case">

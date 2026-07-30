@@ -19,11 +19,13 @@ const description =
 ---
 
 <BaseLayout title={title} description={description} motion>
-  <Rail>
-    <div class="cell">
-      <div class="clab">PAGE</div>
-      <div class="cell-name">Colophon</div>
-    </div>
+  <Rail label="S.K. / COLOPHON">
+    <Fragment slot="scan">
+      <div class="cell">
+        <div class="clab">PAGE</div>
+        <div class="cell-name">Colophon</div>
+      </div>
+    </Fragment>
     <Nav />
   </Rail>
 

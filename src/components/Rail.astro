@@ -3,13 +3,73 @@
 // varies meaningfully per page (Home: NAME/TITLE + stack chips + results;
 // case-detail: RECORD/ROLE + tools chips + link) — pages compose their own
 // cells/Nav/footer into this shared chrome rather than one rigid prop API.
+//
+// Phase 5b 6.0 §1-2: interior pages collapse their title-block cells (plus
+// whatever a page puts in .rail-foot — TOOLS, RESULTS) behind a 48px scan
+// bar on mobile. `label` + a `scan` slot opt a page into that; omitting
+// `scan` (404) renders `label` as a plain static bar instead — no
+// accordion, per Phase 5b flag F6 ("that page has no scan job").
+//
+// The panel's default state is CLOSED in the server-rendered markup — the
+// design doc's real default ("collapsed, never sticky-expanded") — and
+// desktop/tablet show it regardless via a CSS override on [hidden], so
+// there is no flash and no pre-paint script. A native <button> with
+// aria-expanded/aria-controls gives full keyboard access for free; an
+// earlier build's div-onClick toggle (unreachable by keyboard) is the
+// regression 6.0 §2 names directly.
 import type { HTMLAttributes } from "astro/types";
 
-type Props = HTMLAttributes<"aside">;
+type Props = HTMLAttributes<"aside"> & {
+  label?: string;
+};
 
-const rest = Astro.props as Props;
+const { label, class: className, ...rest } = Astro.props as Props;
+const hasScan = Astro.slots.has("scan");
+const railClass = ["rail", className].filter(Boolean).join(" ");
 ---
 
-<aside class="rail" {...rest}>
+<aside class={railClass} {...rest}>
+  {
+    hasScan && label ? (
+      <div class="scan">
+        <button
+          type="button"
+          class="scan-bar"
+          aria-expanded="false"
+          aria-controls="rail-scan-panel"
+        >
+          <span class="scan-label">{label}</span>
+          <span class="scan-cue" aria-hidden="true" />
+        </button>
+        <div class="scan-panel" id="rail-scan-panel" hidden>
+          <slot name="scan" />
+        </div>
+      </div>
+    ) : (
+      label && (
+        <div class="scan-bar scan-bar-static">
+          <span class="scan-label">{label}</span>
+        </div>
+      )
+    )
+  }
   <slot />
 </aside>
+
+<script>
+  // Rail renders once per page, so one pass is enough. Inert on
+  // desktop/tablet, where CSS shows .scan-panel regardless of [hidden].
+  document
+    .querySelectorAll<HTMLButtonElement>(".scan > .scan-bar")
+    .forEach((btn) => {
+      const panel = document.getElementById(
+        btn.getAttribute("aria-controls") ?? "",
+      );
+      if (!panel) return;
+      btn.addEventListener("click", () => {
+        const open = btn.getAttribute("aria-expanded") === "true";
+        btn.setAttribute("aria-expanded", String(!open));
+        panel.hidden = open;
+      });
+    });
+</script>
