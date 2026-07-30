@@ -1,24 +1,47 @@
 ---
 // Contact (Phase 5 §5.5) — MINIMAL, no grid, form primary (KPI 2).
 //
-// The form ships as real, validated markup — visible <label>s per
-// Phase 7 P0 fix #2 (placeholders alone fail contrast/vanish on
-// input) — but submission itself is deliberately not wired to a
-// backend yet (none has been chosen). It prevents default and shows
-// a status message pointing at the working channels (email, Calendly)
-// instead of faking a successful send. Umami event tracking
-// ("contact-form-submit" etc.) is out of scope here too — no
-// analytics script exists anywhere in the codebase yet; that's its
-// own integration decision, not part of this page.
+// Server-rendered on demand (`prerender = false`) so the `contact`
+// action (src/actions/index.ts) can run as a real POST — works with
+// JS disabled. Astro.getActionResult() renders the outcome server-side
+// on load; the <script> below intercepts the same submit for
+// JS-enabled clients so it doesn't reload the page. Visible <label>s
+// per Phase 7 P0 fix #2 (placeholders alone fail contrast/vanish on
+// input). Umami event tracking ("contact-form-submit" etc.) is still
+// out of scope — no analytics script exists anywhere in the codebase
+// yet; that's its own integration decision, not part of this page.
+export const prerender = false;
+
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Rail from "../components/Rail.astro";
 import Nav from "../components/Nav.astro";
 import TickRule from "../components/TickRule.astro";
 import Footer from "../components/Footer.astro";
+import { actions, isInputError } from "astro:actions";
 
 const title = "Contact — responds < 24h · Shamil Khaibullov";
 const description =
   "Message, book 20 minutes, or email directly. Roles and contracts — remote or EU B2B, from Porto with an EU work permit.";
+
+const result = Astro.getActionResult(actions.contact);
+const inputErrors = isInputError(result?.error) ? result.error.fields : {};
+
+// "✗"/"✓" glyphs match the copy-button's existing success/failure
+// convention below, so colour stays supplementary (WCAG 1.4.1) rather
+// than load-bearing — --maroon fails AA at this text size in anoitecer
+// (see the form-status[data-variant] rules), so the glyph carries the
+// meaning.
+let statusMessage = "";
+let statusVariant: "success" | "error" | undefined;
+if (result?.error) {
+  statusVariant = "error";
+  statusMessage = Object.keys(inputErrors).length
+    ? "✗ Please fix the highlighted field(s) below."
+    : `✗ ${result.error.message}`;
+} else if (result) {
+  statusVariant = "success";
+  statusMessage = "✓ Message sent — I'll reply within 24h.";
+}
 ---
 
 <BaseLayout title={title} description={description} motion>
@@ -53,7 +76,12 @@ const description =
     <div class="contact-row" data-register>
       <div class="cell contact-form-card">
         <div class="clab">MESSAGE — PRIMARY</div>
-        <form class="contact-form" id="contact-form">
+        <form
+          class="contact-form"
+          id="contact-form"
+          method="POST"
+          action={actions.contact}
+        >
           <div class="field">
             <label for="name" class="clab field-label">Name</label>
             <input
@@ -62,7 +90,16 @@ const description =
               type="text"
               class="field-input"
               required
+              aria-invalid={inputErrors.name ? "true" : undefined}
+              aria-describedby={inputErrors.name ? "name-error" : undefined}
             />
+            {
+              inputErrors.name && (
+                <p id="name-error" class="field-error" role="alert">
+                  {inputErrors.name.join(" ")}
+                </p>
+              )
+            }
           </div>
           <div class="field">
             <label for="email" class="clab field-label">Email</label>
@@ -72,7 +109,16 @@ const description =
               type="email"
               class="field-input"
               required
+              aria-invalid={inputErrors.email ? "true" : undefined}
+              aria-describedby={inputErrors.email ? "email-error" : undefined}
             />
+            {
+              inputErrors.email && (
+                <p id="email-error" class="field-error" role="alert">
+                  {inputErrors.email.join(" ")}
+                </p>
+              )
+            }
           </div>
           <div class="field">
             <label for="message" class="clab field-label">Message</label>
@@ -80,20 +126,44 @@ const description =
               id="message"
               name="message"
               class="field-input field-textarea"
-              required></textarea>
+              required
+              aria-invalid={inputErrors.message ? "true" : undefined}
+              aria-describedby={inputErrors.message
+                ? "message-error"
+                : undefined}></textarea>
+            {
+              inputErrors.message && (
+                <p id="message-error" class="field-error" role="alert">
+                  {inputErrors.message.join(" ")}
+                </p>
+              )
+            }
+          </div>
+          <div class="field visually-hidden" aria-hidden="true">
+            <label for="company" class="clab field-label">Company</label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              class="field-input"
+              tabindex="-1"
+              autocomplete="off"
+            />
           </div>
           <button type="submit" class="send-btn">SEND →</button>
           <p
             class="form-status"
             id="form-status"
+            data-variant={statusVariant}
             role="status"
             aria-live="polite"
           >
+            {statusMessage}
           </p>
         </form>
         <p class="contact-privacy">
-          Name, email, and message are collected only to reply to your inquiry —
-          never shared, never stored longer than needed to respond.
+          Name, email, and message are sent via Resend only to reply to your
+          inquiry — never shared, never stored longer than needed to respond.
         </p>
       </div>
 
@@ -155,16 +225,37 @@ const description =
 </BaseLayout>
 
 <script>
+  import { actions, isInputError } from "astro:actions";
+
   const form = document.getElementById(
     "contact-form",
   ) as HTMLFormElement | null;
   const status = document.getElementById("form-status");
-  form?.addEventListener("submit", (event) => {
+
+  // Progressive enhancement over the plain POST the <form> already
+  // performs (Astro.getActionResult() renders that server-side, see the
+  // frontmatter) — this just avoids the reload for JS-enabled clients.
+  // Field-level errors (aria-describedby, F-04) are only ever rendered by
+  // the server pass; here every message is combined into the one status
+  // region rather than re-implementing that DOM wiring twice.
+  form?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (status) {
-      status.textContent =
-        "This form isn't connected yet — email hello@shamil.dev directly or book a call above.";
+    if (!status) return;
+
+    delete status.dataset.variant;
+    const { error } = await actions.contact(new FormData(form));
+
+    if (error) {
+      status.dataset.variant = "error";
+      status.textContent = isInputError(error)
+        ? "✗ " + Object.values(error.fields).flat().filter(Boolean).join(" ")
+        : "✗ " + error.message;
+      return;
     }
+
+    status.dataset.variant = "success";
+    status.textContent = "✓ Message sent — I'll reply within 24h.";
+    form.reset();
   });
 
   const copyBtn = document.querySelector<HTMLButtonElement>(".copy-btn");
@@ -270,6 +361,14 @@ const description =
   .field-label {
     color: var(--ink);
   }
+  /* Same size as .form-status; bold (not colour) carries the "something's
+     wrong" signal — see form-status[data-variant="error"] below for why. */
+  .field-error {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    font-weight: 600;
+    color: var(--ink);
+  }
   /* Mock border color #c8bfa8 -> --chip-bd, radius 2px, padding "7px 9px" x1.636 */
   .field-input {
     font-family: var(--font-sans);
@@ -313,6 +412,22 @@ const description =
     font-family: var(--font-mono);
     font-size: var(--fs-mono); /* 13px floor */
     color: var(--label);
+  }
+  /* "✗"/"✓" glyphs (set in the frontmatter/script) carry the meaning —
+     colour stays supplementary (WCAG 1.4.1). --maroon measures only
+     3.39:1 in anoitecer at this text size (tokens.css), below AA's
+     4.5:1 for normal text, so error text stays --ink + bold instead of
+     red. data-variant (not a BEM class) matches the .copy-btn
+     convention below, and its attribute selector is specific enough to
+     outrank :not(:empty) above. */
+  .form-status[data-variant="error"] {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  /* --green-raised is AA-verified in all three modes (tokens.css) — same
+     token the .copy-btn success state uses below. */
+  .form-status[data-variant="success"] {
+    color: var(--green-raised);
   }
 
   /* Mock font-size 7.5px, clamped to the 13px floor (Phase 7 F-02) */
