@@ -26,6 +26,13 @@ const description =
 const result = Astro.getActionResult(actions.contact);
 const inputErrors = isInputError(result?.error) ? result.error.fields : {};
 
+// Shared with the <script> below: a send/rate-limit ActionError always
+// carries a real message (src/actions/index.ts hardcodes both), but this
+// still guards against any unexpected empty one — e.g. an edge-runtime
+// failure with no message at all — rather than ever rendering a bare "✗".
+const FALLBACK_ERROR =
+  "Something went wrong — please email hello@shamil.dev directly.";
+
 // "✗"/"✓" glyphs match the copy-button's existing success/failure
 // convention below, so colour stays supplementary (WCAG 1.4.1) rather
 // than load-bearing — --maroon fails AA at this text size in anoitecer
@@ -37,7 +44,7 @@ if (result?.error) {
   statusVariant = "error";
   statusMessage = Object.keys(inputErrors).length
     ? "✗ Please fix the highlighted field(s) below."
-    : `✗ ${result.error.message}`;
+    : `✗ ${result.error.message || FALLBACK_ERROR}`;
 } else if (result) {
   statusVariant = "success";
   statusMessage = "✓ Message sent — I'll reply within 24h.";
@@ -232,24 +239,57 @@ if (result?.error) {
   ) as HTMLFormElement | null;
   const status = document.getElementById("form-status");
 
+  const FALLBACK_ERROR =
+    "Something went wrong — please email hello@shamil.dev directly.";
+
+  // Mirrors the server-rendered F-04 wiring (see the frontmatter) so a
+  // JS-enabled resubmission looks identical to a fresh no-JS one — same
+  // .field-error/aria-invalid/aria-describedby, same element it targets.
+  function clearFieldErrors() {
+    form?.querySelectorAll(".field-error").forEach((el) => el.remove());
+    form?.querySelectorAll("[aria-invalid]").forEach((el) => {
+      el.removeAttribute("aria-invalid");
+      el.removeAttribute("aria-describedby");
+    });
+  }
+
+  function showFieldErrors(fields: Record<string, string[] | undefined>) {
+    let shown = false;
+    for (const [name, messages] of Object.entries(fields)) {
+      if (!messages?.length) continue;
+      const input = form?.elements.namedItem(name);
+      if (!(input instanceof HTMLElement)) continue;
+      const id = `${name}-error`;
+      const p = document.createElement("p");
+      p.id = id;
+      p.className = "field-error";
+      p.setAttribute("role", "alert");
+      p.textContent = messages.join(" ");
+      input.insertAdjacentElement("afterend", p);
+      input.setAttribute("aria-invalid", "true");
+      input.setAttribute("aria-describedby", id);
+      shown = true;
+    }
+    return shown;
+  }
+
   // Progressive enhancement over the plain POST the <form> already
   // performs (Astro.getActionResult() renders that server-side, see the
   // frontmatter) — this just avoids the reload for JS-enabled clients.
-  // Field-level errors (aria-describedby, F-04) are only ever rendered by
-  // the server pass; here every message is combined into the one status
-  // region rather than re-implementing that DOM wiring twice.
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!status) return;
 
     delete status.dataset.variant;
+    clearFieldErrors();
     const { error } = await actions.contact(new FormData(form));
 
     if (error) {
       status.dataset.variant = "error";
-      status.textContent = isInputError(error)
-        ? "✗ " + Object.values(error.fields).flat().filter(Boolean).join(" ")
-        : "✗ " + error.message;
+      status.textContent =
+        isInputError(error) && showFieldErrors(error.fields)
+          ? "✗ Please fix the highlighted field(s) below."
+          : "✗ " + (error.message || FALLBACK_ERROR);
       return;
     }
 

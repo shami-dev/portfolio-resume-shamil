@@ -3,13 +3,23 @@ import { z } from "astro/zod";
 import { RESEND_API_KEY } from "astro:env/server";
 import { env } from "cloudflare:workers";
 
-// `accept: "form"` converts empty inputs to `null` (not `undefined`), so the
-// honeypot must be `.nullish()` — a real visitor never sees or fills this
-// field; anything in it means a bot did.
+// `accept: "form"` converts empty inputs to `null` (not `undefined`). For
+// the honeypot that's why it's `.nullish()` — a real visitor never sees or
+// fills this field; anything in it means a bot did. For name/message, a
+// bare `z.string()` would reject that `null` at the type level before
+// `.min(1)` ever runs, surfacing zod's generic "Invalid input" instead of
+// the message below — preprocessing null/undefined to "" first routes an
+// empty required field through `.min(1)` like any other too-short string.
+const requiredText = (max: number, message: string) =>
+  z.preprocess(
+    (value) => value ?? "",
+    z.string().trim().min(1, message).max(max),
+  );
+
 const contactInput = z.object({
-  name: z.string().trim().min(1, "Enter your name.").max(200),
+  name: requiredText(200, "Enter your name."),
   email: z.email("Enter a valid email address."),
-  message: z.string().trim().min(1, "Enter a message.").max(5000),
+  message: requiredText(5000, "Enter a message."),
   company: z.string().nullish(),
 });
 
