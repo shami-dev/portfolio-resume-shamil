@@ -96,6 +96,16 @@ try {
         await page.goto(new URL(route, baseUrl).toString(), {
           waitUntil: "networkidle0",
         });
+        // [data-register] elements (global.css) start at opacity:0 and
+        // transition in once motion.ts's IntersectionObserver fires —
+        // networkidle0 fires as soon as requests settle, which can be
+        // well before that transition completes. Caught mid-transition,
+        // axe reports whatever partial-opacity contrast it measures at
+        // that instant as a violation, even though the settled page
+        // never has one — confirmed empirically (0ms: 1 false violation
+        // on /colophon anoitecer; >=200ms: 0). --t-enter-lg (550ms, the
+        // longest duration) plus stagger/CI-slowness margin.
+        await new Promise((resolve) => setTimeout(resolve, 800));
         await page.evaluate(axeSource);
         const { violations } = await page.evaluate(() => {
           // eslint-disable-next-line no-undef -- axe is injected into the page above
