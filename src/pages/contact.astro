@@ -460,6 +460,9 @@ if (result?.error) {
     .copy-btn {
       -webkit-tap-highlight-color: transparent;
     }
+    .send-btn {
+      min-height: 52px;
+    }
     .send-btn:active {
       background: var(--blue);
     }
@@ -572,6 +575,38 @@ if (result?.error) {
     .contact-links a:hover .arrow,
     .contact-links a:focus-visible .arrow {
       transform: translateX(3px);
+    }
+  }
+
+  /* M-P9: CALENDLY and the plain email link both grow to >=56px tap
+     targets; LINKEDIN/GITHUB go from one baseline-aligned line inside a
+     shared cell to two >=56px bordered cells side by side — the outer
+     .cell's own border/padding moves onto each <a> instead, so the pair
+     doesn't nest a border inside a border, and the "·" between them
+     (meaningful only as inline text glue) is dropped. */
+  @media (width < 48rem) {
+    .contact-link {
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .contact-social {
+      border: 0;
+      padding: 0;
+      gap: 8px;
+    }
+    .contact-social a {
+      flex: 1;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1.5px solid var(--ink);
+    }
+    .contact-social span {
+      display: none;
     }
   }
 </style>

@@ -141,7 +141,7 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       <Placeholder
         slug="portrait-shamil"
         kind="PORTRAIT — SUPPLIED SEPARATELY"
-        style="width: 245px; aspect-ratio: 5 / 6; flex: none"
+        class="portrait-fig"
         data-register="lg"
       />
     </div>
@@ -242,9 +242,26 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     margin-top: 13px;
   }
 
+  /* Desktop: fixed width beside the copy, 5:6 (mock's own portrait
+     crop). Moved out of an inline style so the mobile override below
+     can reach it — inline styles win over any stylesheet rule
+     regardless of specificity. */
+  .portrait-fig {
+    width: 245px;
+    aspect-ratio: 5 / 6;
+    flex: none;
+  }
+
   @media (width < 48rem) {
     .about-intro {
       flex-direction: column;
+    }
+    /* M-P8: full-width, 4:5 — a shallower crop than desktop's 5:6,
+       since a 245px-tall portrait at full mobile width would run
+       nearly a full viewport. */
+    .portrait-fig {
+      width: 100%;
+      aspect-ratio: 4 / 5;
     }
   }
 
@@ -308,35 +325,81 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     color: var(--label);
   }
 
-  /* Below 40rem, the percentage-offset stations sit too close together
+  /* Below 48rem, the percentage-offset stations sit too close together
      for real (F-02-floor) text — IT EXPERT and WEB — NOW are only ~14%
-     apart and start colliding. Same pattern as the
-     evidence-figs stack: fall back to a plain vertical list instead of
-     forcing the desktop ruled-track geometry into a column too narrow
-     for it. */
+     apart and start colliding. Phase 5b 6.4 (Option A, chosen over a
+     horizontal-scroll or compressed-in-place track — both rejected
+     there) rotates the track 90°: the horizontal tick-rule becomes a
+     vertical ruled column on the left, station marks become short
+     horizontal ticks off it, and continuity — the whole point of the
+     component — survives the rotation because it's carried by the
+     unbroken rule, not the axis.
+
+     A CSS Grid version (rule at grid-column 1, grid-row: 1 / -1, spanning
+     the auto-placed stations in column 2) was tried first and measured
+     wrong: the rule resolved to a single row with zero height instead of
+     spanning all of them — mixing one explicitly-placed spanning item
+     with several auto-placed items in the same grid doesn't reliably
+     resolve `-1` against a row count the auto-placed items haven't
+     established yet. Absolute positioning sidesteps the ambiguity
+     entirely: .about-track's height comes purely from the stations'
+     normal flow (the absolutely positioned rule doesn't contribute to
+     it), and top: 0; bottom: 0 then stretches the rule to match whatever
+     that resolves to, with no row count involved on either side. */
   @media (width < 48rem) {
     .about-track {
+      position: relative;
       height: auto;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
     }
+    /* Reoriented from a horizontal rule (border-bottom + a 90deg
+       left-to-right gradient) to a vertical one: border-right, and the
+       gradient's default top-to-bottom angle left implicit, exactly the
+       M-P8 frame's own left-column spec. */
     .about-track > .tick {
-      display: none;
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 15px;
+      height: auto;
+      border-bottom: 0;
+      border-right: 1.5px solid var(--tick-ink);
+      background-image:
+        repeating-linear-gradient(var(--tick-ink) 0 1px, transparent 1px 25px),
+        repeating-linear-gradient(
+          var(--tick-ink-minor) 0 1px,
+          transparent 1px 5px
+        );
+      background-size:
+        11px 100%,
+        5px 100%;
+      background-position: right, right;
+      background-repeat: repeat-y;
     }
     .track-station {
       position: static;
       display: flex;
-      align-items: baseline;
+      align-items: flex-start;
       gap: var(--space-3);
+      padding-bottom: var(--space-5);
     }
+    .track-station:last-child {
+      padding-bottom: 0;
+    }
+    /* Mock width "20px", height "2.5px" — a short horizontal dash
+       bridging from the rule's right edge (margin-left: 15px, the
+       rule's own width, so there's no gap between them) to the label,
+       not the desktop mark's own vertical tick. margin-top roughly
+       aligns it with the label's cap-height instead of its box top. */
     .track-mark {
       width: 20px;
-      height: 3px;
+      height: 2.5px;
       flex: none;
+      margin-top: 8px;
+      margin-left: 15px;
     }
     .track-label {
       position: static;
+      width: auto;
+      max-width: none;
     }
   }
 

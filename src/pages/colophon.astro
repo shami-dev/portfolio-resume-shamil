@@ -118,4 +118,19 @@ const description =
     font-size: var(--fs-kicker); /* 15px */
     color: var(--blue);
   }
+
+  /* M-P10: Colophon changes least of any page — this is the one row
+     that grows into a bordered cell. Still a plain <p>, not a link: the
+     Umami disclosure has no real destination yet (see the frontmatter
+     comment), so this is sizing/visual weight only, not a fake
+     affordance — no cursor/hover/:active to imply it's tappable. */
+  @media (width < 48rem) {
+    .colophon-analytics {
+      display: flex;
+      align-items: center;
+      min-height: 56px;
+      border: 1.5px solid var(--ink);
+      padding: 0 14px;
+    }
+  }
 </style>
