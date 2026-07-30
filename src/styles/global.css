@@ -67,17 +67,35 @@ a:hover {
    Breakpoints
 
    Two, because the design has two structural transitions — not a full
-   framework scale. Values are Tailwind 4's `lg` and `sm`, in rem (v4
+   framework scale. Values are Tailwind 4's `lg` and `md`, in rem (v4
    switched from px) so they track the user's font size, which matters
    given the Phase 7 F-02 type floors.
 
-     64rem / 1024px  rail + column  ->  header + single column
-     40rem /  640px  paired figures stack (Phase 5 5.6)
+     64rem / 1024px  TABLET  rail + column -> header band + single column
+     48rem /  768px  MOBILE  the Phase 5b treatment (M-P1 ... M-P11)
 
    64rem is not borrowed on faith: measured against the case-page prose,
    the two-column layout yields 56 characters per line at 1024px, 45 at
    ~930px and 37 at 860px, so it stops being readable around 930-975px.
    64rem is the nearest conventional value above that.
+
+   The two bands do different jobs, and conflating them was the bug this
+   phase opened with: every rule below 64rem was written against M-P1, a
+   390px frame, so a 1000px tablet rendered the phone design — a 14px
+   inset, a 19px name and a fixed bottom bar across a full-width sheet.
+   64rem now collapses the structure and nothing else; 48rem carries the
+   whole mobile treatment (accordion, fixed bar, mobile type, per-page
+   reflow). 48rem is where the collapsed single column stops being wide
+   enough to hold two cells side by side at the 13px mono floor.
+
+   Phase 5b's frames are drawn at 390px, so mobile values are the mock
+   value x1.44 (Phase 7 mobile factor), same as before — only the band
+   they live in changed.
+
+   The 40rem rules the earlier build used for stacking paired figures
+   folded into 48rem: every one of them was "this two-up row stops
+   fitting", which is the same transition, and three bands for two
+   transitions is a scale nobody is reading from.
 
    Custom properties are invalid in media conditions, so these are
    literals below; range syntax (`width < 64rem`) avoids 63.999rem.
@@ -409,26 +427,70 @@ a:hover {
   margin-top: 4px;
 }
 
-/* Rail -> header below lg (Phase 5 §5.6 M-P1). Structural collapse only:
-   the sheet stacks, the rail spans full width and swaps its right border
-   for a bottom one, and the cells drop their individual borders so the
-   scan block reads as the mockup's single merged header cell rather than
-   three stacked boxes. The header's internal treatment (merged DOM, the
-   "·"-joined LOC/AUTH line, mobile type sizes) is deliberately not here —
-   it changes markup, not just layout. */
+/* Rail -> full-width header band below lg. TABLET BAND — structural only:
+   the sheet stacks and the rail spans full width, swapping its right
+   border for a bottom one. Everything about how the header reads
+   internally (merged cells, "·"-joined meta line, mobile type sizes, the
+   accordion) belongs to the mobile band below, not here: at 900px the
+   sheet is still wide enough for the desktop cell treatment, and applying
+   a 390px frame to it was the bug this phase opened with. */
 @media (width < 64rem) {
+  .sheet {
+    flex-direction: column;
+  }
+  .rail {
+    width: auto;
+    flex: none;
+    border-right: 0;
+    border-bottom: 1.5px solid var(--bd-rule);
+  }
+  /* margin-top: auto pins this to the bottom of a column; the band below
+     lays the rail out as a row, where it would instead consume all the
+     free space to the item's left. */
+  .rail-foot {
+    margin-top: 0;
+  }
+  /* The nav's own tablet/mobile rules live with the base .nav block far
+     below — a media query adds no specificity, so they have to come
+     later in source order to win. */
+}
+
+/* Tablet only, bounded at both ends. These lay the rail out as a row, and
+   a flex-basis set for a row becomes a HEIGHT once the mobile band turns
+   the rail back into a column — a 288px basis on .cell-pair opened a
+   288px hole in the middle of the phone header. Anything directional
+   belongs in a bounded range, not an open-ended one. */
+@media (48rem <= width < 64rem) {
+  /* The rail's children stop being a 300px column and lay out across the
+     band, keeping their desktop borders, labels and type. */
+  .rail {
+    flex-flow: row wrap;
+    align-items: flex-start;
+  }
+  .rail > .rail-head,
+  .rail > .scan-panel {
+    flex: 1 1 22rem;
+  }
+  /* Without a basis these size to content, and "4-5 mo" wraps mid-value
+     in a cell with room to spare beside it. */
+  .rail > .cell-pair {
+    flex: 1 1 18rem;
+  }
+}
+
+/* MOBILE BAND — the Phase 5b treatment, drawn at 390x844.
+   M-P1's header: name, one title line, one mono meta line, no labels. */
+@media (width < 48rem) {
   /* Mock 10px x1.44 = 14.4, which lands on --space-4. The desktop scale
      is reused rather than a mobile one being derived: measured against
      every padding/margin/gap in M-P1, x1.44 fits these same steps to a
      0.99px mean error, against the 1.04px cited for the desktop fit
      above. At the desktop 56px a 375px screen leaves 260px of content,
      narrower than the mode switch, costing the prose a third of its
-     measure. */
+     measure — which is why this is a phone value and the tablet band
+     keeps the desktop inset. */
   :root {
     --col-pad: var(--space-4);
-  }
-  .sheet {
-    flex-direction: column;
   }
   /* position/z-index here are not layout — they order this whole subtree
      against .col, which is what keeps the fixed bottom bar (.nav, below)
@@ -439,36 +501,42 @@ a:hover {
      ::after shadow overlay needs it), which lifts cards into the
      positioned-paint layer and so above the entire rail subtree, bar
      included. Ordering the two flex items explicitly is the fix, applied
-     at the level where they are actually siblings. */
+     at the level where they are actually siblings.
+
+     Home is the exception: .rail-flat dissolves the rail box entirely,
+     which also drops the view-transition-name and so the stacking
+     context — see the .rail-flat block. */
   .rail {
-    width: auto;
-    flex: none;
     position: relative;
     z-index: 1;
-    border-right: 0;
-    border-bottom: 1.5px solid var(--bd-rule);
+    flex-flow: column nowrap;
     padding: 14px; /* mock 10px x1.44 */
     gap: 2px;
   }
-  .rail .cell {
+  .rail > .cell {
     border: 0;
     padding: 0;
   }
 
   /* Scan block, per M-P1: name, one title line, one mono meta line.
      Sizes x1.44 — name 13 -> 19px, title 9 -> 13px; the 8px meta line
-     would land at 11.5px so it sits at the --fs-mono 13px floor. */
-  .cell-name {
+     would land at 11.5px so it sits at the --fs-mono 13px floor.
+
+     Scoped with `>` throughout: this merged, label-less treatment is the
+     HOME header. Interior pages put the same cells inside the accordion
+     panel, where they stay bordered boxes with visible labels (M-P2,
+     M-P3) — so the panel's cells must not be reachable from here. */
+  .rail > .cell .cell-name {
     font-size: 1.1875rem; /* 19px, mock 13px */
   }
-  .cell-val {
+  .rail > .cell .cell-val {
     font-size: 0.8125rem; /* 13px, mock 9px */
     color: var(--nav-rest); /* mock #555, one tier lighter than desktop */
   }
-  .cell-val > span {
+  .rail > .cell .cell-val > span {
     display: inline;
   }
-  .cell-val > span + span::before {
+  .rail > .cell .cell-val > span + span::before {
     content: " · ";
   }
 
@@ -479,20 +547,23 @@ a:hover {
      accessibility tree, so a screen reader still hears which value is
      which. Kept as one rule so the label selectors cannot end up in
      descending specificity order. */
-  .cell-pair {
+  .rail > .cell-pair {
     display: block; /* one text line, not two columns */
   }
-  .cell-pair > .cell {
+  .rail > .cell-pair > .cell {
     display: inline;
+    border: 0;
+    padding: 0;
   }
-  .cell-pair .cell-val-mono {
+  .rail > .cell-pair .cell-val-mono {
     display: inline;
     font-size: var(--fs-mono); /* mock 8px x1.44 = 11.5, at the 13px floor */
     color: var(--label);
     text-transform: uppercase;
   }
-  .rail-foot > .clab,
-  .rail .cell .clab {
+  .rail > .rail-foot > .clab,
+  .rail > .cell .clab,
+  .rail > .cell-pair .clab {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -503,7 +574,7 @@ a:hover {
     white-space: nowrap;
     border: 0;
   }
-  .cell-pair > .cell + .cell::before {
+  .rail > .cell-pair > .cell + .cell::before {
     content: " · ";
     color: var(--label);
   }
@@ -628,42 +699,24 @@ a:hover {
   }
 }
 
-/* Nav -> fixed 4-tab bottom bar below lg (Phase 5 §5.6 M-P1). Mockup:
-   44px bar, 1.5px top rule, white ground, four equal tabs at 8px/600 mono
-   with hairline dividers, active tab filled. Sizes x1.44 (mobile factor):
-   44 -> 64px; 8px mono clamps up to the --fs-mono 13px floor (Phase 7
-   F-02 — shorten copy, never shrink type). The bar keeps its early
-   position in the DOM, which is the correct focus order for navigation.
-
-   It carries no z-index of its own: position: fixed already paints it
-   over every (static) sibling inside .rail, and against page content a
-   z-index here is powerless — .rail's view-transition-name scopes it to
-   .rail's stacking context. What actually orders this bar above .col is
-   .rail's own z-index; see the comment on .rail above.
-
-   Must stay below the base .nav/.nrow rules: a media query adds no
+/* Nav -> horizontal strip (tablet), then fixed 4-tab bottom bar (mobile).
+   Both must stay below the base .nav/.nrow rules: a media query adds no
    specificity, so at equal specificity source order decides and the base
    flex-direction/font-size would win. */
-@media (width < 64rem) {
+
+/* TABLET — the four rows become one strip spanning the header band. Still
+   in the flow: it scrolls away with the header, as a wide layout should.
+   Bounded at both ends for the same reason as the rail's row rules. */
+@media (48rem <= width < 64rem) {
   .nav {
-    position: fixed;
-    inset: auto 0 0;
+    flex: 1 1 100%;
     flex-direction: row;
     margin-top: 0;
-    min-height: 64px; /* used if env() is unsupported and height drops out */
-    height: calc(64px + env(safe-area-inset-bottom));
-    padding-bottom: env(safe-area-inset-bottom);
-    background: var(--white);
-    border-top: 1.5px solid var(--bd-rule);
   }
   .nrow,
   .nrow-a {
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--fs-mono); /* mock 8px x1.44 = 11.5, at the 13px floor */
-    padding: 0;
+    text-align: center;
   }
   .nrow {
     border-bottom: 0;
@@ -671,9 +724,47 @@ a:hover {
   .nav > * + * {
     border-left: 1px solid var(--bd-hair);
   }
+}
+
+/* MOBILE — fixed 4-tab bottom bar (Phase 5b 6.0 §3: full-width targets in
+   the thumb zone, Fitts). Mockup: 56px bar, 1.5px top rule, white ground,
+   four equal tabs with hairline dividers, active tab filled. 56px is
+   taken from the frames directly rather than scaled — 6.0 §3 states it as
+   a number, and it clears the 44px target minimum on its own. Mono clamps
+   up to the --fs-mono 13px floor (Phase 7 F-02 — shorten copy, never
+   shrink type). The bar keeps its early position in the DOM, which is the
+   correct focus order for navigation.
+
+   It carries no z-index of its own: position: fixed already paints it
+   over every (static) sibling inside .rail, and against page content a
+   z-index here is powerless — .rail's view-transition-name scopes it to
+   .rail's stacking context. What actually orders this bar above .col is
+   .rail's own z-index; see the comment on .rail above. Home is the
+   exception (.rail-flat has no box and so no stacking context) and gives
+   the bar a z-index of its own. */
+@media (width < 48rem) {
+  .nav {
+    position: fixed;
+    inset: auto 0 0;
+    flex: none;
+    margin-top: 0;
+    min-height: 56px; /* used if env() is unsupported and height drops out */
+    height: calc(56px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--white);
+    border-top: 1.5px solid var(--bd-rule);
+  }
+  .nrow,
+  .nrow-a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fs-mono);
+    padding: 0;
+  }
   /* Keep the end of the page clear of the bar. */
   body {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+    padding-bottom: calc(56px + env(safe-area-inset-bottom));
   }
 }
 
@@ -849,13 +940,11 @@ a.dcard {
   flex: 1;
 }
 
-/* Paired figures stack below sm (Phase 5 §5.6 M-P3, "STACKS ON MOBILE" /
-   "STACKED ON MOBILE" on the placeholder's own kind label). 40rem is a
-   second, narrower breakpoint than the 64rem header/nav collapse: two
-   180px-tall figures already fit side by side in a single mobile column
-   at typical phone widths, so they only need to stack once the column
-   itself gets narrow. */
-@media (width < 40rem) {
+/* Paired figures stack on mobile (Phase 5b M-P3, and "STACKS ON MOBILE" /
+   "STACKED ON MOBILE" on the placeholder's own kind label). Full-width
+   each: at 390px a side-by-side pair is ~160px wide, which 6.0 §5
+   rejected outright on legibility. */
+@media (width < 48rem) {
   .evidence-figs {
     flex-direction: column;
   }
