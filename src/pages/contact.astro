@@ -19,9 +19,9 @@ import TickRule from "../components/TickRule.astro";
 import Footer from "../components/Footer.astro";
 import { actions, isInputError } from "astro:actions";
 
-const title = "Contact — responds < 24h · Shamil Khaibullov";
+const title = "Contact — Shamil Khaibullov";
 const description =
-  "Message, book 20 minutes, or email directly. Roles and contracts — remote or EU B2B, from Porto with an EU work permit.";
+  "Message, book 30 minutes, or email directly. Roles and contracts — remote or EU B2B, from Porto with an EU work permit.";
 
 const result = Astro.getActionResult(actions.contact);
 const inputErrors = isInputError(result?.error) ? result.error.fields : {};
@@ -47,7 +47,7 @@ if (result?.error) {
     : `✗ ${result.error.message || FALLBACK_ERROR}`;
 } else if (result) {
   statusVariant = "success";
-  statusMessage = "✓ Message sent — I'll reply within 24h.";
+  statusMessage = "✓ Message sent — I'll reply as soon as I can.";
 }
 ---
 
@@ -68,19 +68,18 @@ if (result?.error) {
           <div class="cell-val-mono">EU permit</div>
         </div>
       </div>
-      <div class="rail-foot">
-        <p class="contact-avail">
-          AVAILABLE — ROLES + CONTRACTS<br />
-          REMOTE / EU B2B<br />
-          RESPONDS &lt; 24H
-        </p>
-      </div>
     </Fragment>
     <Nav current="contact" />
   </Rail>
 
   <div class="col contact">
     <h1 class="h1-case" data-register>Reach me.</h1>
+    <p class="prose contact-intro" data-register>
+      Open to full-time, part-time, or freelance roles — or if you just want to
+      talk through a project, ask a technical question, or need a small fix
+      done. I do my best to respond as soon as possible. Use the form below,
+      email me directly, book a call on Calendly, or reach out on LinkedIn.
+    </p>
 
     <div class="contact-row" data-register>
       <div class="cell contact-form-card">
@@ -182,7 +181,7 @@ if (result?.error) {
           href="https://calendly.com/shamil-dev/"
           target="_blank"
           rel="noopener noreferrer"
-          >CALENDLY — BOOK 20 MIN <span class="arrow" aria-hidden="true">→</span
+          >CALENDLY — BOOK 30 MIN <span class="arrow" aria-hidden="true">→</span
           ></a
         >
         <div class="cell contact-email">
@@ -296,7 +295,7 @@ if (result?.error) {
     }
 
     status.dataset.variant = "success";
-    status.textContent = "✓ Message sent — I'll reply within 24h.";
+    status.textContent = "✓ Message sent — I'll reply as soon as I can.";
     form.reset();
   });
 
@@ -357,12 +356,12 @@ if (result?.error) {
     }
   }
 
-  /* Mock line-height 1.7, color #6f6a5e -> --label */
-  .contact-avail {
-    font-family: var(--font-mono);
-    font-size: var(--fs-mono); /* 13px floor, mock 8.5px */
-    color: var(--label);
-    line-height: 1.7;
+  /* Replaces the old rail-foot .contact-avail chip — availability and
+     how to reach me now read as a normal sentence under the H1 instead
+     of a clipped mono fragment inside the collapsed accordion, where a
+     KPI-2 message was easy to miss entirely. */
+  .contact-intro {
+    max-width: 60ch;
   }
 
   /* Mock gap "16px" x1.636 */
@@ -403,23 +402,31 @@ if (result?.error) {
   .field-label {
     color: var(--ink);
   }
-  /* Same size as .form-status; bold (not colour) carries the "something's
-     wrong" signal — see form-status[data-variant="error"] below for why. */
+  /* Same size as .form-status. --maroon by request — same red as 404's
+     RECORD NOT FOUND label — even though at this weight/size it doesn't
+     clear the 3:1 large-text threshold that made --maroon safe there;
+     bold weight stays as a second, non-color signal alongside it. */
   .field-error {
     font-family: var(--font-mono);
     font-size: var(--fs-mono);
     font-weight: 600;
-    color: var(--ink);
+    color: var(--maroon);
   }
-  /* Mock border color #c8bfa8 -> --chip-bd, radius 2px, padding "7px 9px" x1.636 */
+  /* Mock border color #c8bfa8 -> --bd-rule (not --chip-bd — barely
+     visible against --white in anoitecer/dark, both muted-on-muted),
+     1.5px to match the weight every other bordered cell on the site
+     uses. Radius 2px, padding "7px 9px" x1.636. */
   .field-input {
     font-family: var(--font-sans);
     font-size: var(--fs-body);
     color: var(--ink);
     background: var(--white);
-    border: 1px solid var(--chip-bd);
+    border: 1.5px solid var(--bd-rule);
     border-radius: 2px;
     padding: 11px 15px;
+  }
+  .field-input[aria-invalid="true"] {
+    border-color: var(--maroon);
   }
   .field-textarea {
     min-height: 92px; /* mock 56px x1.636 */
@@ -476,15 +483,15 @@ if (result?.error) {
     font-size: var(--fs-mono); /* 13px floor */
     color: var(--label);
   }
-  /* "✗"/"✓" glyphs (set in the frontmatter/script) carry the meaning —
-     colour stays supplementary (WCAG 1.4.1). --maroon measures only
-     3.39:1 in anoitecer at this text size (tokens.css), below AA's
-     4.5:1 for normal text, so error text stays --ink + bold instead of
-     red. data-variant (not a BEM class) matches the .copy-btn
-     convention below, and its attribute selector is specific enough to
-     outrank :not(:empty) above. */
+  /* "✗"/"✓" glyphs (set in the frontmatter/script) carry the meaning as
+     a second, non-color signal — --maroon by request (matching
+     .field-error above and 404's RECORD NOT FOUND label), even though
+     it measures only 3.39:1 in anoitecer at this text size, below AA's
+     4.5:1 for normal text. data-variant (not a BEM class) matches the
+     .copy-btn convention below, and its attribute selector is specific
+     enough to outrank :not(:empty) above. */
   .form-status[data-variant="error"] {
-    color: var(--ink);
+    color: var(--maroon);
     font-weight: 600;
   }
   /* --green-raised is AA-verified in all three modes (tokens.css) — same
