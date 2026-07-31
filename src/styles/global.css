@@ -1480,6 +1480,7 @@ a.dcard {
     justify-content: center;
     min-height: 48px;
     border: 1.5px solid var(--ink);
+    background: var(--white);
     color: var(--ink);
     font-weight: 600;
     text-align: center;
