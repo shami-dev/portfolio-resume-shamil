@@ -9,7 +9,7 @@ import Rail from "../../components/Rail.astro";
 import Nav from "../../components/Nav.astro";
 import TickRule from "../../components/TickRule.astro";
 import Placeholder from "../../components/Placeholder.astro";
-import Footer from "../../components/Footer.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
 
 const caseEntry = await getEntry("cases", "campaign-site");
 if (!caseEntry)
@@ -180,12 +180,7 @@ const [lighthouse, ...banners] = evidence.figures;
       <a href={footerNav.next.href} class="ftl">{footerNav.next.label}</a>
     </div>
 
-    <Footer data-register>
-      <span class="ftl" slot="left">© 2026 Shamil Khaibullov</span>
-      <span class="ftl" slot="right"
-        ><a href="/colophon" class="ftl-link">COLOPHON</a> · ANALYTICS ↗</span
-      >
-    </Footer>
+    <SiteFooter data-register />
   </div>
 </BaseLayout>
 

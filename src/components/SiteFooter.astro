@@ -1,0 +1,23 @@
+---
+// The "© 2026 Shamil Khaibullov / COLOPHON · ANALYTICS ↗" footer shared
+// verbatim by Home, the Work index, and every case page. Wraps Footer's
+// generic left/right slots so those 7 call sites stop hand-duplicating
+// the same markup — pages whose footer copy actually differs (About,
+// Contact, Colophon, the case-detail prev/next pager) keep composing
+// Footer directly.
+import type { HTMLAttributes } from "astro/types";
+import Footer from "./Footer.astro";
+
+type Props = HTMLAttributes<"footer">;
+
+const rest = Astro.props as Props;
+---
+
+<Footer {...rest}>
+  <span class="ftl" slot="left">© 2026 Shamil Khaibullov</span>
+  <span class="ftl" slot="right"
+    ><a href="/colophon" class="ftl-link">COLOPHON</a> · ANALYTICS <span
+      class="glyph-arrow">↗</span
+    ></span
+  >
+</Footer>
