@@ -6,9 +6,9 @@
 //
 // Phase 5b 6.0 §1-2: interior pages collapse their title-block cells (plus
 // whatever a page puts in .rail-foot — TOOLS, RESULTS) behind a 48px scan
-// bar on mobile. `label` + a `scan` slot opt a page into that; omitting
-// `scan` (404) renders `label` as a plain static bar instead — no
-// accordion, per Phase 5b flag F6 ("that page has no scan job").
+// bar on mobile. `label` + a `scan` slot opt a page into that. `label` with
+// no `scan` slot (About) renders a plain static bar instead — no
+// accordion, name/page left and an optional `labelRight` value right.
 //
 // The panel's default state is CLOSED in the server-rendered markup — the
 // design doc's real default ("collapsed, never sticky-expanded") — and
@@ -21,9 +21,10 @@ import type { HTMLAttributes } from "astro/types";
 
 type Props = HTMLAttributes<"aside"> & {
   label?: string;
+  labelRight?: string;
 };
 
-const { label, class: className, ...rest } = Astro.props as Props;
+const { label, labelRight, class: className, ...rest } = Astro.props as Props;
 const hasScan = Astro.slots.has("scan");
 const railClass = ["rail", className].filter(Boolean).join(" ");
 ---
@@ -49,6 +50,7 @@ const railClass = ["rail", className].filter(Boolean).join(" ");
       label && (
         <div class="scan-bar scan-bar-static">
           <span class="scan-label">{label}</span>
+          {labelRight && <span class="scan-label-right">{labelRight}</span>}
         </div>
       )
     )

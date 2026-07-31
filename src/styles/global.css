@@ -230,6 +230,10 @@ a:hover {
   font-size: var(--fs-prose);
   color: var(--green);
   font-weight: 600;
+  /* Sits directly on .case's .mm grid, same legibility issue .hero-body/
+     .block-body/.lesson already solve with this wash — this one just
+     never got it. */
+  background: rgb(var(--paper-rgb), 0.75);
 }
 
 /* --- Accessibility ----------------------------------------------------- */
@@ -520,6 +524,15 @@ a:hover {
        matching 6.0 §6's "body & case prose 16px" as one floor, not two. */
     --fs-prose: 1rem;
   }
+  /* At full viewport width the sheet's own left/right rule reads as a
+     deliberate card edge (the design's "drafting sheet" framing); at
+     390px the sheet already IS the viewport, so that same rule just
+     draws two vertical lines down the screen's own edges — chrome with
+     nothing to frame. */
+  .sheet {
+    border-left: 0;
+    border-right: 0;
+  }
   /* position/z-index here are not layout — they order this whole subtree
      against .col, which is what keeps the fixed bottom bar (.nav, below)
      in front of page content. `view-transition-name: rail` makes .rail a
@@ -615,6 +628,15 @@ a:hover {
   .rail-foot {
     margin-top: 8px;
   }
+  /* Home only: .rail-head/.hero/.decisions all run on the --space-3/
+     --space-4 rhythm (see .rail-flat's own block below) — these two
+     used a flat 8px instead, off that rhythm by 4px. */
+  .rail-flat .rail-chips {
+    margin-top: var(--space-3);
+  }
+  .rail-flat .rail-foot {
+    margin-top: var(--space-3);
+  }
 
   /* Metrics -> M-P1's compact 3-up row: three bordered cells, equal
      width, centered, figure over an uppercased caption. Sizes x1.44 —
@@ -684,10 +706,15 @@ a:hover {
   }
   .scan-bar:focus-visible {
     outline: 2px solid var(--focus);
-    outline-offset: -2px;
+    outline-offset: -4px;
   }
   .scan-label {
     color: var(--ink);
+  }
+  .scan-label-right {
+    color: var(--label);
+    font-size: var(--fs-mono);
+    letter-spacing: var(--ls-wide);
   }
   .scan-cue {
     color: var(--blue);
@@ -709,10 +736,18 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    padding: 12px;
+    padding: 0 12px 12px;
   }
   .scan-panel[hidden] {
     display: none;
+  }
+
+  /* Expanded: the last cell inside the panel already carries its own
+     full border, so .rail's own border-bottom (drawn for the collapsed
+     48px bar) reads as a doubled line directly under it once the panel
+     is open — dropped here, restored the instant the panel collapses. */
+  .rail:has(.scan-panel:not([hidden])) {
+    border-bottom: 0;
   }
 }
 
@@ -1077,6 +1112,8 @@ a:hover {
   letter-spacing: var(--ls-wider);
   color: var(--blue);
   text-transform: uppercase;
+  /* Same .mm-grid legibility wash as .case-lede-metrics below it. */
+  background: rgb(var(--paper-rgb), 0.75);
 }
 
 /* --- Prose (case reading column: 18px floor) --------------------------- */
@@ -1182,6 +1219,22 @@ a.dcard {
   }
   .dcard-duration::before {
     content: " · ";
+  }
+
+  /* Desktop's border-left-color only ever paints on :hover — mobile has
+     no hover to reveal it, and the :active tint alone is gone the
+     instant the tap ends, so without this a card never once shows it's
+     a link. Home: all three previews are equal (nothing there is
+     "ranked"), so all three get it permanently. Work index: only №01
+     does, matching M-P2's own frame — the box-shadow rides along with
+     it, both scoped to :first-child so rows 2-5 stay plain and keep
+     only the :active tint above. */
+  .rail-flat ~ .col a.dcard.is-hoverable {
+    border-left-color: var(--blue);
+  }
+  .index-list a.dcard.is-hoverable:first-child {
+    border-left-color: var(--blue);
+    box-shadow: 0 1px 4px rgb(0 0 0 / 7%);
   }
 }
 .status-chip {
@@ -1343,6 +1396,7 @@ a.dcard {
 }
 .ftl {
   font-family: var(--font-mono);
+  font-weight: 500;
   font-size: var(--fs-mono-md);
   color: var(--label);
   letter-spacing: var(--ls-wide);
@@ -1366,19 +1420,35 @@ a.dcard {
   .ft {
     flex-direction: column;
     align-items: stretch;
+    /* Shrinks the gap between the two stacked text lines (left/right
+       slot) to read as one tight block, matching the mock's 3px — the
+       larger gap above them, between the theme control and the first
+       text line, is restored on .mode-switch itself (its own
+       margin-bottom) since a single flex `gap` can't hold two different
+       values between three stacked items. */
+    gap: 4px;
   }
+  .mode-switch {
+    margin-bottom: 16px;
+  }
+}
 
-  /* Case pages only: both slots are real prev/next links (every other
-     page's Footer has at least one plain <span> in a slot), so this
-     :has() pair reaches exactly the "footer IS a nav pair" shape 6.3's
-     "PREV / NEXT — FOOTER PAIR" describes, without a page-specific class.
-     Two >=48px bordered cells side by side, theme control full-width
-     below them (order: 1, not the usual -1). */
-  .ft:has(> a.ftl:first-child):has(> a.ftl:last-child) {
-    flex-flow: row wrap;
+/* Case pages' prev/next pager (6.3 "PREV / NEXT — FOOTER PAIR") — its own
+   block above Footer, not Footer's left/right slots: every other page
+   puts real site-tag text there (see .ft above), and case pages need
+   that same text too (6.1's own frame shows it), which the two slots
+   have no room left for once they're carrying prev/next. */
+.case-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+@media (width < 48rem) {
+  /* Two >=48px bordered cells side by side, matching 6.3's spec. */
+  .case-pager {
     gap: 6px;
   }
-  .ft:has(> a.ftl:first-child):has(> a.ftl:last-child) > a.ftl {
+  .case-pager > .ftl {
     flex: 1 1 calc(50% - 3px);
     display: flex;
     align-items: center;
@@ -1388,10 +1458,6 @@ a.dcard {
     color: var(--ink);
     font-weight: 600;
     text-align: center;
-  }
-  .ft:has(> a.ftl:first-child):has(> a.ftl:last-child) .mode-switch {
-    order: 1;
-    flex: 1 1 100%;
   }
 }
 
