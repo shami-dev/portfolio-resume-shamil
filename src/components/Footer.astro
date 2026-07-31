@@ -21,13 +21,13 @@
 import type { HTMLAttributes } from "astro/types";
 import ModeSwitch from "./ModeSwitch.astro";
 
-type Props = HTMLAttributes<"div">;
+type Props = HTMLAttributes<"footer">;
 
 const rest = Astro.props as Props;
 ---
 
-<div class="ft" {...rest}>
+<footer class="ft" {...rest}>
   <slot name="left" />
   <ModeSwitch />
   <slot name="right" />
-</div>
+</footer>

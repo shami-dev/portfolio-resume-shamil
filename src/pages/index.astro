@@ -18,40 +18,40 @@ const description =
 
 <BaseLayout title={title} description={description}>
   <Rail class="rail-flat">
-    <div class="rail-head">
+    <dl class="rail-head">
       <div class="cell">
-        <div class="clab">NAME</div>
-        <div class="cell-name">Shamil Khaibullov</div>
+        <dt class="clab">NAME</dt>
+        <dd class="cell-name">Shamil Khaibullov</dd>
       </div>
       <div class="cell">
-        <div class="clab">TITLE</div>
-        <div class="cell-val">
+        <dt class="clab">TITLE</dt>
+        <dd class="cell-val">
           <span>Full-Stack Developer</span><span>front-end-focused</span>
-        </div>
+        </dd>
       </div>
       <div class="cell-pair">
         <div class="cell">
-          <div class="clab">LOC</div>
-          <div class="cell-val-mono">Porto, PT</div>
+          <dt class="clab">LOC</dt>
+          <dd class="cell-val-mono">Porto, PT</dd>
         </div>
         <div class="cell">
-          <div class="clab">AUTH</div>
-          <div class="cell-val-mono">EU permit</div>
+          <dt class="clab">AUTH</dt>
+          <dd class="cell-val-mono">EU permit</dd>
         </div>
         <div class="cell">
-          <div class="clab">AVAIL</div>
-          <div class="cell-val-mono">Remote / EU B2B</div>
+          <dt class="clab">AVAIL</dt>
+          <dd class="cell-val-mono">Remote / EU B2B</dd>
         </div>
       </div>
-    </div>
-    <div class="rail-chips">
-      <span class="stk">React</span>
-      <span class="stk">TypeScript</span>
-      <span class="stk">Node</span>
-      <span class="stk">Prisma</span>
-      <span class="stk">OpenAI</span>
-      <span class="stk">Astro</span>
-    </div>
+    </dl>
+    <ul class="rail-chips">
+      <li class="stk">React</li>
+      <li class="stk">TypeScript</li>
+      <li class="stk">Node</li>
+      <li class="stk">Prisma</li>
+      <li class="stk">OpenAI</li>
+      <li class="stk">Astro</li>
+    </ul>
     <Nav current="home" />
     <MetricCell
       metrics={[
@@ -76,34 +76,42 @@ const description =
 
     <div class="decisions">
       <div class="mrow">
-        <span class="klab">SELECTED DECISIONS — 3 OF 5</span>
+        <h2 class="klab">SELECTED DECISIONS — 3 OF 5</h2>
         <a href="/work" class="records-link">ALL 5 RECORDS →</a>
       </div>
 
-      <DecisionCard
-        href="/work/maltalink"
-        kicker="DECISION №01 — REGISTRATION PLATFORM · MALTALINK 2025"
-        duration="5 MO"
-        title="Ticket Tailor over Eventbrite — proven by a live side-by-side demo"
-        evidence="EVIDENCE — €84 vs ~13x cost"
-        outcome={{ text: "RESULT — 100% completion · 0 downtime" }}
-      />
-      <DecisionCard
-        href="/work/mystore"
-        kicker="DECISION №02 — API DESIGN · MYSTORE"
-        duration="2 WK"
-        title="Versioned REST + Zod validation, documented for review"
-        evidence="EVIDENCE — README · curl · Postman"
-        outcome={{ text: "DELIVERED — full-stack scope" }}
-      />
-      <DecisionCard
-        href="/work/ai-projects"
-        kicker="DECISION №03 — LLM EXTRACTION, NOT OCR · AI PROJECTS"
-        duration="14 D"
-        title="OpenAI-backed receipts analyzer — accuracy measured, refined in the open"
-        evidence="EVIDENCE — accuracy log"
-        outcome={{ text: "STATUS — ITERATING", variant: "status" }}
-      />
+      <ol class="decision-list">
+        <li>
+          <DecisionCard
+            href="/work/maltalink"
+            kicker="DECISION №01 — REGISTRATION PLATFORM · MALTALINK 2025"
+            duration="5 MO"
+            title="Ticket Tailor over Eventbrite — proven by a live side-by-side demo"
+            evidence="EVIDENCE — €84 vs ~13x cost"
+            outcome={{ text: "RESULT — 100% completion · 0 downtime" }}
+          />
+        </li>
+        <li>
+          <DecisionCard
+            href="/work/mystore"
+            kicker="DECISION №02 — API DESIGN · MYSTORE"
+            duration="2 WK"
+            title="Versioned REST + Zod validation, documented for review"
+            evidence="EVIDENCE — README · curl · Postman"
+            outcome={{ text: "DELIVERED — full-stack scope" }}
+          />
+        </li>
+        <li>
+          <DecisionCard
+            href="/work/ai-projects"
+            kicker="DECISION №03 — LLM EXTRACTION, NOT OCR · AI PROJECTS"
+            duration="14 D"
+            title="OpenAI-backed receipts analyzer — accuracy measured, refined in the open"
+            evidence="EVIDENCE — accuracy log"
+            outcome={{ text: "STATUS — ITERATING", variant: "status" }}
+          />
+        </li>
+      </ol>
 
       <p class="pre-web">
         Before the web: 13 years — CAD engineer → design-team manager → 500+
@@ -136,6 +144,19 @@ const description =
     padding: 33px var(--col-pad) 43px;
   }
 
+  /* The 3 preview cards' own <ol> — mirrors .decisions' gap exactly so
+     wrapping them in a real list doesn't change the spacing between
+     cards: that 16px/--space-3 rhythm used to come from being 3 of
+     .decisions' own flex children, now it's the single <ol> that is. */
+  .decision-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
   /* M-P1 collapses the column to one uniform inset instead of the
      desktop's distinct top/bottom rhythm: content padding mock 10px
      x1.44 = 14.4 -> --space-4, card gap mock 7px x1.44 = 10.1 ->
@@ -147,6 +168,9 @@ const description =
     .decisions {
       gap: var(--space-3);
       padding: var(--space-4) var(--col-pad);
+    }
+    .decision-list {
+      gap: var(--space-3);
     }
   }
 
