@@ -1213,7 +1213,7 @@ a.dcard {
      row to grow ~4px on that mode alone: a real layout shift on every
      mode switch, not just a color change. Background stays per-theme
      below; the box itself now matches across all three. */
-  padding: 2px 6px;
+  padding: 2px 6px 2px 0;
   border-radius: 2px;
 }
 .dcard-duration {
