@@ -10,7 +10,6 @@
       { "label": "SPAN", "value": "3 days" },
       { "label": "BUDGET", "value": "€0" }
     ],
-    "navWorkSuffix": "4/5",
     "tools": ["Astro", "Tailwind", "Vercel", "Cloudflare"],
     "link": {
       "href": "https://deniztoastmasters.com",

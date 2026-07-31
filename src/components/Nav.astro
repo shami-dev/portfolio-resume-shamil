@@ -6,11 +6,9 @@ interface Props {
   /** Omit on footer-tier destinations (colophon, 404) that aren't in the
       primary nav — every item renders inactive. */
   current?: "home" | "work" | "about" | "contact";
-  /** Case-detail context, e.g. "1/5" -> renders "WORK · 1/5" on the active item */
-  workSuffix?: string;
 }
 
-const { current, workSuffix } = Astro.props as Props;
+const { current } = Astro.props as Props;
 
 const items = [
   { key: "home", label: "HOME", href: "/" },
@@ -24,17 +22,13 @@ const items = [
   {
     items.map((item) => {
       const isActive = item.key === current;
-      const label =
-        isActive && item.key === "work" && workSuffix
-          ? `${item.label} · ${workSuffix}`
-          : item.label;
       return (
         <a
           href={item.href}
           class={isActive ? "nrow-a" : "nrow"}
           aria-current={isActive ? "page" : undefined}
         >
-          {label}
+          {item.label}
         </a>
       );
     })

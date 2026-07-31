@@ -21,7 +21,6 @@ const cases = defineCollection({
           }),
         )
         .length(2),
-      navWorkSuffix: z.string(),
       tools: z.array(z.string()),
       link: z.object({ href: z.string(), label: z.string() }).optional(),
     }),

@@ -10,7 +10,6 @@
       { "label": "SPAN", "value": "14 d + ongoing" },
       { "label": "STATUS", "value": "iterating", "accent": true }
     ],
-    "navWorkSuffix": "3/5",
     "tools": ["React Router 7", "TS", "OpenAI API"]
   },
   "index": {

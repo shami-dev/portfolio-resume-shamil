@@ -10,7 +10,6 @@
       { "label": "SPAN", "value": "~2 wks" },
       { "label": "STATUS", "value": "finished" }
     ],
-    "navWorkSuffix": "2/5",
     "tools": ["React", "TS", "Vite", "DaisyUI", "Express", "Prisma", "Zod"]
   },
   "index": {
