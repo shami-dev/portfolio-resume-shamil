@@ -134,9 +134,13 @@ const description =
 
   .index-caption {
     font-family: var(--font-mono);
+    font-weight: 500;
     font-size: var(--fs-kicker); /* 15px, mock 9.5px */
     color: var(--label);
     letter-spacing: var(--ls-wide);
+    /* Legibility wash over the .mm grid — same rgb(var(--paper-rgb), 0.75)
+       pattern as .case-lede-metrics/.hero-body/.block-body/.lesson. */
+    background: rgb(var(--paper-rgb), 0.75);
   }
 
   /* Mock gap "8px" x1.636 — the record rows' own tighter internal rhythm,
