@@ -156,6 +156,22 @@ const description =
     margin-left: 8px;
   }
 
+  /* №01 becomes its own row instead of running inline before the title
+     — margin-left was only ever there to space it from the title on
+     that shared line, so it moves to margin-top once the two split. 16px
+     (--fs-body) instead of .dcard-kicker's own --fs-kicker (15px), to
+     land on the same floor as the rest of the mobile body text. */
+  @media (width < 48rem) {
+    .work-row .dcard-kicker {
+      display: block;
+      font-size: var(--fs-body);
+    }
+    .work-title {
+      margin-left: 0;
+      margin-top: 4px;
+    }
+  }
+
   /* Mock font-size 10px x1.636 -> --fs-mono-lg. --green-raised (not
      --green) — these rows are .dcard, a raised surface: anoitecer's
      plain --green measures 4.19:1 there, below AA (a11y gate finding). */
