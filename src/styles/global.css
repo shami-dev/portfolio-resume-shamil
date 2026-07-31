@@ -1410,6 +1410,13 @@ a.dcard {
 .ftl-link:focus-visible {
   color: var(--blue-hover);
 }
+/* ↗'s ink sits ~2px lower and shorter than cap-height in IBM Plex Mono
+   (measured via canvas ink-bounds at 14px) — boxes already align, so this
+   nudges the glyph itself rather than its box. */
+.ftl-arrow {
+  position: relative;
+  top: -0.14em;
+}
 
 /* Footer -> pre-footer theme slot (Phase 5b 6.0 §4, mobile). .ft's three
    children are always [left slot, ModeSwitch, right slot] in that DOM
