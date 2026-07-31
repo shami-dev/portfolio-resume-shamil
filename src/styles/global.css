@@ -630,12 +630,25 @@ a:hover {
   }
   /* Home only: .rail-head/.hero/.decisions all run on the --space-3/
      --space-4 rhythm (see .rail-flat's own block below) — these two
-     used a flat 8px instead, off that rhythm by 4px. */
+     used a flat 8px instead, off that rhythm by 4px.
+
+     margin-inline restores the horizontal gutter every other band on
+     Home already has. Interior pages get theirs from .scan-panel's
+     `padding: 0 12px 12px`, but .rail-flat is display: contents here,
+     so the rail box that would have carried it does not exist and
+     these two were left full-bleed — label starting at x=0, and the
+     left border of the first metric cell and the first stack chip
+     clipped by the viewport edge. M-P1 wraps this whole band (results
+     group + chips) in one `padding:16px 16px 20px` container, so the
+     inset is --col-pad, the same token .hero, .decisions and the tick
+     rule use below 48rem. */
   .rail-flat .rail-chips {
     margin-top: var(--space-3);
+    margin-inline: var(--col-pad);
   }
   .rail-flat .rail-foot {
     margin-top: var(--space-3);
+    margin-inline: var(--col-pad);
   }
 
   /* Metrics -> M-P1's compact 3-up row: three bordered cells, equal
