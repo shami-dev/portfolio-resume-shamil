@@ -697,6 +697,18 @@ a:hover {
     text-transform: uppercase;
   }
 
+  /* Phase 5b 6.2/6.3 mock: every accordion instance is one bordered
+     wrapper (`<div style="border-bottom:1.5px solid #444">`) around the
+     bar AND the conditional panel together — the line always closes off
+     the whole block, collapsed or expanded, not just the 48px bar. .scan
+     is that wrapper; overridden from its all-other-breakpoints
+     display: contents (structural rule above) so it can hold the border. */
+  .scan {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    border-bottom: 1.5px solid var(--bd-rule);
+  }
   /* Scan bar — the 48px collapsed header for interior pages (Phase 5b
      6.0 §1-2). Mock: page label left, "▸ ID" right, sharp corners, same
      register as .nrow. min-height 48px clears the >=44px target Phase 5b
@@ -721,6 +733,9 @@ a:hover {
     border-left: 0;
     border-right: 0;
     border-top: 0;
+    /* .scan's own border-bottom (above) replaces this — kept on
+       .scan-bar-static, which has no .scan wrapper to rely on. */
+    border-bottom: 0;
     cursor: pointer;
   }
   .scan-bar:focus-visible {
@@ -761,11 +776,14 @@ a:hover {
     display: none;
   }
 
-  /* Expanded: the last cell inside the panel already carries its own
-     full border, so .rail's own border-bottom (drawn for the collapsed
-     48px bar) reads as a doubled line directly under it once the panel
-     is open — dropped here, restored the instant the panel collapses. */
-  .rail:has(.scan-panel:not([hidden])) {
+  /* Phase 5b 6.2 M-P2: the collapsed-bar wrapper owns 100% of its own
+     spacing (row padding 0 14px, panel padding 0 12px 12px) against a
+     zero-padding frame — .rail's own 14px padding has nothing left to
+     contribute once .scan is present, and doubles it instead: 28px insets
+     where the mock has 14px, and (collapsed) a second border-bottom
+     stranded 14px below .scan-bar's own, rather than flush at the edge. */
+  .rail:has(.scan) {
+    padding: 0;
     border-bottom: 0;
   }
 }
