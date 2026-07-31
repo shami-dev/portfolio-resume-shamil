@@ -18,32 +18,32 @@ const description =
 
 <BaseLayout title={title} description={description}>
   <Rail class="rail-flat">
-    <dl class="rail-head">
+    <div class="rail-head">
       <div class="cell">
-        <dt class="clab">NAME</dt>
-        <dd class="cell-name">Shamil Khaibullov</dd>
+        <div class="clab">NAME</div>
+        <div class="cell-name">Shamil Khaibullov</div>
       </div>
       <div class="cell">
-        <dt class="clab">TITLE</dt>
-        <dd class="cell-val">
+        <div class="clab">TITLE</div>
+        <div class="cell-val">
           <span>Full-Stack Developer</span><span>front-end-focused</span>
-        </dd>
+        </div>
       </div>
       <div class="cell-pair">
         <div class="cell">
-          <dt class="clab">LOC</dt>
-          <dd class="cell-val-mono">Porto, PT</dd>
+          <div class="clab">LOC</div>
+          <div class="cell-val-mono">Porto, PT</div>
         </div>
         <div class="cell">
-          <dt class="clab">AUTH</dt>
-          <dd class="cell-val-mono">EU permit</dd>
+          <div class="clab">AUTH</div>
+          <div class="cell-val-mono">EU permit</div>
         </div>
         <div class="cell">
-          <dt class="clab">AVAIL</dt>
-          <dd class="cell-val-mono">Remote / EU B2B</dd>
+          <div class="clab">AVAIL</div>
+          <div class="cell-val-mono">Remote / EU B2B</div>
         </div>
       </div>
-    </dl>
+    </div>
     <ul class="rail-chips">
       <li class="stk">React</li>
       <li class="stk">TypeScript</li>
@@ -115,7 +115,11 @@ const description =
 
       <p class="pre-web">
         Before the web: 13 years — CAD engineer → design-team manager → 500+
-        ATMs at 97%+ uptime. <a href="/about" class="full-arc">The full arc →</a
+        ATMs at 97%+ uptime. <a
+          href="/about"
+          class="full-arc"
+          aria-label="The full arc — read my pre-web career on the About page"
+          >The full arc →</a
         >
       </p>
       <TickRule variant="light" />
