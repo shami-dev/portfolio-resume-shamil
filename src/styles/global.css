@@ -858,7 +858,7 @@ a:hover {
     color: var(--blue);
   }
   a.dcard.is-hoverable:active {
-    border-left-color: var(--blue);
+    border-left: 3px solid var(--blue);
     background: var(--stk-bg);
   }
   .scan-bar:active {
@@ -1128,7 +1128,6 @@ a:hover {
   position: relative;
   background: var(--card-surface);
   border: 1px solid var(--bd-card);
-  border-left: 3px solid transparent;
   border-radius: 4px;
   padding: 18px 20px;
 }
@@ -1144,15 +1143,17 @@ a:hover {
   transition: opacity var(--t-lift) var(--e-out);
 }
 .dcard.is-hoverable {
-  transition:
-    transform var(--t-lift) var(--e-out),
-    border-left-color 0ms; /* color flips are instant */
+  transition: transform var(--t-lift) var(--e-out);
 }
+/* At rest, the left edge now reads like the other three sides (1px
+   var(--bd-card)) instead of the old reserved-but-invisible 3px
+   transparent gap — hover/focus still swap it for the 3px blue key,
+   just as a real border change now instead of only a color flip. */
 @media (hover: hover) {
   a.dcard.is-hoverable:hover,
   a.dcard.is-hoverable:focus-visible {
     transform: translateY(-2px);
-    border-left-color: var(--blue);
+    border-left: 3px solid var(--blue);
   }
   a.dcard.is-hoverable:hover::after,
   a.dcard.is-hoverable:focus-visible::after {
@@ -1166,7 +1167,12 @@ a.dcard {
 /* Case-detail's own DECISION block (§5.3): same surface as the Home
    preview card, but static — no link/hover, permanent blue key + shadow */
 .dcard-static {
-  border-left-color: var(--blue);
+  /* Explicit width too, not just color: .dcard's own border-left used to
+     reserve this 3px permanently (solid transparent) for exactly this
+     override to land on; now that .dcard defaults to a plain 1px on
+     every side (see .dcard's own comment), the width needs restating
+     here or this permanent key silently shrinks to 1px along with it. */
+  border-left: 3px solid var(--blue);
   box-shadow: 0 2px 6px rgb(0 0 0 / 7%);
 }
 .dcard-title {
@@ -1219,22 +1225,6 @@ a.dcard {
   }
   .dcard-duration::before {
     content: " · ";
-  }
-
-  /* Desktop's border-left-color only ever paints on :hover — mobile has
-     no hover to reveal it, and the :active tint alone is gone the
-     instant the tap ends, so without this a card never once shows it's
-     a link. Home: all three previews are equal (nothing there is
-     "ranked"), so all three get it permanently. Work index: only №01
-     does, matching M-P2's own frame — the box-shadow rides along with
-     it, both scoped to :first-child so rows 2-5 stay plain and keep
-     only the :active tint above. */
-  .rail-flat ~ .col a.dcard.is-hoverable {
-    border-left-color: var(--blue);
-  }
-  .index-list a.dcard.is-hoverable:first-child {
-    border-left-color: var(--blue);
-    box-shadow: 0 1px 4px rgb(0 0 0 / 7%);
   }
 }
 .status-chip {
