@@ -10,6 +10,14 @@ export default defineConfig({
   // `output` stays at its default ("static"): every page is prerendered.
   site: "https://shamil.dev",
 
+  // Dev-only UI, off project-wide (docs: astro.build/en/guides/dev-toolbar
+  // /#disabling-the-dev-toolbar) — it never ships to the built site, but
+  // its fixed-position overlay was getting in the way of mobile-viewport
+  // QA in the browser preview.
+  devToolbar: {
+    enabled: false,
+  },
+
   // Clean URLs (no trailing slash) is the canonical form: every existing
   // internal href already omits it. Only affects dev-server route matching
   // and Astro.url — prerendered output trailing-slash behavior is actually
