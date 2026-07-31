@@ -1403,6 +1403,7 @@ a.dcard {
   .ft {
     flex-direction: column;
     align-items: stretch;
+    text-align: center;
     /* Shrinks the gap between the two stacked text lines (left/right
        slot) to read as one tight block, matching the mock's 3px — the
        larger gap above them, between the theme control and the first
