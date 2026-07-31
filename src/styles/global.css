@@ -1206,6 +1206,7 @@ a.dcard {
 .dcard-title {
   font: 600 1.3125rem/1.3 var(--font-sans); /* 21px, mock 13px */
   margin-top: 6px;
+  padding-left: 6px;
   color: var(--ink);
 }
 .dcard-badges {
@@ -1227,9 +1228,28 @@ a.dcard {
      carries, so giving anoitecer its own box size caused every card's
      row to grow ~4px on that mode alone: a real layout shift on every
      mode switch, not just a color change. Background stays per-theme
-     below; the box itself now matches across all three. */
-  padding: 2px 6px 2px 0;
+     below; the box itself now matches across all three.
+     padding-left mirrors .eb/.rb's symmetric 3px 8px (their nearer 2px
+     6px equivalent here) rather than 0 — anoitecer's fill otherwise sits
+     flush against the text with no breathing room on that side, reading
+     as clipped next to .eb. No compensating margin: the box's own edge
+     (not the glyph inside its padding) is what reads as "aligned" next
+     to .dcard-title/.eb, and that edge already sits flush without one —
+     confirmed against getClientRects(), matching .eb's own precedent of
+     never flush-aligning its text, only its box.
+
+     Below 48rem, a.dcard.is-hoverable .mrow drops to display: block
+     (see that rule's own comment), which un-blockifies this from a flex
+     item back to a plain inline span — long kickers wrap, and the
+     default box-decoration-break: slice then gives only the first
+     line's fragment the left padding and only the last line's the
+     right padding, so wrapped anoitecer fills look mismatched rather
+     than clipped-on-one-side. clone repeats the full padding on every
+     wrapped line instead, each reading as its own consistent chip. */
+  padding: 2px 6px;
   border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone; /* stylelint-disable-line property-no-vendor-prefix -- Safari has no unprefixed support */
 }
 .dcard-duration {
   font-family: var(--font-mono);
