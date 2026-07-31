@@ -920,31 +920,11 @@ a:hover {
    above the footer text on EVERY page instead — a 44px full-width
    segmented cell. Rationale in the design doc: theme is a set-once
    preference, not a per-visit control, and the pre-footer is the rail-
-   bottom's closest analog (end of the scan path). .mode-switch-label
-   (see ModeSwitch.astro) stands in for the real <legend>, which cannot
-   be un-hidden cleanly — it renders straddling the fieldset's own
-   border by design, not above it, regardless of display value. */
-.mode-switch-label {
-  display: none;
-}
+   bottom's closest analog (end of the scan path). */
 @media (width < 48rem) {
-  .mode-switch,
-  .mode-switch-label {
-    order: -1;
-  }
   .mode-switch {
+    order: -1;
     width: 100%;
-  }
-  .mode-switch-label {
-    display: block;
-    width: 100%;
-    font-family: var(--font-mono);
-    font-weight: 600;
-    font-size: var(--fs-mono);
-    letter-spacing: var(--ls-widest);
-    color: var(--label);
-    text-transform: uppercase;
-    margin-bottom: 6px;
   }
   .mode-seg {
     flex: 1;
