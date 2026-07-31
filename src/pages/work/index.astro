@@ -160,10 +160,15 @@ const description =
      — margin-left was only ever there to space it from the title on
      that shared line, so it moves to margin-top once the two split. 16px
      (--fs-body) instead of .dcard-kicker's own --fs-kicker (15px), to
-     land on the same floor as the rest of the mobile body text. */
+     land on the same floor as the rest of the mobile body text.
+     width: fit-content keeps the block-level stacking (so .work-title
+     still wraps below it) without stretching to the row's full width —
+     block alone made anoitecer's background span edge to edge instead
+     of hugging "№01" the way an inline element would. */
   @media (width < 48rem) {
     .work-row .dcard-kicker {
       display: block;
+      width: fit-content;
       font-size: var(--fs-body);
     }
     .work-title {
