@@ -87,6 +87,10 @@ const title = `About — ${totalYearsRounded} years, one arc · Shamil Khaibullo
 const description =
   "CAD engineer → design-team manager → 500+ ATMs at 97%+ uptime → web. The arc is the argument. Resume as a direct PDF.";
 
+// Absolute, not "/resume.pdf" — copied for pasting into an email or chat,
+// where a relative path resolves against whatever page it's read from.
+const resumeUrl = new URL("/resume.pdf", Astro.site).href;
+
 // Same source as the timeline, rounded for prose — so this sentence
 // can't drift out of sync with the stations again the way "4 years / 4
 // more / 2 years" had (real durations are 3y2mo / 5y4mo / 2y1mo).
@@ -94,8 +98,8 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 ---
 
 <BaseLayout title={title} description={description} motion>
-  <Rail label="S.K. / ABOUT">
-    <Fragment slot="scan">
+  <Rail label="Shamil Khaibullov / ABOUT" labelRight="PORTO · PT">
+    <div class="about-id-cells">
       <div class="cell">
         <div class="clab">NAME</div>
         <div class="cell-name">Shamil Khaibullov</div>
@@ -110,40 +114,58 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
           <div class="cell-val-mono">EU permit</div>
         </div>
       </div>
-    </Fragment>
+    </div>
     <Nav current="about" />
-    <div class="rail-foot">
-      <a href="/resume.pdf" class="resume-btn">RESUME.PDF ↓</a>
+    <div class="rail-foot about-resume-rail">
+      <a href={resumeUrl} class="resume-btn">RESUME.PDF ↓</a>
       <p class="resume-caption">direct file URL — forwardable</p>
     </div>
   </Rail>
 
   <div class="mm2 col about">
+    <h1 class="h1-case about-h1" data-register>The arc is the argument.</h1>
+
     <div class="about-intro">
-      <div class="about-copy">
-        <h1 class="h1-case" data-register>The arc is the argument.</h1>
-        <p class="prose about-body" data-register>
-          I'm a web developer in Porto building fast, accessible
-          React/TypeScript applications. Before development: {cadYears} years as a
-          CAD engineer, {managerYears} more managing the design team, then {
-            atmYears
-          } years keeping 500+ ATM and payment-kiosk systems at 97%+ uptime. That
-          arc — IC to lead to reliability — is where the instinct for ownership and
-          end-to-end responsibility comes from. I've carried it into web work since:
-          running the technical infrastructure behind international conferences serving
-          500+ attendees across 15 countries, usually as the only person responsible
-          for the whole stack, alongside sites built for real organizations and individuals
-          with real deadlines — conferences, election campaigns — and self-directed
-          projects integrating AI into working products. Schengen residence card,
-          Portuguese work permit; remote and cross-border B2B across the EU.
-        </p>
-      </div>
+      <p class="prose about-body" data-register>
+        I'm a web developer in Porto building fast, accessible React/TypeScript
+        applications. Before development: {cadYears} years as a CAD engineer, {
+          managerYears
+        } more managing the design team, then {atmYears} years keeping 500+ ATM and
+        payment-kiosk systems at 97%+ uptime. That arc — IC to lead to reliability
+        — is where the instinct for ownership and end-to-end responsibility comes
+        from. I've carried it into web work since: running the technical infrastructure
+        behind international conferences serving 500+ attendees across 15 countries,
+        usually as the only person responsible for the whole stack, alongside sites
+        built for real organizations and individuals with real deadlines — conferences,
+        election campaigns — and self-directed projects integrating AI into working
+        products. Schengen residence card, Portuguese work permit; remote and cross-border
+        B2B across the EU.
+      </p>
       <Placeholder
         slug="portrait-shamil"
         kind="PORTRAIT — SUPPLIED SEPARATELY"
         class="portrait-fig"
         data-register="lg"
       />
+      <div class="about-resume-inline" data-register>
+        <a href={resumeUrl} class="resume-btn">RESUME.PDF ↓</a>
+        <button
+          type="button"
+          class="copy-btn"
+          id="resume-copy-btn"
+          data-resume-url={resumeUrl}
+          data-default-label="⧉ Copy resume link"
+        >
+          ⧉ Copy resume link
+        </button>
+        <p
+          class="visually-hidden"
+          id="resume-copy-announce"
+          role="status"
+          aria-live="polite"
+        >
+        </p>
+      </div>
     </div>
 
     <div class="klab about-track-label" data-register>
@@ -179,7 +201,7 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 
     <div class="about-cols" data-register>
       <div class="about-col">
-        <div class="klab">SKILLS — GROUPED</div>
+        <div class="klab">SKILLS</div>
         <p class="prose about-skills">
           <strong>Front-end:</strong> React, TypeScript, Astro, Tailwind
           <br />
@@ -191,7 +213,7 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
         </p>
       </div>
       <div class="about-col">
-        <div class="klab">RECOGNITION</div>
+        <div class="klab">RECOGNITIONS</div>
         <p class="prose about-quote">
           "…ownership, vision, and a crash-free launch." — public LinkedIn
           recommendation, MALTALINK 2025
@@ -228,18 +250,53 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     }
   }
 
-  /* Copy + portrait row, mock gap "18px" x1.636 */
+  /* Tablet: no separate wrapper class existed for these before — give
+     them the same row-basis .rail-head/.cell-pair get elsewhere, so the
+     NAME cell and the LOC/AUTH pair don't collapse to content-width. */
+  @media (48rem <= width < 64rem) {
+    .about-id-cells {
+      display: flex;
+      flex: 1 1 22rem;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-start;
+    }
+  }
+
+  /* Mobile: the static bar (Rail's label/labelRight) already carries
+     name and location compactly — these full cells would just repeat
+     it. */
+  @media (width < 48rem) {
+    .about-id-cells {
+      display: none;
+    }
+  }
+
+  /* Body + portrait row, mock gap "18px" x1.636. .about-body is a direct
+     flex child now — it was .about-copy's job to grow/clamp before .h1
+     moved out of this row entirely. */
   .about-intro {
     display: flex;
     gap: 29px;
   }
-  .about-copy {
+  /* Mock margin-top "8px" x1.636 — was .about-copy's own heading-to-body
+     gap; .h1-case sits outside .about-intro now, so this reads as the
+     row's own top offset instead. Written after the plain .about-intro
+     rule above so stylelint's specificity-order check reads it as the
+     (correctly) more specific override it is. */
+  .about-h1 + .about-intro {
+    margin-top: 13px;
+  }
+  .about-body {
     flex: 1;
     min-width: 0;
   }
-  /* Mock margin-top "8px" x1.636 */
-  .about-body {
-    margin-top: 13px;
+
+  /* Column-only: the rail keeps its own resume block for desktop/tablet
+     (unchanged), so this stays out of the way until .about-resume-rail
+     is hidden below. */
+  .about-resume-inline {
+    display: none;
   }
 
   /* Desktop: fixed width beside the copy, 5:6 (mock's own portrait
@@ -262,6 +319,24 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     .portrait-fig {
       width: 100%;
       aspect-ratio: 4 / 5;
+      order: 0;
+    }
+    /* Photo right after the H1, resume right after the photo, prose
+       last — request order, not DOM order (.about-body has to stay
+       first in the DOM for .about-body's own :first-of-type/reading
+       flow elsewhere, so this reorders instead of moving markup). */
+    .about-resume-inline {
+      display: block;
+      order: 1;
+    }
+    .about-body {
+      order: 2;
+    }
+    /* The column's own resume block (above) takes over the KPI-1 job at
+       this width — showing the rail's copy too would be a second,
+       redundant resume prompt stacked right above it. */
+    .about-resume-rail {
+      display: none;
     }
   }
 
@@ -321,6 +396,7 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
   }
   .track-label-sub {
     font-family: var(--font-mono);
+    font-weight: 500;
     font-size: var(--fs-mono); /* 13px floor, mock 8px */
     color: var(--label);
   }
@@ -472,4 +548,84 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     text-align: center;
     margin-top: 8px;
   }
+
+  @media (width < 48rem) {
+    .about-resume-inline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .about-resume-inline .resume-btn {
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .about-resume-inline .resume-btn:active {
+      background: var(--blue);
+    }
+  }
+
+  /* Same copy-to-clipboard pattern as Contact's .copy-btn (that file's
+     own scoped style, not reusable from here — duplicated rather than
+     factored out for a second consumer, given the scope of this pass). */
+  .copy-btn {
+    font-family: var(--font-mono);
+    font-size: var(--fs-kicker); /* 15px */
+    color: var(--blue-raised);
+    background: none;
+    border: none;
+    padding: 8px 0;
+    text-align: left;
+    cursor: pointer;
+  }
+  .copy-btn[data-state="copied"] {
+    color: var(--green-raised);
+  }
+  @media (width < 48rem) {
+    .copy-btn {
+      -webkit-tap-highlight-color: transparent;
+    }
+    .copy-btn:active {
+      background: var(--stk-bg);
+    }
+  }
 </style>
+
+<script>
+  // Mirrors Contact's copy-email script (that page's own inline
+  // <script>, not shared — see the .copy-btn CSS comment above for why).
+  const copyBtn = document.querySelector<HTMLButtonElement>("#resume-copy-btn");
+  const copyAnnounce = document.getElementById("resume-copy-announce");
+  const defaultLabel = copyBtn?.dataset.defaultLabel ?? "";
+  let revertTimer: ReturnType<typeof setTimeout> | undefined;
+
+  function announce(message: string) {
+    if (!copyAnnounce) return;
+    copyAnnounce.textContent = "";
+    setTimeout(() => {
+      copyAnnounce.textContent = message;
+    }, 0);
+  }
+
+  copyBtn?.addEventListener("click", async () => {
+    const url = copyBtn.dataset.resumeUrl ?? "";
+    clearTimeout(revertTimer);
+    try {
+      await navigator.clipboard.writeText(url);
+      copyBtn.textContent = "✓ Copied";
+      copyBtn.dataset.state = "copied";
+      announce("Copied " + url + " to clipboard");
+    } catch {
+      copyBtn.textContent = "✗ Couldn't copy";
+      delete copyBtn.dataset.state;
+      announce("Couldn't copy — resume link is " + url);
+    }
+    revertTimer = setTimeout(() => {
+      copyBtn.textContent = defaultLabel;
+      delete copyBtn.dataset.state;
+    }, 2000);
+  });
+</script>
