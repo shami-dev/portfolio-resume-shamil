@@ -871,7 +871,13 @@ a:hover {
     color: var(--blue);
   }
   a.dcard.is-hoverable:active {
-    border-left: 3px solid var(--blue);
+    /* border-left-color + an inset shadow, not border-left width: a
+       width change shifts the content box 2px right (border-box still
+       grows the border inward), which read as the card's text jumping
+       on tap. The shadow paints the extra 2px on top of the padding
+       instead of consuming it, so nothing in the content box moves. */
+    border-left-color: var(--blue);
+    box-shadow: inset 2px 0 0 var(--blue);
     background: var(--stk-bg);
   }
   .scan-bar:active {
@@ -1146,7 +1152,11 @@ a:hover {
   a.dcard.is-hoverable:hover,
   a.dcard.is-hoverable:focus-visible {
     transform: translateY(-2px);
-    border-left: 3px solid var(--blue);
+    /* Same fix as the mobile :active rule below: color + inset shadow,
+       not a border-left width change, so the content box doesn't shift
+       right when the key appears. */
+    border-left-color: var(--blue);
+    box-shadow: inset 2px 0 0 var(--blue);
   }
   a.dcard.is-hoverable:hover::after,
   a.dcard.is-hoverable:focus-visible::after {
