@@ -165,12 +165,15 @@ const {
 
     <TickRule variant="light" />
 
+    <div class="case-pager" data-register>
+      <a href={footerNav.prev.href} class="ftl">{footerNav.prev.label}</a>
+      <a href={footerNav.next.href} class="ftl">{footerNav.next.label}</a>
+    </div>
+
     <Footer data-register>
-      <a href={footerNav.prev.href} class="ftl" slot="left"
-        >{footerNav.prev.label}</a
-      >
-      <a href={footerNav.next.href} class="ftl" slot="right"
-        >{footerNav.next.label}</a
+      <span class="ftl" slot="left">© 2026 Shamil Khaibullov</span>
+      <span class="ftl" slot="right"
+        ><a href="/colophon" class="ftl-link">COLOPHON</a> · ANALYTICS ↗</span
       >
     </Footer>
   </div>
