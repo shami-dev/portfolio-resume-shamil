@@ -12,13 +12,16 @@
 // bottom nav — so 404 isn't the one page with no way back or to switch
 // theme on a phone. Rail and ModeSwitch render unconditionally but stay
 // display: none above 48rem (see the style block), so desktop/tablet are
-// pixel-identical to before this page had them in its markup at all.
-// Per Phase 5b flag F6: no scan accordion here (label only, no `scan`
-// slot) — this page has no scan job, and all four bottom-nav tabs render
-// inactive since neither 404 nor Colophon is a nav destination.
+// pixel-identical to before this page had them in its markup at all. The
+// scan accordion carries the same NAME/LOC-AUTH/RESULTS content as every
+// other interior page's panel (Colophon included) rather than the
+// label-only static bar Phase 5b flag F6 originally called for — all
+// four bottom-nav tabs still render inactive, since neither 404 nor
+// Colophon is a nav destination.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Rail from "../components/Rail.astro";
 import Nav from "../components/Nav.astro";
+import MetricCell from "../components/MetricCell.astro";
 import ModeSwitch from "../components/ModeSwitch.astro";
 import TickRule from "../components/TickRule.astro";
 
@@ -29,6 +32,29 @@ const description =
 
 <BaseLayout title={title} description={description} noindex>
   <Rail label="S.K. / 404" class="rail-404">
+    <Fragment slot="scan">
+      <div class="cell">
+        <div class="clab">NAME</div>
+        <div class="cell-name">Shamil Khaibullov</div>
+      </div>
+      <div class="cell-pair">
+        <div class="cell">
+          <div class="clab">LOC</div>
+          <div class="cell-val-mono">Porto, PT</div>
+        </div>
+        <div class="cell">
+          <div class="clab">AUTH</div>
+          <div class="cell-val-mono">EU permit</div>
+        </div>
+      </div>
+      <MetricCell
+        metrics={[
+          { value: "100%", caption: "completion" },
+          { value: "€1,000+", caption: "saved" },
+          { value: "0", caption: "downtime" },
+        ]}
+      />
+    </Fragment>
     <Nav />
   </Rail>
   <div class="notfound">

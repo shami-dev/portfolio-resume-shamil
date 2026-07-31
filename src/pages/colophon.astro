@@ -10,6 +10,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Rail from "../components/Rail.astro";
 import Nav from "../components/Nav.astro";
+import MetricCell from "../components/MetricCell.astro";
 import TickRule from "../components/TickRule.astro";
 import Footer from "../components/Footer.astro";
 
@@ -22,9 +23,26 @@ const description =
   <Rail label="S.K. / COLOPHON">
     <Fragment slot="scan">
       <div class="cell">
-        <div class="clab">PAGE</div>
-        <div class="cell-name">Colophon</div>
+        <div class="clab">NAME</div>
+        <div class="cell-name">Shamil Khaibullov</div>
       </div>
+      <div class="cell-pair">
+        <div class="cell">
+          <div class="clab">LOC</div>
+          <div class="cell-val-mono">Porto, PT</div>
+        </div>
+        <div class="cell">
+          <div class="clab">AUTH</div>
+          <div class="cell-val-mono">EU permit</div>
+        </div>
+      </div>
+      <MetricCell
+        metrics={[
+          { value: "100%", caption: "completion" },
+          { value: "€1,000+", caption: "saved" },
+          { value: "0", caption: "downtime" },
+        ]}
+      />
     </Fragment>
     <Nav />
   </Rail>
