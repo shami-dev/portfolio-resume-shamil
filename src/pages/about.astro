@@ -10,7 +10,7 @@ import Rail from "../components/Rail.astro";
 import Nav from "../components/Nav.astro";
 import TickRule from "../components/TickRule.astro";
 import Placeholder from "../components/Placeholder.astro";
-import Footer from "../components/Footer.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 
 // Roles only — the Jun 2018–Feb 2020 gap (unfinished CS Master's,
 // redirected into Automotive Engineering, no Germany semester) is
@@ -231,12 +231,7 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       >RESUME.PDF ↓</a
     >
 
-    <Footer data-register>
-      <a href="/colophon" class="ftl" slot="left"
-        >HOW THIS SITE WAS BUILT → COLOPHON</a
-      >
-      <span class="ftl" slot="right">ANALYTICS ↗ · © 2026</span>
-    </Footer>
+    <SiteFooter data-register />
   </div>
 </BaseLayout>
 
