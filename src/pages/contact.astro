@@ -157,9 +157,7 @@ if (result?.error) {
               autocomplete="off"
             />
           </div>
-          <button type="submit" class="send-btn"
-            >SEND <span class="arrow" aria-hidden="true">↗</span></button
-          >
+          <button type="submit" class="send-btn">SEND</button>
           <p
             class="form-status"
             id="form-status"
@@ -568,13 +566,12 @@ if (result?.error) {
     color: var(--ink);
     text-decoration: none;
   }
-  /* Every arrow on this page is ↗ now, including SEND's (a same-page
-     form submit, not really "external" — but the glyph is decorative,
-     aria-hidden, and one consistent character/size throughout reads
-     better than carving out an exception). mailto is ↗ too: it leaves
-     the page for an external mail client same as the other three: the
-     target="_blank" split this used to key off of was a DOM-signal
-     accident, not a real internal/external distinction.
+  /* Every .contact-links arrow is ↗ now, mailto included: it leaves
+     the page for an external mail client same as the other three, so
+     the target="_blank" split this used to key off of was a DOM-signal
+     accident, not a real internal/external distinction. SEND stays a
+     plain → outside this rule — a same-page form submit is genuinely
+     internal, unlike the other four.
 
      → and ↗ read as very different sizes at the same font-size — ↗'s
      ink is a compact diagonal stroke versus →'s wide horizontal shaft
@@ -592,7 +589,7 @@ if (result?.error) {
      ↗ centers at 30.44, ~1.1px lower), same class of quirk as
      .ftl-arrow's -0.14em nudge elsewhere in global.css. top: -0.05em
      (~1.1px at this size) re-centers it against the adjacent text. */
-  .arrow {
+  .contact-links .arrow {
     font-size: 1.3em;
     line-height: 1;
     position: relative;
