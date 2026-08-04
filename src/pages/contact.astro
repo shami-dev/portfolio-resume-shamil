@@ -16,7 +16,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Rail from "../components/Rail.astro";
 import Nav from "../components/Nav.astro";
 import TickRule from "../components/TickRule.astro";
-import Footer from "../components/Footer.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { actions, isInputError } from "astro:actions";
 
 const title = "Contact — Shamil Khaibullov";
@@ -222,12 +222,7 @@ if (result?.error) {
 
     <TickRule variant="light" />
 
-    <Footer data-register>
-      <span class="ftl" slot="left">PORTO, PT · EU WORK PERMIT</span>
-      <span class="ftl" slot="right"
-        ><a href="/colophon" class="ftl-link">COLOPHON</a> · ANALYTICS ↗ · © 2026</span
-      >
-    </Footer>
+    <SiteFooter data-register />
   </div>
 </BaseLayout>
 
