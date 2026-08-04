@@ -227,6 +227,10 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 
     <TickRule variant="light" />
 
+    <a href={resumeUrl} class="resume-btn about-resume-end" data-register
+      >RESUME.PDF ↓</a
+    >
+
     <Footer data-register>
       <a href="/colophon" class="ftl" slot="left"
         >HOW THIS SITE WAS BUILT → COLOPHON</a
@@ -312,6 +316,11 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
   @media (width < 48rem) {
     .about-intro {
       flex-direction: column;
+      /* M-P8's own flex column runs a uniform 14px gap between photo,
+         resume button and prose — mock 14px x1.44 (Phase 7 mobile
+         factor) lands on --space-5, well under desktop's inherited
+         29px carried over from the two-column row above. */
+      gap: var(--space-5);
     }
     /* M-P8: full-width, 4:5 — a shallower crop than desktop's 5:6,
        since a 245px-tall portrait at full mobile width would run
@@ -529,6 +538,14 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     color: var(--white);
   }
 
+  /* Second RESUME.PDF instance (Phase 5b 6.4 M-P8, KPI 1 — "twice"):
+     desktop keeps its single instance in the rail's bottom slot, so
+     this end-of-scroll repeat — between the tick rule and the theme
+     switch, matching the mock's own placement — is mobile-only. */
+  .about-resume-end {
+    display: none;
+  }
+
   /* Pressed state (Phase 5b 6.0 §3) — same blue swap as :hover, since
      hover has no mobile analog to avoid doubling up with. */
   @media (width < 48rem) {
@@ -554,16 +571,17 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: 14px;
     }
-    .about-resume-inline .resume-btn {
+    .about-resume-inline .resume-btn,
+    .about-resume-end {
       min-height: 52px;
       display: flex;
       align-items: center;
       justify-content: center;
       -webkit-tap-highlight-color: transparent;
     }
-    .about-resume-inline .resume-btn:active {
+    .about-resume-inline .resume-btn:active,
+    .about-resume-end:active {
       background: var(--blue);
     }
   }
@@ -578,7 +596,7 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     background: none;
     border: none;
     padding: 8px 0;
-    text-align: left;
+    text-align: center;
     cursor: pointer;
   }
   .copy-btn[data-state="copied"] {
