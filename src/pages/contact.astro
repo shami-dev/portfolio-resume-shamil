@@ -157,7 +157,9 @@ if (result?.error) {
               autocomplete="off"
             />
           </div>
-          <button type="submit" class="send-btn">SEND →</button>
+          <button type="submit" class="send-btn"
+            >SEND <span class="arrow" aria-hidden="true">↗</span></button
+          >
           <p
             class="form-status"
             id="form-status"
@@ -177,7 +179,7 @@ if (result?.error) {
       <div class="contact-links">
         <div class="cell contact-email">
           <a class="contact-link" href="mailto:hello@shamil.dev"
-            >hello@shamil.dev <span class="arrow" aria-hidden="true">→</span></a
+            >hello@shamil.dev <span class="arrow" aria-hidden="true">↗</span></a
           >
           <button
             type="button"
@@ -199,7 +201,7 @@ if (result?.error) {
           href="https://calendly.com/shamil-dev/"
           target="_blank"
           rel="noopener noreferrer"
-          >CALENDLY — BOOK 30 MIN <span class="arrow" aria-hidden="true">→</span
+          >CALENDLY — BOOK 30 MIN <span class="arrow" aria-hidden="true">↗</span
           ></a
         >
         <div class="cell contact-social">
@@ -207,14 +209,14 @@ if (result?.error) {
             href="https://www.linkedin.com/in/shamil-khaibullov/"
             target="_blank"
             rel="noopener noreferrer"
-            >LINKEDIN <span class="arrow" aria-hidden="true">→</span></a
+            >LINKEDIN <span class="arrow" aria-hidden="true">↗</span></a
           >
           <span aria-hidden="true">·</span>
           <a
             href="https://github.com/shami-dev"
             target="_blank"
             rel="noopener noreferrer"
-            >GITHUB <span class="arrow" aria-hidden="true">→</span></a
+            >GITHUB <span class="arrow" aria-hidden="true">↗</span></a
           >
         </div>
       </div>
@@ -566,24 +568,43 @@ if (result?.error) {
     color: var(--ink);
     text-decoration: none;
   }
-  .contact-social span {
+  /* Every arrow on this page is ↗ now, including SEND's (a same-page
+     form submit, not really "external" — but the glyph is decorative,
+     aria-hidden, and one consistent character/size throughout reads
+     better than carving out an exception). mailto is ↗ too: it leaves
+     the page for an external mail client same as the other three: the
+     target="_blank" split this used to key off of was a DOM-signal
+     accident, not a real internal/external distinction.
+
+     → and ↗ read as very different sizes at the same font-size — ↗'s
+     ink is a compact diagonal stroke versus →'s wide horizontal shaft
+     (measured via canvas ink-bounds: ~7x8px vs ~20x8px at 16px/600 in
+     this font, same height but roughly a third the width/visual
+     weight). 1.3em was picked by rendering both at several candidate
+     sizes side by side and comparing.
+
+     No explicit line-height, so .arrow inherited body's 1.5 — at 1.3em
+     that's a 31px line box around a ~13px-tall glyph, centered by its
+     own (bloated) box rather than by ink once flex align-items: center
+     takes over on mobile. line-height: 1 fixes the box; it doesn't fix
+     the glyph itself — ↗'s ink still sits low within even a tight box
+     (canvas ink-bounds at 20.8px/600: cap-height "L" centers at 29.31,
+     ↗ centers at 30.44, ~1.1px lower), same class of quirk as
+     .ftl-arrow's -0.14em nudge elsewhere in global.css. top: -0.05em
+     (~1.1px at this size) re-centers it against the adjacent text. */
+  .arrow {
+    font-size: 1.3em;
+    line-height: 1;
+    position: relative;
+    top: -0.05em;
+  }
+  /* > not a descendant selector: .arrow lives inside each <a> child, one
+     level deeper than the "·" separator (a direct child of
+     .contact-social) — a plain "span" descendant selector matches both,
+     muting the arrows to --label along with the separator instead of
+     leaving them --ink like Calendly's. */
+  .contact-social > span {
     color: var(--label);
-  }
-  /* Shared by all four arrow-suffixed links (Calendly, email,
-     LinkedIn, GitHub) — same "opens/goes to" register throughout
-     .contact-links, not just the two social ones. transition lives on
-     the base rule (not inside :hover) so the arrow animates back on
-     mouse-leave too, not just snapping — same pattern as
-     .dcard.is-hoverable in global.css. */
-  .contact-links .arrow {
-    display: inline-block;
-    transition: transform var(--t-hover) var(--e-out);
-  }
-  @media (hover: hover) {
-    .contact-links a:hover .arrow,
-    .contact-links a:focus-visible .arrow {
-      transform: translateX(3px);
-    }
   }
 
   /* M-P9: CALENDLY and the plain email link both grow to >=56px tap
@@ -613,7 +634,11 @@ if (result?.error) {
       gap: 6px;
       border: 1.5px solid var(--ink);
     }
-    .contact-social span {
+    /* > not a descendant selector — see the base .contact-social > span
+       rule above; a plain "span" descendant selector here hid .arrow
+       along with the "·" separator it was meant for, so LINKEDIN/GITHUB
+       never showed an arrow on mobile at all. */
+    .contact-social > span {
       display: none;
     }
   }
