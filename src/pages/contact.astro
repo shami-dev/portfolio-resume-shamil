@@ -530,9 +530,16 @@ if (result?.error) {
   .copy-btn {
     font-family: var(--font-mono);
     font-size: var(--fs-kicker); /* 15px */
+    font-weight: 500;
     color: var(--blue-raised);
     background: none;
     border: none;
+    /* M-P9: a subtle line separates the email link from the copy-address
+       row within the same bordered cell — .contact-email's own flex gap
+       already provides the space above the line; this button's existing
+       padding-top provides the (matching) space below it, so the border
+       just marks the boundary rather than adding extra room. */
+    border-top: 1px solid var(--bd-hair);
     padding: 8px 0;
     /* <button> defaults to text-align: center in the UA stylesheet;
        stretched full-width by .contact-email's flex column, that
