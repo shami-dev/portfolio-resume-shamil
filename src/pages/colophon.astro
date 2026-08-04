@@ -12,7 +12,7 @@ import Rail from "../components/Rail.astro";
 import Nav from "../components/Nav.astro";
 import MetricCell from "../components/MetricCell.astro";
 import TickRule from "../components/TickRule.astro";
-import Footer from "../components/Footer.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 
 const title = "Colophon — how this site was built";
 const description =
@@ -85,10 +85,7 @@ const description =
       Cookieless Umami analytics — this site's own numbers are public.
     </p>
 
-    <Footer data-register>
-      <span class="ftl" slot="left">S.KHAIBULLOV — COLOPHON</span>
-      <span class="ftl" slot="right">© 2026</span>
-    </Footer>
+    <SiteFooter data-register />
   </div>
 </BaseLayout>
 
@@ -103,6 +100,25 @@ const description =
     .colophon {
       gap: var(--space-3);
       padding: var(--space-4) var(--col-pad);
+      /* Colophon is short enough that its content often doesn't reach
+         the fold, leaving the footer stranded mid-page above a blank
+         gap. .col's own flex:1 already grows it to fill .sheet's
+         min-height: 100vh (the mobile band's flex-direction: column
+         makes that the main axis) — margin-top: auto on the footer
+         (below) pushes it to the bottom of that space. body's own
+         padding-bottom reserves the fixed nav's height so the page can
+         scroll past it, but that's after .sheet ends — it does nothing
+         for what's inside .sheet at rest, so without this the pushed
+         footer lands exactly in the nav's fixed overlay zone at
+         scrollY 0 (confirmed empirically: footer bottom 796 vs nav top
+         756, a 40px overlap). Adding the same nav-height reservation
+         here, inside .colophon's own padding, stops the flex content
+         area that much short of .sheet's edge, so the auto-margined
+         footer clears the nav instead of hiding behind it. */
+      padding-bottom: calc(var(--space-4) + 56px + env(safe-area-inset-bottom));
+    }
+    .colophon > .ft {
+      margin-top: auto;
     }
   }
 
