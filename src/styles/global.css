@@ -733,10 +733,17 @@ a:hover {
     border-left: 0;
     border-right: 0;
     border-top: 0;
-    /* .scan's own border-bottom (above) replaces this — kept on
-       .scan-bar-static, which has no .scan wrapper to rely on. */
-    border-bottom: 0;
     cursor: pointer;
+  }
+  /* .scan's own border-bottom (above) replaces this for the accordion
+     toggle specifically — scoped to `.scan > .scan-bar` rather than the
+     bare class, which also matches About's static bar (Rail.astro gives
+     it class="scan-bar scan-bar-static" for the shared width/cursor/
+     border resets above): that element has no .scan wrapper to fall
+     back on and needs to keep its own border-bottom from the shared
+     .scan-bar, .scan-bar-static rule below. */
+  .scan > .scan-bar {
+    border-bottom: 0;
   }
   .scan-bar:focus-visible {
     outline: 2px solid var(--focus);
@@ -781,8 +788,13 @@ a:hover {
      zero-padding frame — .rail's own 14px padding has nothing left to
      contribute once .scan is present, and doubles it instead: 28px insets
      where the mock has 14px, and (collapsed) a second border-bottom
-     stranded 14px below .scan-bar's own, rather than flush at the edge. */
-  .rail:has(.scan) {
+     stranded 14px below .scan-bar's own, rather than flush at the edge.
+     About's label-only bar (.scan-bar-static, no .scan wrapper — no
+     accordion to open) has the identical problem: same shared min-height
+     48px/border-bottom 1.5px box, same redundant .rail padding/border
+     around it. */
+  .rail:has(.scan),
+  .rail:has(.scan-bar-static) {
     padding: 0;
     border-bottom: 0;
   }
