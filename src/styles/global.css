@@ -201,6 +201,12 @@ a:hover {
    these already sit above the F-02 floor. */
 .eb,
 .rb {
+  /* inline-block: PROBLEM/CONSTRAINT/DECISION/EVIDENCE/RESULT are <h2> on
+     case-detail pages (Phase 7 "Case anatomy labels (PROBLEM -> LESSON) =
+     h2s") — without it, h2's block default stretches the chip's
+     background/padding to the full width of its (block, non-flex)
+     container instead of shrink-wrapping the label text. */
+  display: inline-block;
   font-family: var(--font-mono);
   font-weight: 600;
   font-size: var(--fs-mono-md);
@@ -1239,6 +1245,8 @@ a.dcard {
   }
 }
 .status-chip {
+  /* Same h2-on-case-pages reason as .eb/.rb's own display: inline-block. */
+  display: inline-block;
   font-family: var(--font-mono);
   font-weight: 600;
   font-size: var(--fs-mono-md);
@@ -1316,6 +1324,8 @@ a.dcard {
   background: rgb(var(--paper-rgb), 0.8);
 }
 .lesson-label {
+  display: block;
+  margin-bottom: 6px;
   font-family: var(--font-mono);
   font-style: normal;
   font-weight: 600;
