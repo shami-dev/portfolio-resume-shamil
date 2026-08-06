@@ -24,6 +24,7 @@
 
 - Colors, spacing, and type are reverse-engineered from the canonical mockups (design-v2/files_for_implementation/ + phase_5a_v2's dark-mode doc), not invented. Cite the source mockup value and the scale factor applied (desktop 1.636x, mobile 1.44x — from Phase 7) in a token comment.
 - Verify empirically before trusting a derived value or tool config — run the actual command/build/browser check rather than reasoning from memory or a single example.
+- Some checks (font swap/wrap behavior, animation, anything JS-driven) can only be confirmed by an actual rendered browser — grep/curl on build output is not a substitute. If the preview tool serves stale content, escalate (new tab, alt port, restart) rather than falling back to static checks and reporting success anyway.
 - When building a page/component, reproduce the exact DOM structure and class names from the Phase 5 mockup — don't reinterpret. This keeps Stylelint's token-enforcement meaningful and the density-tested spec's contrast/hierarchy intact.
 - New design-system tokens get a throwaway visual smoke-test (temp page, `pnpm dev`, screenshot, delete) before being considered done.
 
@@ -31,3 +32,7 @@
 
 - `.rail` carries `view-transition-name: rail`, which makes it a stacking context — every z-index inside `.rail` (including `.nav`'s fixed mobile bottom bar) is scoped there and powerless against `.col` content. Ordering `.rail` against `.col` must be set on `.rail` itself (`position: relative; z-index: 1`), not on the descendant that needs to win.
 - When an element paints behind/in front of the wrong thing and z-index "isn't working," don't reach for a browser-bug theory first — even a well-documented one that matches the symptoms from a web search. Reproduce the actual mechanism before touching code: `document.elementFromPoint`/`elementsFromPoint` at the real coordinates to see what's actually on top, then walk ancestors for stacking-context triggers (`transform`, `filter`, `opacity < 1`, `will-change`, `view-transition-name`, `isolation`, `contain: paint/layout`, or `z-index` + non-static position). "Fits the reported symptoms" is not verification.
+
+## Font loading gotchas
+
+- `font.display: "optional"` (astro.config.mjs) permanently commits to the fallback font for any weight/style not fully downloaded within ~100ms — it never swaps in later. Every weight/style rendered above the fold, on every page using the shared layout, must be in `<Font preload>` or it silently breaks (fallback-width text wraps differently). Treat `optional` as unsafe unless preload coverage is verified per page, not just the page you're testing.
