@@ -99,28 +99,28 @@ const [lighthouse, ...banners] = evidence.figures;
     />
 
     <div class="block" data-register>
-      <span class="eb eb-neutral">PROBLEM</span>
+      <h2 class="eb eb-neutral">PROBLEM</h2>
       <p class="prose block-body">
         {problem}
       </p>
     </div>
 
     <div class="block" data-register>
-      <span class="eb eb-neutral">CONSTRAINT</span>
+      <h2 class="eb eb-neutral">CONSTRAINT</h2>
       <p class="prose block-body">
         {constraint}
       </p>
     </div>
 
     <div class="dcard dcard-static" data-register="lg">
-      <span class="eb">DECISION</span>
+      <h2 class="eb">DECISION</h2>
       <p class="prose block-note">
         {decision}
       </p>
     </div>
 
     <div class="evidence" data-register="lg">
-      <span class="eb">EVIDENCE</span>
+      <h2 class="eb">EVIDENCE</h2>
       <div class="evidence-figs">
         <Placeholder
           slug={lighthouse.slug}
@@ -147,7 +147,7 @@ const [lighthouse, ...banners] = evidence.figures;
     </div>
 
     <div class="result" data-register="lg" data-register-beat>
-      <span class="rb">{result.label}</span>
+      <h2 class="rb">{result.label}</h2>
       {
         result.variant === "banner" && (
           <p class="result-metrics">{result.metrics}</p>
@@ -165,10 +165,8 @@ const [lighthouse, ...banners] = evidence.figures;
             variant="light"
             style="max-width: 196px; margin-bottom: 8px"
           />
-          <p class="lesson">
-            <span class="lesson-label">LESSON — </span>
-            {lesson}
-          </p>
+          <h2 class="lesson-label">LESSON</h2>
+          <p class="lesson">{lesson}</p>
         </div>
       )
     }
