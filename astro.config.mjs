@@ -24,6 +24,15 @@ export default defineConfig({
   // enforced by Cloudflare's `assets.html_handling` in wrangler.jsonc.
   trailingSlash: "never",
 
+  // Every page's CSS chunk (5-22kb) sits above the 4kb 'auto' inline
+  // threshold, so it ships as a blocking <link rel="stylesheet"> —
+  // Lighthouse flags it on the homepage (~150ms). 11 static pages means
+  // the per-navigation duplication cost is small next to the render-block
+  // it removes.
+  build: {
+    inlineStylesheets: "always",
+  },
+
   // `imageService: 'compile'` (the adapter's pre-Astro-6 default) transforms
   // <Image>/<Picture> at build time for prerendered routes instead of the
   // new default `cloudflare-binding`, which needs a live Images binding at
