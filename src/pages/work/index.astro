@@ -72,36 +72,38 @@ const description =
 
     <TickRule data-register />
 
-    <div class="index-list">
+    <ol class="index-list">
       {
         records.map((entry, i) => (
-          <a
-            href={`/work/${entry.id}`}
-            class="dcard is-hoverable work-row"
-            data-register
-            data-astro-prefetch="viewport"
-          >
-            <div class="mrow">
-              <div>
-                <span class="dcard-kicker">№0{i + 1}</span>
-                <span class="work-title">{entry.data.index.title}</span>
+          <li>
+            <a
+              href={`/work/${entry.id}`}
+              class="dcard is-hoverable work-row"
+              data-register
+              data-astro-prefetch="viewport"
+            >
+              <div class="mrow">
+                <div>
+                  <span class="dcard-kicker">№0{i + 1}</span>
+                  <span class="work-title">{entry.data.index.title}</span>
+                </div>
+                <span
+                  class="work-metric"
+                  style={
+                    entry.data.index.metricAccent
+                      ? "color: var(--blue-raised)"
+                      : undefined
+                  }
+                >
+                  {entry.data.index.metric}
+                </span>
               </div>
-              <span
-                class="work-metric"
-                style={
-                  entry.data.index.metricAccent
-                    ? "color: var(--blue-raised)"
-                    : undefined
-                }
-              >
-                {entry.data.index.metric}
-              </span>
-            </div>
-            <p class="prose work-desc">{entry.data.index.summary}</p>
-          </a>
+              <p class="prose work-desc">{entry.data.index.summary}</p>
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ol>
 
     <TickRule variant="light" data-register />
 
@@ -142,6 +144,9 @@ const description =
     display: flex;
     flex-direction: column;
     gap: 13px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
   a.work-row {
