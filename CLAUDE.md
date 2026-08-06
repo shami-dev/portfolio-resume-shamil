@@ -30,7 +30,7 @@
 
 ## Layout & stacking gotchas
 
-- `.rail` carries `view-transition-name: rail`, which makes it a stacking context — every z-index inside `.rail` (including `.nav`'s fixed mobile bottom bar) is scoped there and powerless against `.col` content. Ordering `.rail` against `.col` must be set on `.rail` itself (`position: relative; z-index: 1`), not on the descendant that needs to win.
+- `.rail` carries `position: relative; z-index: 1` (mobile), which makes it a stacking context — every z-index inside `.rail` (including `.nav`'s fixed mobile bottom bar) is scoped there and powerless against `.col` content. Ordering `.rail` against `.col` must be set on `.rail` itself, not on the descendant that needs to win.
 - When an element paints behind/in front of the wrong thing and z-index "isn't working," don't reach for a browser-bug theory first — even a well-documented one that matches the symptoms from a web search. Reproduce the actual mechanism before touching code: `document.elementFromPoint`/`elementsFromPoint` at the real coordinates to see what's actually on top, then walk ancestors for stacking-context triggers (`transform`, `filter`, `opacity < 1`, `will-change`, `view-transition-name`, `isolation`, `contain: paint/layout`, or `z-index` + non-static position). "Fits the reported symptoms" is not verification.
 
 ## Font loading gotchas

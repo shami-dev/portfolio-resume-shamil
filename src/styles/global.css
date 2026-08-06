@@ -308,49 +308,6 @@ a:hover {
   }
 }
 
-/* --- Cross-document view transitions (native, no ClientRouter) --------- */
-/* CSS-only opt-in — ClientRouter reruns page logic via astro:page-load
-   instead of a real navigation, which the mode-restore/motion.js scripts
-   both assume, and it complicates the security.csp planned later. Every
-   navigation stays a real page load; unsupported browsers just ignore
-   this at-rule and get a plain navigation — pure progressive enhancement.
-
-   This is a deliberate, considered reversal of 6B.1's "view-transition
-   crossfade: rejected" verdict (same pattern as the 6C follow-up's other
-   reversals) — a true crossfade, not the Step A exits-are-0ms rule
-   stretched to cover page navigation. Retimed to the page-load register's
-   own duration/curve (--t-enter/--e-out) rather than the browser default.
-
-   Rail gets its own view-transition-name so it's carved out of the root
-   capture, then has its animation removed entirely — a hard, instant
-   swap, "pinned" per 6B's rail-never-animates rule.
-
-   Astro's automatic prefers-reduced-motion handling only covers
-   <ClientRouter>; this needs its own guard. */
-@view-transition {
-  navigation: auto;
-}
-
-::view-transition-group(rail),
-::view-transition-old(rail),
-::view-transition-new(rail) {
-  animation: none;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: var(--t-enter);
-  animation-timing-function: var(--e-out);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) {
-    animation: none !important;
-  }
-}
-
 /* ==========================================================================
    Structural classes (centralized so slotted rail content is styled too)
    ========================================================================== */
@@ -365,7 +322,6 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  view-transition-name: rail; /* pinned across navigations — see Phase 6B */
 }
 
 .cell {
@@ -541,18 +497,19 @@ a:hover {
   }
   /* position/z-index here are not layout — they order this whole subtree
      against .col, which is what keeps the fixed bottom bar (.nav, below)
-     in front of page content. `view-transition-name: rail` makes .rail a
-     stacking context, so any z-index set on .nav itself is scoped to
-     .rail and can never outrank .col — the sibling .sheet flex item that
-     comes later in DOM order. Every .dcard is position: relative (its
-     ::after shadow overlay needs it), which lifts cards into the
-     positioned-paint layer and so above the entire rail subtree, bar
-     included. Ordering the two flex items explicitly is the fix, applied
-     at the level where they are actually siblings.
+     in front of page content. This declaration is itself what makes
+     .rail a stacking context (non-static position + a real z-index), so
+     any z-index set on .nav itself is scoped to .rail and can never
+     outrank .col — the sibling .sheet flex item that comes later in DOM
+     order. Every .dcard is position: relative (its ::after shadow
+     overlay needs it), which lifts cards into the positioned-paint layer
+     and so above the entire rail subtree, bar included. Ordering the two
+     flex items explicitly is the fix, applied at the level where they
+     are actually siblings.
 
-     Home is the exception: .rail-flat dissolves the rail box entirely,
-     which also drops the view-transition-name and so the stacking
-     context — see the .rail-flat block. */
+     Home is the exception: .rail-flat dissolves the rail box entirely
+     (display: contents generates no box), so there is no stacking
+     context left to carry a z-index at all — see the .rail-flat block. */
   .rail {
     position: relative;
     z-index: 1;
@@ -831,12 +788,6 @@ a:hover {
   .rail-flat ~ .col {
     display: contents;
   }
-  /* A display: contents element generates no box, so it cannot be a
-     view-transition group or a stacking context — trying to keep the
-     name here would target nothing and risk a runtime warning. */
-  .rail-flat {
-    view-transition-name: none;
-  }
   /* The bordered header cell M-P1 draws: NAME/TITLE/LOC-AUTH-AVAIL,
      merged and `·`-joined by the .rail-head .cell rules above. Real box
      only here — at >=48rem it stays display: contents (set on .rail-head
@@ -871,15 +822,15 @@ a:hover {
     order: 5;
   }
   /* Stacking (CLAUDE.md layout note): .rail's own position: relative +
-     z-index: 1 ordered the fixed bottom bar above .col's content on
-     every other page, because view-transition-name made .rail a
-     stacking context. .rail-flat has no box at all here, so there is no
-     context left to carry that z-index — verified against
-     elementsFromPoint before landing on this, not assumed from the
-     pattern matching. Placed directly on .nav instead: position: fixed
-     already paints it over static content regardless of ancestor boxes,
-     but .dcard's position: relative would still tie with it in paint
-     order without an explicit z-index of its own. */
+     z-index: 1 is itself what ordered the fixed bottom bar above .col's
+     content on every other page (that declaration makes .rail a stacking
+     context). .rail-flat has no box at all here, so there is no context
+     left to carry that z-index — verified against elementsFromPoint
+     before landing on this, not assumed from the pattern matching.
+     Placed directly on .nav instead: position: fixed already paints it
+     over static content regardless of ancestor boxes, but .dcard's
+     position: relative would still tie with it in paint order without
+     an explicit z-index of its own. */
   .rail-flat .nav {
     z-index: 1;
   }
@@ -1070,11 +1021,11 @@ a:hover {
 
    It carries no z-index of its own: position: fixed already paints it
    over every (static) sibling inside .rail, and against page content a
-   z-index here is powerless — .rail's view-transition-name scopes it to
-   .rail's stacking context. What actually orders this bar above .col is
-   .rail's own z-index; see the comment on .rail above. Home is the
-   exception (.rail-flat has no box and so no stacking context) and gives
-   the bar a z-index of its own. */
+   z-index here is powerless — .rail's own position: relative + z-index: 1
+   scopes it to .rail's stacking context. What actually orders this bar
+   above .col is .rail's own z-index; see the comment on .rail above.
+   Home is the exception (.rail-flat has no box and so no stacking
+   context) and gives the bar a z-index of its own. */
 @media (width < 48rem) {
   .nav {
     position: fixed;
