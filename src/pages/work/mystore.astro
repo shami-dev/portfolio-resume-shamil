@@ -61,9 +61,9 @@ const {
       </div>
       <div class="rail-foot">
         <div class="clab">TOOLS</div>
-        <div class="rail-chips" style="margin-top: 4px">
-          {rail.tools.map((tool) => <span class="stk">{tool}</span>)}
-        </div>
+        <ul class="rail-chips" style="margin-top: 4px">
+          {rail.tools.map((tool) => <li class="stk">{tool}</li>)}
+        </ul>
         {
           rail.link && (
             <a
