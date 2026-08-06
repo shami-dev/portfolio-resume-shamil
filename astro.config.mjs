@@ -76,6 +76,14 @@ export default defineConfig({
       weights: [400, 500, 600, 700],
       styles: ["normal", "italic"],
       subsets: ["latin"],
+      // 'swap's fallback->webfont swap was reflowing .hero (Arial vs
+      // Archivo glyph widths differ enough to change the intro
+      // paragraph's line count) for a 0.322 CLS hit — fallback metric
+      // overrides only fix vertical metrics, not that. 'optional' commits
+      // to whichever font is ready within ~100ms and never swaps mid-view;
+      // paired with the preload below, the above-the-fold weight lands
+      // in time almost always.
+      display: "optional",
     },
     {
       provider: fontProviders.fontsource(),
@@ -87,6 +95,7 @@ export default defineConfig({
       // in any subset, so it's rendered in mono everywhere instead —
       // Plex Mono's cyrillic subset is confirmed to cover it.
       subsets: ["latin", "cyrillic"],
+      display: "optional",
     },
   ],
 });
