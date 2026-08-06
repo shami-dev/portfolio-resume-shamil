@@ -24,15 +24,6 @@ export default defineConfig({
   // enforced by Cloudflare's `assets.html_handling` in wrangler.jsonc.
   trailingSlash: "never",
 
-  // Every page's CSS chunk (5-22kb) sits above the 4kb 'auto' inline
-  // threshold, so it ships as a blocking <link rel="stylesheet"> —
-  // Lighthouse flags it on the homepage (~150ms). 11 static pages means
-  // the per-navigation duplication cost is small next to the render-block
-  // it removes.
-  build: {
-    inlineStylesheets: "always",
-  },
-
   // `imageService: 'compile'` (the adapter's pre-Astro-6 default) transforms
   // <Image>/<Picture> at build time for prerendered routes instead of the
   // new default `cloudflare-binding`, which needs a live Images binding at
@@ -76,14 +67,6 @@ export default defineConfig({
       weights: [400, 500, 600, 700],
       styles: ["normal", "italic"],
       subsets: ["latin"],
-      // 'swap's fallback->webfont swap was reflowing .hero (Arial vs
-      // Archivo glyph widths differ enough to change the intro
-      // paragraph's line count) for a 0.322 CLS hit — fallback metric
-      // overrides only fix vertical metrics, not that. 'optional' commits
-      // to whichever font is ready within ~100ms and never swaps mid-view;
-      // paired with the preload below, the above-the-fold weight lands
-      // in time almost always.
-      display: "optional",
     },
     {
       provider: fontProviders.fontsource(),
@@ -95,7 +78,6 @@ export default defineConfig({
       // in any subset, so it's rendered in mono everywhere instead —
       // Plex Mono's cyrillic subset is confirmed to cover it.
       subsets: ["latin", "cyrillic"],
-      display: "optional",
     },
   ],
 });
