@@ -698,22 +698,28 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     }
   }
 
-  /* Both instances get the mobile touch floor at tablet too — RESUME.PDF
-     is a hard action (drafting register), not just a mobile concern.
-     :active is stated here too rather than by widening the mobile block
-     above (Stage 3.1) — that block also sets flex-direction: column on
-     .about-resume-inline, which would fight this page's own tablet row
-     layout for that element. */
+  /* The inline instance gets the mobile touch floor at tablet too —
+     RESUME.PDF is a hard action (drafting register), not just a mobile
+     concern. :active is stated here too rather than by widening the
+     mobile block above (Stage 3.1) — that block also sets
+     flex-direction: column on .about-resume-inline, which would fight
+     this page's own tablet row layout for that element.
+
+     .about-resume-end stays out of this rule — it's mobile-only (see
+     its own display: none default above), and this combined selector
+     used to include it, which set display: flex here and silently
+     un-hid it at 48-64rem, showing a second/third RESUME.PDF instance
+     that stays in view near the footer independent of where the inline
+     one has scrolled to. Tablet's one instance already moved into
+     .about-portrait-col — it doesn't need "twice" the way mobile does. */
   @media (48rem <= width < 64rem) {
-    .about-resume-inline .resume-btn,
-    .about-resume-end {
+    .about-resume-inline .resume-btn {
       min-height: var(--target-hard);
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .about-resume-inline .resume-btn:active,
-    .about-resume-end:active {
+    .about-resume-inline .resume-btn:active {
       background: var(--blue);
     }
   }
