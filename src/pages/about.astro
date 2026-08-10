@@ -105,10 +105,6 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     class="rail-about"
   >
     <div class="about-id-cells">
-      <div class="cell">
-        <div class="clab">NAME</div>
-        <div class="cell-name">Shamil Khaibullov</div>
-      </div>
       <div class="cell-pair">
         <div class="cell">
           <div class="clab">LOC</div>
@@ -117,6 +113,10 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
         <div class="cell">
           <div class="clab">AUTH</div>
           <div class="cell-val-mono">EU permit</div>
+        </div>
+        <div class="cell">
+          <div class="clab">TRACK</div>
+          <div class="cell-val-mono">{totalYearsRounded} yrs</div>
         </div>
       </div>
     </div>
@@ -279,16 +279,19 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     }
   }
 
-  /* Tablet: no separate wrapper class existed for these before — give
-     them the same row-basis .rail-head/.cell-pair get elsewhere, so the
-     NAME cell and the LOC/AUTH pair don't collapse to content-width. */
+  /* Tablet (spec §8.5, phase_5c_tablet_layouts.html:538-541): LOC/AUTH/
+     TRACK sit in one unwrapped row, like every other band's title-block
+     cells — overriding .cell-pair's own nth-child(n+3) rule, which
+     exists for the narrow 300px desktop rail column this row doesn't
+     have to fit at this width. */
   @media (48rem <= width < 64rem) {
-    .about-id-cells {
-      display: flex;
-      flex: 1 1 22rem;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: flex-start;
+    .about-id-cells .cell-pair {
+      flex-wrap: nowrap;
+      gap: 6px;
+    }
+    .about-id-cells .cell-pair > .cell {
+      flex: none;
+      padding: var(--cell-pad);
     }
   }
 
