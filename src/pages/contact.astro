@@ -368,6 +368,18 @@ if (result?.error) {
     display: flex;
     gap: 26px;
   }
+
+  /* Tablet (spec §8.5): the only page that keeps desktop's internal
+     split — see the width pins on .contact-form-card/.contact-links
+     below (placed after their base rules, since equal-specificity
+     `flex` declarations resolve by source order regardless of which is
+     media-gated). */
+  @media (48rem <= width < 64rem) {
+    .contact-row {
+      gap: 14px;
+    }
+  }
+
   @media (width < 48rem) {
     .contact-row {
       flex-direction: column;
@@ -380,6 +392,17 @@ if (result?.error) {
     display: flex;
     flex-direction: column;
     gap: 13px;
+  }
+
+  /* Desktop's ratio is 1.4:1 (flex weight above); at 688px that gives
+     the form 386px, so 396/278 (1.42:1) holds the ratio while landing
+     both columns on whole pixels — pinned explicitly rather than left
+     to flex weights, which round differently. */
+  @media (48rem <= width < 64rem) {
+    .contact-form-card {
+      flex: none;
+      width: 396px;
+    }
   }
 
   .field {
@@ -433,6 +456,16 @@ if (result?.error) {
     font-family: inherit;
   }
 
+  /* iPad Safari zooms on focus below 16px exactly as iPhone Safari does
+     — the type floor isn't a phone-only rule. --fs-body is already 16px
+     unconditionally, so only the touch-target height needs stating.
+     .send-btn's own pin sits after its base rule below. */
+  @media (48rem <= width < 64rem) {
+    .field-input {
+      min-height: var(--target-hard);
+    }
+  }
+
   /* Hard action (drafting register): sharp corners, instant hover swap —
      same register as About's RESUME.PDF button. Mock padding "10px" x1.636 */
   .send-btn {
@@ -454,6 +487,12 @@ if (result?.error) {
   .send-btn:hover,
   .send-btn:focus-visible {
     background: var(--blue);
+  }
+
+  @media (48rem <= width < 64rem) {
+    .send-btn {
+      min-height: var(--target-hard);
+    }
   }
 
   /* Pressed states (Phase 5b 6.0 §3) — hover has no mobile analog, so
@@ -512,6 +551,13 @@ if (result?.error) {
     display: flex;
     flex-direction: column;
     gap: 16px;
+  }
+
+  @media (48rem <= width < 64rem) {
+    .contact-links {
+      flex: none;
+      width: 278px;
+    }
   }
 
   .contact-link {
@@ -640,6 +686,35 @@ if (result?.error) {
        rule above; a plain "span" descendant selector here hid .arrow
        along with the "·" separator it was meant for, so LINKEDIN/GITHUB
        never showed an arrow on mobile at all. */
+    .contact-social > span {
+      display: none;
+    }
+  }
+
+  /* Tablet: same pairing as mobile (two bordered cells, not one shared
+     baseline row) but at the --target floor, not mobile's 56px — the
+     278px column gives each cell ~134px. */
+  @media (48rem <= width < 64rem) {
+    .contact-link {
+      min-height: var(--target);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .contact-social {
+      border: 0;
+      padding: 0;
+      gap: 8px;
+    }
+    .contact-social a {
+      flex: 1;
+      min-height: var(--target);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1.5px solid var(--ink);
+    }
     .contact-social > span {
       display: none;
     }
