@@ -1787,14 +1787,25 @@ a.dcard {
   }
 }
 .lesson-label {
-  display: block;
-  margin-bottom: 6px;
+  float: left;
+  position: relative;
+  top: 5px; /* empirically measured (Range.getBoundingClientRect): mono
+    14px vs. italic sans 22px still land baselines 5px apart even at a
+    shared 1.6 line-height, since baseline offset within a line box also
+    depends on each font's own ascent/descent metrics, not just its
+    font-size and line-height */
+  margin: 0 8px 4px 0;
+  line-height: 1.6; /* match .lesson's line-height so the float's line box
+    lines up with the paragraph's first line, not its own default */
   font-family: var(--font-mono);
   font-style: normal;
   font-weight: 600;
   font-size: var(--fs-mono-md); /* 14px, mock 8.5px */
   color: var(--label);
   letter-spacing: var(--ls-widest);
+}
+.lesson-label::after {
+  content: " –";
 }
 
 /* Case detail reflow (Phase 5b 6.3): the D/E/R rhythm is held verbatim —
