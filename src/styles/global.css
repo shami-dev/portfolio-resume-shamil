@@ -652,6 +652,11 @@ a:hover {
     background: var(--white);
     border-bottom: 1.5px solid var(--bd-rule);
   }
+  /* Work index only, tablet band only — desktop rail and mobile keep the
+     RESULTS TO DATE strip; it just drops out of the 768-1023px reflow. */
+  .rail-work .rail-extras {
+    display: none;
+  }
 
   /* Theme control, second instance (closes Phase 5b flag F8) — right end
      of the nav rule. 13px mono (the locked Phase 7 F-02 floor, not the
