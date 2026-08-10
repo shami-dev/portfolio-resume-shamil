@@ -35,8 +35,24 @@ const {
 
 <BaseLayout title={seo.title} description={seo.description} motion>
   <Rail label={rail.record}>
-    <Fragment slot="scan">
-      <div class="cell">
+    <div class="cell-pair">
+      {
+        rail.cellPair.map((cell) => (
+          <div class="cell">
+            <div class="clab">{cell.label}</div>
+            <div
+              class="cell-val-mono"
+              style={cell.accent ? "color: var(--blue-raised)" : undefined}
+            >
+              {cell.value}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <Nav current="work" slot="nav" />
+    <Fragment slot="extras">
+      <div class="cell rail-title-cell">
         <div class="clab">RECORD</div>
         <div class="cell-name">{rail.record}</div>
       </div>
@@ -45,21 +61,6 @@ const {
         <div class="cell-val">
           {rail.role}
         </div>
-      </div>
-      <div class="cell-pair">
-        {
-          rail.cellPair.map((cell) => (
-            <div class="cell">
-              <div class="clab">{cell.label}</div>
-              <div
-                class="cell-val-mono"
-                style={cell.accent ? "color: var(--blue-raised)" : undefined}
-              >
-                {cell.value}
-              </div>
-            </div>
-          ))
-        }
       </div>
       <div class="rail-foot">
         <div class="clab">TOOLS</div>
@@ -80,7 +81,6 @@ const {
         }
       </div>
     </Fragment>
-    <Nav current="work" />
   </Rail>
 
   <div class="mm col case">

@@ -1,8 +1,13 @@
 ---
 // Mode control (Phase 5a·v2 dark-mode doc, "MODE CONTROL — SITE CHROME"):
 // segmented, three real states — not a binary switch. Sharp corners
-// (hard-control register). Renders inside Footer, not the rail — see
-// Footer.astro for why a single shared instance lives there instead.
+// (hard-control register). Renders inside Footer for desktop/mobile — see
+// Footer.astro for why a single shared instance lives there. Phase 5c adds
+// a second instance in Rail's tablet nav rule (closes Phase 5b flag F8:
+// dark mode no longer requires scrolling a 5-viewport case page to reach).
+// Two instances need distinct radio-group `name`s — same name anywhere in
+// a document forms one native radiogroup, and the two would fight over
+// `checked` — so the script below syncs them manually instead.
 //
 // Native radios rather than role="radio" buttons: three mutually exclusive
 // states is exactly a radiogroup, and the browser gives arrow-key roving
@@ -12,14 +17,37 @@
 // hardcoded default would render wrong for anyone whose mode differs. The
 // script below checks the live one once it runs.
 //
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"fieldset"> & {
+  /** Radio group name — must be unique per instance on a page (see above).
+      Defaults to the footer instance's original name. */
+  name?: string;
+  /** Tablet band instance only: renders both a full and an abbreviated
+      label per segment, toggled by width via CSS (Phase 5c §8.0.5 —
+      "ANOIT." below ~880px, "ANOITECER" above), instead of the footer
+      instance's single always-full label. */
+  compact?: boolean;
+};
+
+const {
+  name = "mode",
+  compact = false,
+  class: className,
+  ...rest
+} = Astro.props as Props;
+
 const modes = [
-  { value: "light", label: "LIGHT" },
-  { value: "anoitecer", label: "ANOITECER" },
-  { value: "dark", label: "DARK" },
+  { value: "light", label: "LIGHT", short: "LIGHT" },
+  { value: "anoitecer", label: "ANOITECER", short: "ANOIT." },
+  { value: "dark", label: "DARK", short: "DARK" },
 ] as const;
 ---
 
-<fieldset class="mode-switch">
+<fieldset
+  class={["mode-switch", className].filter(Boolean).join(" ")}
+  {...rest}
+>
   <legend class="visually-hidden">THEME — SITE-WIDE</legend>
   {
     modes.map((mode) => (
@@ -27,20 +55,32 @@ const modes = [
         <input
           class="visually-hidden"
           type="radio"
-          name="mode"
+          name={name}
           value={mode.value}
         />
-        <span>{mode.label}</span>
+        {compact ? (
+          <Fragment>
+            <span class="mode-seg-label-full">{mode.label}</span>
+            <span class="mode-seg-label-compact">{mode.short}</span>
+          </Fragment>
+        ) : (
+          <span>{mode.label}</span>
+        )}
       </label>
     ))
   }
 </fieldset>
 
 <script>
+  // Runs once per page even with two ModeSwitch instances rendered —
+  // Astro dedupes identical inline module scripts — and the name^= prefix
+  // selector below picks up every instance's radios in one pass, so a
+  // single run keeps them all in sync.
   const STORAGE_KEY = "mode";
   const root = document.documentElement;
-  const inputs =
-    document.querySelectorAll<HTMLInputElement>('input[name="mode"]');
+  const inputs = document.querySelectorAll<HTMLInputElement>(
+    'input[name^="mode"]',
+  );
 
   // Light is the bare :root token set, so it carries no data-theme.
   const current = root.dataset.theme ?? "light";
@@ -57,6 +97,11 @@ const modes = [
       } catch {
         // Private mode / storage disabled: the mode still applies for
         // this page view, it just will not survive navigation.
+      }
+      // Second instance (or third, if one is ever added) must reflect
+      // the same live theme immediately, not just after a reload.
+      for (const other of inputs) {
+        if (other !== input) other.checked = other.value === input.value;
       }
     });
   }

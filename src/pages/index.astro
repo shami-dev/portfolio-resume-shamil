@@ -52,8 +52,9 @@ const description =
       <li class="stk">OpenAI</li>
       <li class="stk">Astro</li>
     </ul>
-    <Nav current="home" />
+    <Nav current="home" slot="nav" />
     <MetricCell
+      slot="extras"
       metrics={[
         { value: "100%", caption: "completion" },
         { value: "€1,000+", caption: "saved" },

@@ -4,11 +4,22 @@
 // case-detail: RECORD/ROLE + tools chips + link) — pages compose their own
 // cells/Nav/footer into this shared chrome rather than one rigid prop API.
 //
-// Phase 5b 6.0 §1-2: interior pages collapse their title-block cells (plus
-// whatever a page puts in .rail-foot — TOOLS, RESULTS) behind a 48px scan
-// bar on mobile. `label` + a `scan` slot opt a page into that. `label` with
-// no `scan` slot (About) renders a plain static bar instead — no
+// Slots (Phase 5c): default = identity cells (NAME/TITLE/ROLE/LOC/AUTH —
+// whatever a page's title block carries); `nav` = <Nav/>; `extras` =
+// whatever sits below Nav in the rail's own flow (TOOLS, RESULTS,
+// RESUME.PDF...). Kept apart rather than one catch-all slot because the
+// tablet band renders identity cells as a fixed 76px row and Nav as a
+// page-length sticky 48px row — two different flex contexts, so the
+// component needs to know which content is which rather than inferring it
+// from DOM order the way desktop's plain rail column could get away with.
+//
+// Phase 5b 6.0 §1-2: interior pages collapse the default slot's identity
+// cells behind a 48px scan bar on mobile. `label` opts a page into that;
+// `scan={false}` (About) renders a plain static bar instead — no
 // accordion, name/page left and an optional `labelRight` value right.
+// `label`/`labelRight` also drive the tablet band's row-1 text (.band-label,
+// Phase 5c §8.0.2) — the same "S.K. / WORK" / record-name string every
+// page already passes, sized up, not new copy.
 //
 // The panel's default state is CLOSED in the server-rendered markup — the
 // design doc's real default ("collapsed, never sticky-expanded") — and
@@ -18,49 +29,94 @@
 // earlier build's div-onClick toggle (unreachable by keyboard) is the
 // regression 6.0 §2 names directly.
 import type { HTMLAttributes } from "astro/types";
+import ModeSwitch from "./ModeSwitch.astro";
 
 type Props = HTMLAttributes<"aside"> & {
   label?: string;
   labelRight?: string;
+  /** false = plain static label bar, no accordion (About). Read only
+      when `label` is set. */
+  scan?: boolean;
 };
 
-const { label, labelRight, class: className, ...rest } = Astro.props as Props;
-const hasScan = Astro.slots.has("scan");
+const {
+  label,
+  labelRight,
+  scan = true,
+  class: className,
+  ...rest
+} = Astro.props as Props;
 const railClass = ["rail", className].filter(Boolean).join(" ");
+const hasExtras = Astro.slots.has("extras");
 ---
 
 <aside class={railClass} {...rest}>
-  {
-    hasScan && label ? (
-      <div class="scan">
-        <button
-          type="button"
-          class="scan-bar"
-          aria-expanded="false"
-          aria-controls="rail-scan-panel"
-        >
-          <span class="scan-label">{label}</span>
-          <span class="scan-cue" aria-hidden="true" />
-        </button>
-        <div class="scan-panel" id="rail-scan-panel" hidden>
-          <slot name="scan" />
-        </div>
-      </div>
-    ) : (
+  <div class="rail-id">
+    {
       label && (
-        <div class="scan-bar scan-bar-static">
-          <span class="scan-label">{label}</span>
-          {labelRight && <span class="scan-label-right">{labelRight}</span>}
+        <div class="band-label">
+          <span class="band-label-name">{label}</span>
+          {labelRight && <span class="band-label-right">{labelRight}</span>}
         </div>
       )
+    }
+    <div class="rail-id-cells">
+      {
+        label && scan ? (
+          <div class="scan">
+            <button
+              type="button"
+              class="scan-bar"
+              aria-expanded="false"
+              aria-controls="rail-scan-panel"
+            >
+              <span class="scan-label">{label}</span>
+              <span class="scan-cue" aria-hidden="true" />
+            </button>
+            <div class="scan-panel" id="rail-scan-panel" hidden>
+              <slot />
+            </div>
+          </div>
+        ) : (
+          <Fragment>
+            {label && (
+              <div class="scan-bar scan-bar-static">
+                <span class="scan-label">{label}</span>
+                {labelRight && (
+                  <span class="scan-label-right">{labelRight}</span>
+                )}
+              </div>
+            )}
+            <slot />
+          </Fragment>
+        )
+      }
+    </div>
+  </div>
+  <div class="nav-rule">
+    <slot name="nav" />
+    <ModeSwitch name="mode-band" compact class="mode-switch-band" />
+  </div>
+  {
+    hasExtras && (
+      <div class="rail-extras">
+        <slot name="extras" />
+      </div>
     )
   }
-  <slot />
 </aside>
 
 <script>
   // Rail renders once per page, so one pass is enough. Inert on
   // desktop/tablet, where CSS shows .scan-panel regardless of [hidden].
+  //
+  // .rail-extras is a DOM sibling of .scan (not nested inside
+  // .scan-panel) — required so the tablet band can place it as its own
+  // strip after the sticky nav rule (Phase 5c) — so its mobile
+  // hide/show can't ride the panel's own [hidden] attribute. The toggle
+  // sets data-scan-open on the .rail itself instead; global.css keys
+  // .rail-extras' mobile display off that same attribute, so it opens
+  // and closes with the accordion despite living in a separate box.
   document
     .querySelectorAll<HTMLButtonElement>(".scan > .scan-bar")
     .forEach((btn) => {
@@ -68,10 +124,12 @@ const railClass = ["rail", className].filter(Boolean).join(" ");
         btn.getAttribute("aria-controls") ?? "",
       );
       if (!panel) return;
+      const rail = btn.closest(".rail");
       btn.addEventListener("click", () => {
         const open = btn.getAttribute("aria-expanded") === "true";
         btn.setAttribute("aria-expanded", String(!open));
         panel.hidden = open;
+        rail?.toggleAttribute("data-scan-open", !open);
       });
     });
 </script>

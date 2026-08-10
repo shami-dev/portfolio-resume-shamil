@@ -98,7 +98,7 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 ---
 
 <BaseLayout title={title} description={description} motion>
-  <Rail label="S.K. / ABOUT" labelRight="PORTO · EU PERMIT">
+  <Rail label="S.K. / ABOUT" labelRight="PORTO · EU PERMIT" scan={false}>
     <div class="about-id-cells">
       <div class="cell">
         <div class="clab">NAME</div>
@@ -115,8 +115,8 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
         </div>
       </div>
     </div>
-    <Nav current="about" />
-    <div class="rail-foot about-resume-rail">
+    <Nav current="about" slot="nav" />
+    <div class="rail-foot about-resume-rail" slot="extras">
       <a href={resumeUrl} class="resume-btn">RESUME.PDF ↓</a>
       <p class="resume-caption">direct file URL — forwardable</p>
     </div>

@@ -37,30 +37,29 @@ const description =
 
 <BaseLayout title={title} description={description} motion>
   <Rail label="S.K. / WORK">
-    <Fragment slot="scan">
+    <div class="cell">
+      <div class="clab">NAME</div>
+      <div class="cell-name">Shamil Khaibullov</div>
+    </div>
+    <div class="cell-pair">
       <div class="cell">
-        <div class="clab">NAME</div>
-        <div class="cell-name">Shamil Khaibullov</div>
+        <div class="clab">LOC</div>
+        <div class="cell-val-mono">Porto, PT</div>
       </div>
-      <div class="cell-pair">
-        <div class="cell">
-          <div class="clab">LOC</div>
-          <div class="cell-val-mono">Porto, PT</div>
-        </div>
-        <div class="cell">
-          <div class="clab">AUTH</div>
-          <div class="cell-val-mono">EU permit</div>
-        </div>
+      <div class="cell">
+        <div class="clab">AUTH</div>
+        <div class="cell-val-mono">EU permit</div>
       </div>
-      <MetricCell
-        metrics={[
-          { value: "100%", caption: "completion" },
-          { value: "€1,000+", caption: "saved" },
-          { value: "0", caption: "downtime" },
-        ]}
-      />
-    </Fragment>
-    <Nav current="work" />
+    </div>
+    <Nav current="work" slot="nav" />
+    <MetricCell
+      slot="extras"
+      metrics={[
+        { value: "100%", caption: "completion" },
+        { value: "€1,000+", caption: "saved" },
+        { value: "0", caption: "downtime" },
+      ]}
+    />
   </Rail>
 
   <div class="mm col index">

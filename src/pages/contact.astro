@@ -53,23 +53,21 @@ if (result?.error) {
 
 <BaseLayout title={title} description={description} motion>
   <Rail label="S.K. / CONTACT">
-    <Fragment slot="scan">
+    <div class="cell">
+      <div class="clab">NAME</div>
+      <div class="cell-name">Shamil Khaibullov</div>
+    </div>
+    <div class="cell-pair">
       <div class="cell">
-        <div class="clab">NAME</div>
-        <div class="cell-name">Shamil Khaibullov</div>
+        <div class="clab">LOC</div>
+        <div class="cell-val-mono">Porto, PT</div>
       </div>
-      <div class="cell-pair">
-        <div class="cell">
-          <div class="clab">LOC</div>
-          <div class="cell-val-mono">Porto, PT</div>
-        </div>
-        <div class="cell">
-          <div class="clab">AUTH</div>
-          <div class="cell-val-mono">EU permit</div>
-        </div>
+      <div class="cell">
+        <div class="clab">AUTH</div>
+        <div class="cell-val-mono">EU permit</div>
       </div>
-    </Fragment>
-    <Nav current="contact" />
+    </div>
+    <Nav current="contact" slot="nav" />
   </Rail>
 
   <div class="col contact">
