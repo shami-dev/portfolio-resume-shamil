@@ -1031,11 +1031,17 @@ a:hover {
 .rail-head {
   display: contents;
 }
-@media (width < 48rem) {
+/* Extended to the tablet band too (Stage 2.1) — same reason as mobile:
+   .rail-flat's identity/nav/extras and .col's hero/tick/decisions need to
+   share one flex context so `order` below can interleave them into the
+   spec's reading order (band, hero, tick, metrics, chips, decisions). */
+@media (width < 64rem) {
   .rail-flat,
   .rail-flat ~ .col {
     display: contents;
   }
+}
+@media (width < 48rem) {
   /* The bordered header cell M-P1 draws: NAME/TITLE/LOC-AUTH-AVAIL,
      merged and `·`-joined by the .rail-head .cell rules above. Real box
      only here — at >=48rem it stays display: contents (set on .rail-head
@@ -1081,6 +1087,91 @@ a:hover {
      an explicit z-index of its own. */
   .rail-flat .nav {
     z-index: 1;
+  }
+}
+
+/* Home tablet reflow (Stage 2.1, spec §8.2) — same interleaving mechanism
+   as mobile, different sequence. Unlike interior pages, Home passes no
+   `label`, so its default-slot content (.rail-head, .rail-chips) renders
+   inside .rail-id-cells rather than behind a scan/static bar — the
+   generic tablet treatment would trap both as flex items of the 76px
+   .rail-id row, alongside NAME/TITLE/cell-pair, with no way to place
+   .rail-chips later in the reading order. .rail-id/.rail-id-cells revert
+   to display: contents here instead, and .rail-head itself becomes the
+   real 76px band-row box (Home's own identity content, styled like the
+   generic .rail-id elsewhere), which frees .rail-chips to promote all
+   the way to .sheet's shared context and take its own order below. Same
+   reasoning for .rail-extras reverting to contents: Home's metrics keep
+   mobile's placement further down the reading order, after the hero and
+   tick rule, not immediately below nav like interior pages' TOOLS strip. */
+@media (48rem <= width < 64rem) {
+  .rail-flat .rail-id,
+  .rail-flat .rail-id-cells {
+    display: contents;
+  }
+  .rail-flat .rail-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    min-height: var(--band-id-h);
+    padding: 9px var(--col-pad);
+    background: var(--white);
+    order: 0;
+  }
+  .rail-flat .nav-rule {
+    order: 1;
+  }
+  .rail-flat ~ .col > .hero {
+    order: 2;
+  }
+  .rail-flat ~ .col > .tick {
+    order: 3;
+  }
+  .rail-flat .rail-extras {
+    display: contents;
+  }
+  .rail-flat .rail-foot {
+    order: 4;
+    margin-inline: var(--col-pad);
+  }
+  .rail-flat .rail-chips {
+    order: 5;
+    margin-inline: var(--col-pad);
+  }
+  .rail-flat ~ .col > .decisions {
+    order: 6;
+  }
+
+  /* Metric cells go 3-up, flex: 1 thirds of the 688px row less two
+     --card-gap gaps (spec: "222.7px each ... flex-derived — a dev
+     transcribes flex: 1 and reproduces the frame exactly"). Value grows
+     to 30px mono since a cell this wide can carry it (mobile 16px,
+     desktop rail 17px) — the one place tablet is more generous than
+     desktop, where the rail stacked these in a 320px column. */
+  .rail-flat .rail-metrics {
+    display: flex;
+    gap: var(--card-gap);
+  }
+  .rail-flat .metric {
+    flex: 1;
+    border: 1.5px solid var(--bd-rule);
+    padding: var(--card-pad-tight);
+    text-align: center;
+  }
+  .rail-flat .metric-val {
+    display: block;
+    font: 600 1.875rem var(--font-mono); /* 30px */
+    color: var(--green);
+  }
+  .rail-flat .metric-cap {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    letter-spacing: var(--ls-widest);
+    color: var(--label);
+    text-transform: uppercase;
   }
 }
 

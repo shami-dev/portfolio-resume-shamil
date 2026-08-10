@@ -157,6 +157,21 @@ const description =
     padding: 0;
   }
 
+  /* τS 0.70 (Stage 2.1, spec §8.2): desktop 56/43px -> 39/30, desktop
+     33/43px gap/pad -> 24/40 rounded, --block-gap for the gap. */
+  @media (48rem <= width < 64rem) {
+    .hero {
+      padding: 34px var(--col-pad) 30px;
+    }
+    .decisions {
+      gap: var(--block-gap);
+      padding: 24px var(--col-pad) 40px;
+    }
+    .decision-list {
+      gap: var(--block-gap);
+    }
+  }
+
   /* M-P1 collapses the column to one uniform inset instead of the
      desktop's distinct top/bottom rhythm: content padding mock 10px
      x1.44 = 14.4 -> --space-4, card gap mock 7px x1.44 = 10.1 ->
