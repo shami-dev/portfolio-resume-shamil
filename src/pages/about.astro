@@ -308,6 +308,34 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     flex: none;
   }
 
+  /* Tablet (spec §8.5): portrait stays beside the copy, narrower than
+     desktop's 245px — the intro is the one block that pays the cost of
+     the fixed-width figure, running 424px (~47 characters, low end of
+     range but inside it); everything below it resumes the 640px cap.
+     RESUME.PDF moves to a second on-page instance here too (KPI 1,
+     "twice") — the rail block hides and the row wraps to make room for
+     it as its own full-width line. */
+  @media (48rem <= width < 64rem) {
+    .about-intro {
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .portrait-fig {
+      width: 240px;
+    }
+    .about-resume-inline {
+      display: flex;
+      flex: 1 1 100%;
+      gap: 12px;
+    }
+    .about-resume-rail {
+      display: none;
+    }
+    .about-cols {
+      gap: 24px;
+    }
+  }
+
   @media (width < 48rem) {
     .about-intro {
       flex-direction: column;
@@ -403,6 +431,24 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     font-weight: 500;
     font-size: var(--fs-mono); /* 13px floor, mock 8px */
     color: var(--label);
+  }
+
+  /* Tablet (spec §8.5): the horizontal ruled track survives at 688px
+     with desktop's exact station positions — no inferred year ranges
+     needed (closes Phase 5b F7). Track height is desktop 134px [mock 82]
+     x0.70 = 93.8, rounded to 94. Labels alternate two heights above the
+     rule so the two 4-year stations (CAD ENGINEER / CAD MANAGER) don't
+     collide with their neighbours at this width. */
+  @media (48rem <= width < 64rem) {
+    .about-track {
+      height: 94px;
+    }
+    .track-station:nth-child(odd) .track-label {
+      bottom: 30px;
+    }
+    .track-station:nth-child(even) .track-label {
+      bottom: 62px;
+    }
   }
 
   /* Below 48rem, the percentage-offset stations sit too close together
@@ -578,6 +624,18 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     .about-resume-inline .resume-btn:active,
     .about-resume-end:active {
       background: var(--blue);
+    }
+  }
+
+  /* Both instances get the mobile touch floor at tablet too — RESUME.PDF
+     is a hard action (drafting register), not just a mobile concern. */
+  @media (48rem <= width < 64rem) {
+    .about-resume-inline .resume-btn,
+    .about-resume-end {
+      min-height: var(--target-hard);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
