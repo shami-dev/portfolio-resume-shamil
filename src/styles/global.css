@@ -452,6 +452,14 @@ a:hover {
 .rail-extras {
   display: contents;
 }
+/* Case pages' tablet-only duplicate of the Rail extras' ROLE/TOOLS data —
+   see the .rail-extras:has(.rail-title-cell) hide rule in the TABLET BAND
+   section for why this exists as a separate block instead of reflowing
+   .rail-extras itself. Hidden outside 48–64rem; the chrome instance
+   (desktop sidebar / mobile accordion) covers those widths instead. */
+.case-role-tools {
+  display: none;
+}
 /* Row-1 title text (Rail's `label`/`labelRight` sized up) — tablet band
    only, hidden everywhere else. Not new copy: the same "S.K. / WORK" /
    record-name string every page already passes to Rail, which today only
@@ -1852,26 +1860,38 @@ a.dcard {
    .evidence-figs already sets flex: 1 on each figure unconditionally, so
    a paired plate already goes 2-up at tablet with no extra rule. */
 @media (48rem <= width < 64rem) {
-  /* ROLE + TOOLS strip (spec: "the tablet answer to mobile's ▸ ID
-     accordion" — visible, not disclosed). TITLE/RECORD repeats the site
-     identity the band's own wordmark/record-name text already carries,
-     so it's dropped here rather than added as a third strip cell.
-     :has(.cell) scopes to case pages specifically — Work/Colophon/404's
-     .rail-extras holds only a bare .rail-foot (MetricCell), no .cell,
-     and About's holds only its own .rail-foot.about-resume-rail. */
-  .rail-title-cell {
+  /* ROLE + TOOLS strip (spec §8.0.4: "move into the content column as a
+     full-width title-block strip" — the tablet answer to mobile's ▸ ID
+     accordion, visible not disclosed). Verified against the mockup
+     source directly (phase_5c_tablet_layouts.html:446-450): ROLE/TOOLS
+     sit as the first children inside the same .mm grid box as
+     DECISION/EVIDENCE/RESULT, not in a separate chrome strip — a
+     standalone .rail-extras box can't guarantee its grid tiles
+     seamlessly into .col's at an arbitrary, content-dependent height.
+     So the chrome instance (desktop sidebar / mobile accordion) hides
+     here, and .case-role-tools — a duplicate of the same rail.role/
+     rail.tools data, rendered directly inside .col.case — takes over.
+     :has(.rail-title-cell) scopes the hide to case pages specifically:
+     Work/Colophon/404's .rail-extras holds only a bare .rail-foot
+     (MetricCell), and About's holds only its own
+     .rail-foot.about-resume-rail — neither has a .rail-title-cell. */
+  .rail-extras:has(.rail-title-cell) {
     display: none;
   }
-  .rail-extras:has(.cell) .cell {
+  .case-role-tools {
+    display: flex;
+    gap: 10px;
+  }
+  .case-role-tools .cell {
+    flex: 1;
     padding: var(--cell-pad);
   }
-  .rail-extras:has(.cell) > .cell:not(.rail-title-cell) {
+  .case-role-tools .rail-foot {
     flex: 1;
-  }
-  .rail-extras:has(.cell) .rail-foot {
-    flex: none;
-    width: 296px;
     margin-top: 0;
+    border: 1.5px solid var(--bd-rule);
+    background: var(--white);
+    padding: var(--cell-pad);
   }
 
   /* PROBLEM/CONSTRAINT label column (100px + 574px prose, spec flag T4:

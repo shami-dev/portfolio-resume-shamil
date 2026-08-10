@@ -81,6 +81,31 @@ const {
   </Rail>
 
   <div class="mm col case">
+    <div class="case-role-tools" data-register>
+      <div class="cell">
+        <div class="clab">ROLE</div>
+        <div class="cell-val">{rail.role}</div>
+      </div>
+      <div class="rail-foot">
+        <div class="clab">TOOLS</div>
+        <ul class="rail-chips" style="margin-top: 4px">
+          {rail.tools.map((tool) => <li class="stk">{tool}</li>)}
+        </ul>
+        {
+          rail.link && (
+            <a
+              href={rail.link.href}
+              class="rail-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {rail.link.label}
+            </a>
+          )
+        }
+      </div>
+    </div>
+
     <span class="kicker" data-register>{kicker}</span>
     <h1 class="h1-case" data-register>
       {headline}
