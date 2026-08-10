@@ -134,6 +134,13 @@ const description =
   .colophon-body {
     margin-top: 13px; /* mock implicit ~8px x1.636, matches About's rhythm */
   }
+  /* τR stays 1.00 at tablet by bounding measure instead of shrinking
+     type (spec §8.1's --tb-prose-cap). */
+  @media (48rem <= width < 64rem) {
+    .colophon-body {
+      max-width: var(--prose-cap);
+    }
+  }
 
   .colophon-stack {
     margin-top: 10px; /* mock margin-top "6px" x1.636 */

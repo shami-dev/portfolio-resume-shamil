@@ -1309,6 +1309,23 @@ a:hover {
   flex-direction: column;
 }
 
+/* Tablet's wide edge (spec flag T5): unbounded, the single column reaches
+   943px of measure at 1023px — ~105 characters, worse than desktop's own
+   column. The band stays full-bleed; only the column caps and centres,
+   and only once the viewport has room to spare for it (960px — below
+   that the fluid column plus --col-pad governs, same as always). 880px
+   is a judgment call the spec names as such, not a derived number — see
+   T5 in the plan's Deviations section. Home's .col dissolves via
+   .rail-flat ~ .col { display: contents } (Stage 2.1), so this cap is
+   reapplied directly on its reordered children there instead. */
+@media (60rem <= width < 64rem) {
+  .col {
+    max-width: var(--col-cap);
+    width: 100%;
+    margin-inline: auto;
+  }
+}
+
 .mrow {
   display: flex;
   justify-content: space-between;
@@ -1334,6 +1351,14 @@ a:hover {
   /* paper wash for legibility over .mm grid, mock 0.75 alpha — same
      pattern as .block-body's 0.8 */
   background: rgb(var(--paper-rgb), 0.75);
+}
+/* τR stays 1.00 at tablet by bounding measure instead of shrinking type
+   (spec §8.1's --tb-prose-cap) — 640px reads as 71 characters at 18px,
+   inside the 45–75 comfortable range, wider than the desktop 44ch cap. */
+@media (48rem <= width < 64rem) {
+  .hero-body {
+    max-width: var(--prose-cap);
+  }
 }
 .kicker {
   font-family: var(--font-mono);
@@ -1559,6 +1584,13 @@ a.dcard {
   font: italic 500 1.375rem/1.6 var(--font-sans); /* 22px, mock 13.5px */
   color: var(--ink-body);
   background: rgb(var(--paper-rgb), 0.8);
+}
+/* Measure cap only here — the tablet type-size override (19px, spec
+   --tb-quote) is a case-page concern, Stage 2.3. */
+@media (48rem <= width < 64rem) {
+  .lesson {
+    max-width: var(--prose-cap);
+  }
 }
 .lesson-label {
   display: block;

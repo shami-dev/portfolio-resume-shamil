@@ -355,6 +355,13 @@ if (result?.error) {
   .contact-intro {
     max-width: 60ch;
   }
+  /* τR stays 1.00 at tablet by bounding measure instead of shrinking
+     type (spec §8.1's --tb-prose-cap), narrower than the desktop cap. */
+  @media (48rem <= width < 64rem) {
+    .contact-intro {
+      max-width: var(--prose-cap);
+    }
+  }
 
   /* Mock gap "16px" x1.636 */
   .contact-row {
