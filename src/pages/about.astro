@@ -491,18 +491,33 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
   /* Tablet (spec §8.5): the horizontal ruled track survives at 688px
      with desktop's exact station positions — no inferred year ranges
      needed (closes Phase 5b F7). Track height is desktop 134px [mock 82]
-     x0.70 = 93.8, rounded to 94. Labels alternate two heights above the
-     rule so the two 4-year stations (CAD ENGINEER / CAD MANAGER) don't
-     collide with their neighbours at this width. */
+     x0.70 = 93.8, rounded to 94.
+
+     All four labels share one row, not the mock's alternating two
+     heights — that pattern was tuned to ITS hypothetical 4/4/2/4-year
+     data, where CAD ENGINEER/CAD MANAGER was the tight pair. This
+     page's real, computed durations put the collision risk elsewhere:
+     measured via getBoundingClientRect, only stations 3-4 (IT EXPERT /
+     WEB — NOW) overlap (-3.8px) at the same row; 1-2 and 2-3 clear by
+     48px and 118px. Rather than raise station 4 to a second height,
+     it's nudged right (margin-left) just enough to clear the overlap
+     sideways, keeping every title on the same baseline. Durations shift
+     slightly every month (station 4's end date is "now"), which only
+     widens the 3-4 gap over time, not narrows it, so this doesn't need
+     revisiting on a schedule — but re-check with getBoundingClientRect
+     if a 5th role is ever added or an early station's dates change. */
   @media (48rem <= width < 64rem) {
     .about-track {
       height: 94px;
     }
-    .track-station:nth-child(odd) .track-label {
-      bottom: 30px;
+    .track-label {
+      bottom: 38px;
     }
-    .track-station:nth-child(even) .track-label {
-      bottom: 62px;
+    /* Same row as every other label — the ~4px collision with IT EXPERT
+       (measured via getBoundingClientRect) is cleared sideways instead
+       of by raising this one above the row. */
+    .track-station:last-child .track-label {
+      margin-left: 8px;
     }
   }
 
