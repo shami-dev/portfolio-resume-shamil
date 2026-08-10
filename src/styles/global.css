@@ -101,6 +101,47 @@ a:hover {
    literals below; range syntax (`width < 64rem`) avoids 63.999rem.
    ========================================================================== */
 
+/* ==========================================================================
+   TABLET BAND — tokens (Phase 5c, design-v2/phase_5c_tablet). Three scale
+   factors, not one: τS 0.70 (space — tablet content area 768px ÷ desktop
+   content area 1120px), τD 0.84 (display type — √τS, headlines compress
+   slower than space), τR 1.00 (reading type — desktop values verbatim,
+   bounded by --prose-cap instead of shrinking). Same pattern as the mobile
+   :root override below (MOBILE BAND section): redefine existing tokens
+   where the source doc's row maps onto one, add new ones only where no
+   token exists yet. Kept in global.css rather than tokens.css to match
+   that precedent — width-scoped token values live with the breakpoint
+   logic that reads them, not in the flat token sheet. */
+@media (48rem <= width < 64rem) {
+  :root {
+    /* τS 0.70 — desktop 56px [mock 34] x0.70 = 39.2 -> 40 */
+    --col-pad: 40px;
+    /* τD 0.84 — desktop 48px [mock 30] x0.84 = 40.2 -> 40 */
+    --fs-h1: 2.5rem;
+    /* τD 0.84 — desktop 36px [mock 22] x0.84 = 30.2 -> 30. Section-tier
+       headlines ("Decision log", "The arc is the argument.", "Reach
+       me.", Colophon's h1). Case pages override to the case tier (34px)
+       in their own shared rule — case.astro pages, Stage 2.3. */
+    --fs-h1-case: 1.875rem;
+
+    /* --- New tokens, this band only ------------------------------------ */
+    /* 76 (row 1) + 48 (row 2) + 1.5 rule + 1px separator, measured off the
+       frames — not derived from the old 320px rail width, which has no
+       relationship to a rotated title block's thickness. */
+    --band-id-h: 76px;
+    --band-nav-h: 48px; /* touch floor, absolute — not τS-scaled from 48 */
+    --prose-cap: 640px; /* 71 characters at 18px — what lets τR stay 1.00 */
+    --col-cap: 880px; /* centres the column above a 960px viewport */
+    --cell-pad: 9px 14px; /* τS: desktop 13/16px [mock 8/10] x0.70 */
+    --card-pad: 18px; /* τS: desktop 24/26px [mock 14/16] x0.70, squared */
+    --card-pad-tight: 14px 18px; /* τS: desktop 20/24px [mock 12/14] x0.70 */
+    --block-gap: 14px; /* τS: desktop 20px [mock 11-12] x0.70 */
+    --card-gap: 10px; /* τS: desktop 13px [mock 8] x0.70 */
+    --target: 48px; /* mobile floor, absolute */
+    --target-hard: 52px; /* mobile floor, absolute */
+  }
+}
+
 /* --- Millimetre-paper grid (verbatim periods: minor 5px, major 25px) --- */
 .mm {
   background-image:
