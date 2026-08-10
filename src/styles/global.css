@@ -692,6 +692,22 @@ a:hover {
   }
 }
 
+/* Short viewports (Stage 3.2, spec flag T7) — a 390x844 phone rotated is
+   844px wide, inside the tablet band by width, but only 390px tall: the
+   126.5px band would eat 32% of the viewport before any content. Rule:
+   the sticky nav rule moves ahead of the identity row instead of behind
+   it, so it's reachable immediately rather than only after scrolling
+   past the full band once. Bounded at both width ends (unlike the
+   spec's own bare `(min-width:48rem) and (max-height:30rem)`, which
+   would also catch a short desktop browser window) — this is a new
+   condition with no precedent in Phase 5 or 5b, so it stays narrowly
+   scoped to the case it was written for. */
+@media (48rem <= width < 64rem) and (height < 30rem) {
+  .nav-rule {
+    order: -1;
+  }
+}
+
 /* MOBILE BAND — the Phase 5b treatment, drawn at 390x844.
    M-P1's header: name, one title line, one mono meta line, no labels. */
 @media (width < 48rem) {
