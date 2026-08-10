@@ -499,8 +499,10 @@ if (result?.error) {
      .send-btn reuses its own :hover fill on :active instead; .copy-btn
      has no hover treatment to reuse (plain inline text, no box), so it
      gets the same light tint .nrow/.dcard use elsewhere in the mobile
-     band. */
-  @media (width < 48rem) {
+     band. Extended to tablet (Stage 3.1) — both input modes are live
+     there; the min-height here duplicates --target-hard's own value
+     (52px), harmlessly. */
+  @media (width < 64rem) {
     .send-btn,
     .copy-btn {
       -webkit-tap-highlight-color: transparent;

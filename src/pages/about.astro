@@ -588,8 +588,9 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
   }
 
   /* Pressed state (Phase 5b 6.0 §3) — same blue swap as :hover, since
-     hover has no mobile analog to avoid doubling up with. */
-  @media (width < 48rem) {
+     hover has no mobile analog to avoid doubling up with. Extended to
+     tablet (Stage 3.1) — both input modes are live there. */
+  @media (width < 64rem) {
     .resume-btn {
       -webkit-tap-highlight-color: transparent;
     }
@@ -628,7 +629,11 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
   }
 
   /* Both instances get the mobile touch floor at tablet too — RESUME.PDF
-     is a hard action (drafting register), not just a mobile concern. */
+     is a hard action (drafting register), not just a mobile concern.
+     :active is stated here too rather than by widening the mobile block
+     above (Stage 3.1) — that block also sets flex-direction: column on
+     .about-resume-inline, which would fight this page's own tablet row
+     layout for that element. */
   @media (48rem <= width < 64rem) {
     .about-resume-inline .resume-btn,
     .about-resume-end {
@@ -636,6 +641,10 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    .about-resume-inline .resume-btn:active,
+    .about-resume-end:active {
+      background: var(--blue);
     }
   }
 
@@ -655,7 +664,8 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
   .copy-btn[data-state="copied"] {
     color: var(--green-raised);
   }
-  @media (width < 48rem) {
+  /* Extended to tablet (Stage 3.1) — both input modes are live there. */
+  @media (width < 64rem) {
     .copy-btn {
       -webkit-tap-highlight-color: transparent;
     }

@@ -204,8 +204,9 @@ const description =
   /* Pressed state (Phase 5b 6.0 §3) — no mobile analog for hover, so this
      outlined badge gets the same ink-fill swap 404's .notfound-btn uses
      on :hover, but on :active, since it has no hover treatment of its
-     own to replace. */
-  @media (width < 48rem) {
+     own to replace. Extended to tablet (Stage 3.1) — both input modes
+     are live there. */
+  @media (width < 64rem) {
     .records-link {
       display: flex;
       align-items: center;

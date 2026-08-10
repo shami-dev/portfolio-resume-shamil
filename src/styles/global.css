@@ -1177,16 +1177,22 @@ a:hover {
 
 /* Pressed states (Phase 5b 6.0 §3): ":hover has no mobile analog" — nav
    rows and record cards get a blue-tinted :active fill instead, the same
-   tint as their desktop :hover. Scoped to the mobile band rather than
-   left unconditional, since these are a REPLACEMENT for hover (which is
-   already its own @media (hover: hover) guarded rule below/above), not
-   an addition to it — a mouse click on desktop shouldn't also trigger
-   this flatter, non-animated fill on top of the existing lift/translate.
+   tint as their desktop :hover. Scoped to the mobile+tablet bands rather
+   than left unconditional, since these are a REPLACEMENT for hover
+   (which is already its own @media (hover: hover) guarded rule below/
+   above), not an addition to it — a mouse click on desktop shouldn't
+   also trigger this flatter, non-animated fill on top of the existing
+   lift/translate. Extended to tablet (Stage 3.1): a tablet has both
+   input modes at once (touch, and a trackpad/keyboard case's pointer),
+   so it gets both treatments — the hover rule fires under
+   @media (hover: hover), this one fires on :active regardless, and
+   neither replaces the other at this width the way one does on
+   touch-only mobile or pointer-only desktop.
    -webkit-tap-highlight-color: transparent on each prevents the browser's
    own default tap flash from showing alongside this fill (stylelint's
    strict-value rule exempts `transparent` even though the property name
    ends in -color). */
-@media (width < 48rem) {
+@media (width < 64rem) {
   .nrow,
   a.dcard.is-hoverable,
   .scan-bar {
