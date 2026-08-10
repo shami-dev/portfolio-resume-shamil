@@ -122,7 +122,14 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     </div>
     <Nav current="about" slot="nav" />
     <div class="rail-foot about-resume-rail" slot="extras">
-      <a href={resumeUrl} class="resume-btn">RESUME.PDF ↓</a>
+      <a
+        href={resumeUrl}
+        class="resume-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        RESUME.PDF ↓
+      </a>
       <p class="resume-caption">direct file URL — forwardable</p>
     </div>
   </Rail>
@@ -156,7 +163,14 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
             data-register="lg"
           />
           <div class="about-resume-inline" data-register>
-            <a href={resumeUrl} class="resume-btn">RESUME.PDF ↓</a>
+            <a
+              href={resumeUrl}
+              class="resume-btn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              RESUME.PDF ↓
+            </a>
             <button
               type="button"
               class="copy-btn"
@@ -237,9 +251,15 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 
     <TickRule variant="light" />
 
-    <a href={resumeUrl} class="resume-btn about-resume-end" data-register
-      >RESUME.PDF ↓</a
+    <a
+      href={resumeUrl}
+      class="resume-btn about-resume-end"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-register
     >
+      RESUME.PDF ↓
+    </a>
 
     <SiteFooter data-register />
   </div>
