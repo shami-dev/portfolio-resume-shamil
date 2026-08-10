@@ -678,12 +678,15 @@ a:hover {
     align-items: center;
     font-size: var(--fs-mono);
   }
-  /* Base .mode-seg + .mode-seg border-left is var(--ink) — right for the
-     footer widget's own 1.5px ink frame, but this instance's outer border
-     already dropped to --bd-hair above (line ~671) for the subtler nav-row
-     register. The inter-segment dividers need the same swap, or they sit
-     one shade heavier than every other hairline in the row. */
+  /* Base .mode-seg + .mode-seg border-left is 1.5px solid var(--ink) —
+     right for the footer widget's own bold frame, but this instance's
+     outer border already dropped to 1px var(--bd-hair) above (line ~671)
+     for the subtler nav-row register, matching .nav > * + *'s own 1px
+     hairline dividers a few rows over. The inter-segment dividers need
+     the same width + color, or they sit one shade heavier and half a
+     pixel wider than every other hairline in the row. */
   .mode-switch-band .mode-seg + .mode-seg {
+    border-left-width: 1px;
     border-left-color: var(--bd-hair);
   }
   .mode-switch-band .mode-seg-label-full {
