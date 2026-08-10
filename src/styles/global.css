@@ -1731,6 +1731,91 @@ a.dcard {
   }
 }
 
+/* Case detail tablet reflow (Stage 2.3, spec §8.4) — the desktop
+   patterns mobile had to give up mostly just return: .block already sets
+   flex-direction: row unconditionally (the column override above is
+   mobile-only), so the label-beside-prose layout needs only a width;
+   .evidence-figs already sets flex: 1 on each figure unconditionally, so
+   a paired plate already goes 2-up at tablet with no extra rule. */
+@media (48rem <= width < 64rem) {
+  /* ROLE + TOOLS strip (spec: "the tablet answer to mobile's ▸ ID
+     accordion" — visible, not disclosed). TITLE/RECORD repeats the site
+     identity the band's own wordmark/record-name text already carries,
+     so it's dropped here rather than added as a third strip cell.
+     :has(.cell) scopes to case pages specifically — Work/Colophon/404's
+     .rail-extras holds only a bare .rail-foot (MetricCell), no .cell,
+     and About's holds only its own .rail-foot.about-resume-rail. */
+  .rail-title-cell {
+    display: none;
+  }
+  .rail-extras:has(.cell) .cell {
+    padding: var(--cell-pad);
+  }
+  .rail-extras:has(.cell) > .cell:not(.rail-title-cell) {
+    flex: 1;
+  }
+  .rail-extras:has(.cell) .rail-foot {
+    flex: none;
+    width: 296px;
+    margin-top: 0;
+  }
+
+  /* PROBLEM/CONSTRAINT label column (100px + 574px prose, spec flag T4:
+     100px fits "CONSTRAINT" at 14px mono; a longer future label widens
+     the column rather than wrapping the badge). */
+  .block {
+    gap: 14px;
+  }
+  .block > .eb {
+    width: 100px;
+    flex: none;
+    align-self: flex-start;
+  }
+  .block-body {
+    max-width: 574px;
+  }
+
+  /* Case headline tier — 34px, not the 30px section tier every other
+     tablet h1-case consumer gets (Stage 1.1): MALTALINK's own 39px
+     .exemplar override is reset to match in that page's style block. */
+  .case .h1-case {
+    font-size: 2.125rem;
+  }
+
+  /* D/E/R padding, τS 0.70 (desktop 24/26px -> 18px, squared). */
+  .dcard:not(.is-hoverable),
+  .evidence,
+  .result {
+    padding: var(--card-pad);
+  }
+
+  /* LESSON — 19px italic (spec --tb-quote); the desktop-relative 22px
+     already clears prose at this width by more than mobile's flat 17px
+     needed to. */
+  .lesson {
+    font-size: 1.1875rem;
+  }
+
+  /* PREV / NEXT — full record names at 16px fit comfortably at 337px
+     each (spec), so the mobile bordered-cell treatment below extends
+     here too, just with the desktop gap restored. */
+  .case-pager {
+    gap: 14px;
+  }
+  .case-pager > .ftl {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--target);
+    border: 1.5px solid var(--ink);
+    background: var(--white);
+    color: var(--ink);
+    font-weight: 600;
+    text-align: center;
+  }
+}
+
 /* Hero figure (WIDE/HERO family, Phase 5b 6.0 §5): ratio tightens
    16:7 -> 16:9 on mobile. A class, not the page's inline
    `style="aspect-ratio: ..."` — inline styles win over any stylesheet

@@ -182,6 +182,13 @@ const {
 
   /* Mobile collapses to the uniform inset, same as Home: mock 10px and
      7px x1.44 -> --space-4 and --space-3 on the existing scale. */
+  @media (48rem <= width < 64rem) {
+    .case {
+      gap: var(--block-gap);
+      padding: 34px var(--col-pad) 40px;
+    }
+  }
+
   @media (width < 48rem) {
     .case {
       gap: var(--space-3);

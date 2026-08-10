@@ -176,6 +176,13 @@ const {
 
   /* Mobile collapses to the uniform inset, same as Home: mock 10px and
      7px x1.44 -> --space-4 and --space-3 on the existing scale. */
+  @media (48rem <= width < 64rem) {
+    .case {
+      gap: var(--block-gap);
+      padding: 34px var(--col-pad) 40px;
+    }
+  }
+
   @media (width < 48rem) {
     .case {
       gap: var(--space-3);
@@ -187,6 +194,14 @@ const {
      22px-mock norm baked into the shared --fs-h1-case (see tokens.css) */
   .exemplar {
     font-size: 39px; /* 24px x1.636 */
+  }
+
+  /* Resets to the shared case tier (global.css, Stage 2.3) — MALTALINK's
+     one-off desktop size doesn't get its own tablet multiple. */
+  @media (48rem <= width < 64rem) {
+    .exemplar {
+      font-size: 2.125rem; /* 34px */
+    }
   }
 
   /* DECISION/RESULT body text, mock margin-top "6px" x1.636 */

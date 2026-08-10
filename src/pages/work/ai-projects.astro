@@ -191,6 +191,13 @@ const {
 
   /* Mobile collapses to the uniform inset, same as Home: mock 10px and
      7px x1.44 -> --space-4 and --space-3 on the existing scale. */
+  @media (48rem <= width < 64rem) {
+    .case {
+      gap: var(--block-gap);
+      padding: 34px var(--col-pad) 40px;
+    }
+  }
+
   @media (width < 48rem) {
     .case {
       gap: var(--space-3);
@@ -206,5 +213,17 @@ const {
   /* EVIDENCE caption, mock margin-top "8px" x1.636 */
   .evidence-caption {
     margin-top: 13px;
+  }
+
+  /* TALL / REPORT stays stacked full width at tablet too (spec flag T3,
+     carried unchanged from Phase 5b F1): .evidence-figs (global.css) sets
+     flex: 1 on every figure unconditionally, which at 688px would put
+     these two report screenshots at 337px each — a 0.22× reduction that
+     mobile already rejected as illegible. No component change, just the
+     same column reset mobile's own override makes. */
+  @media (48rem <= width < 64rem) {
+    .evidence-figs {
+      flex-direction: column;
+    }
   }
 </style>

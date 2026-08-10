@@ -192,6 +192,13 @@ const [lighthouse, ...banners] = evidence.figures;
 
   /* Mobile collapses to the uniform inset, same as Home: mock 10px and
      7px x1.44 -> --space-4 and --space-3 on the existing scale. */
+  @media (48rem <= width < 64rem) {
+    .case {
+      gap: var(--block-gap);
+      padding: 34px var(--col-pad) 40px;
+    }
+  }
+
   @media (width < 48rem) {
     .case {
       gap: var(--space-3);
@@ -252,6 +259,28 @@ const [lighthouse, ...banners] = evidence.figures;
     }
     .lighthouse-fig {
       flex: none;
+    }
+  }
+
+  /* Tablet (spec §8.4a "what varies"): Lighthouse plate full width, then
+     the two banners side by side at 318px in-plate, 3.2:1 — a third
+     pattern, not desktop's beside-the-plate stack or mobile's flattened
+     column. .evidence-figs (global.css) already sets flex: 1 on every
+     figure unconditionally, which would otherwise put Lighthouse and the
+     stack side by side; column resets that here, same reasoning as the
+     mobile override above. */
+  @media (48rem <= width < 64rem) {
+    .evidence-figs {
+      flex-direction: column;
+    }
+    .lighthouse-fig {
+      flex: none;
+    }
+    .evidence-fig-stack {
+      flex-direction: row;
+    }
+    .banner-fig {
+      aspect-ratio: 3.2 / 1;
     }
   }
 </style>
