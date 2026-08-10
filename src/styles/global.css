@@ -1204,6 +1204,7 @@ a:hover {
   }
   .rail-flat .rail-foot {
     order: 4;
+    margin-top: var(--block-gap);
     margin-inline: var(--col-pad);
   }
   /* MetricCell's own light tick duplicates .rail-flat ~ .col > .tick
@@ -1216,6 +1217,7 @@ a:hover {
   }
   .rail-flat .rail-chips {
     order: 5;
+    margin-top: var(--block-gap);
     margin-inline: var(--col-pad);
   }
   .rail-flat ~ .col > .decisions {
