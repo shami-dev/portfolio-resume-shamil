@@ -83,6 +83,14 @@ const description =
   .notfound-theme {
     display: none;
   }
+  /* Tablet gets the band too (spec §8.6 T-P7) — the theme control lives
+     in its sticky nav rule now, so .notfound-theme (mobile's pre-footer
+     slot) stays hidden here same as desktop. */
+  @media (48rem <= width < 64rem) {
+    .rail-404 {
+      display: flex;
+    }
+  }
   @media (width < 48rem) {
     .rail-404 {
       display: flex;
@@ -105,6 +113,29 @@ const description =
   .notfound-cell {
     max-width: 380px;
     padding: 30px;
+  }
+
+  /* Tablet: width derived outward from its children, not inward from
+     the column — 200 + 200 recovery cells + 10px gap + 2×26px padding +
+     3px border = 465 (spec §8.6 T-P7). A centred cell's width is set by
+     its content, not by the column it floats in, so this isn't a
+     τS-scaled value. */
+  @media (48rem <= width < 64rem) {
+    .notfound-cell {
+      width: 465px;
+      max-width: none;
+      padding: 26px;
+    }
+    .notfound-actions {
+      gap: 10px;
+    }
+    .notfound-btn {
+      width: 200px;
+      min-height: var(--target-hard);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   /* Mock font-size 10px, color #7a2e2e. Sized as WCAG "large text"
