@@ -1206,6 +1206,14 @@ a:hover {
     order: 4;
     margin-inline: var(--col-pad);
   }
+  /* MetricCell's own light tick duplicates .rail-flat ~ .col > .tick
+     (order 3), which already sits directly above it in the reflowed
+     order — same reason mobile hides it (.rail-foot > .tick-lt above).
+     Scoped to .rail-flat: interior pages' .rail-extras sits right below
+     the nav row with nothing preceding it, so their copy isn't a dupe. */
+  .rail-flat .rail-foot > .tick-lt {
+    display: none;
+  }
   .rail-flat .rail-chips {
     order: 5;
     margin-inline: var(--col-pad);
