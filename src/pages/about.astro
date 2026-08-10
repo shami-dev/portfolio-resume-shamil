@@ -123,48 +123,53 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
   </Rail>
 
   <div class="mm2 col about">
-    <h1 class="h1-case about-h1" data-register>The arc is the argument.</h1>
+    <div class="about-hero">
+      <h1 class="h1-case about-h1" data-register>The arc is the argument.</h1>
 
-    <div class="about-intro">
-      <p class="prose about-body" data-register>
-        I'm a web developer in Porto building fast, accessible React/TypeScript
-        applications. Before development: {cadYears} years as a CAD engineer, {
-          managerYears
-        } more managing the design team, then {atmYears} years keeping 500+ ATM and
-        payment-kiosk systems at 97%+ uptime. That arc — IC to lead to reliability
-        — is where the instinct for ownership and end-to-end responsibility comes
-        from. I've carried it into web work since: running the technical infrastructure
-        behind international conferences serving 500+ attendees across 15 countries,
-        usually as the only person responsible for the whole stack, alongside sites
-        built for real organizations and individuals with real deadlines — conferences,
-        election campaigns — and self-directed projects integrating AI into working
-        products. Schengen residence card, Portuguese work permit; remote and cross-border
-        B2B across the EU.
-      </p>
-      <Placeholder
-        slug="portrait-shamil"
-        kind="PORTRAIT — SUPPLIED SEPARATELY"
-        class="portrait-fig"
-        data-register="lg"
-      />
-      <div class="about-resume-inline" data-register>
-        <a href={resumeUrl} class="resume-btn">RESUME.PDF ↓</a>
-        <button
-          type="button"
-          class="copy-btn"
-          id="resume-copy-btn"
-          data-resume-url={resumeUrl}
-          data-default-label="⧉ Copy resume link"
-        >
-          ⧉ Copy resume link
-        </button>
-        <p
-          class="visually-hidden"
-          id="resume-copy-announce"
-          role="status"
-          aria-live="polite"
-        >
+      <div class="about-intro">
+        <p class="prose about-body" data-register>
+          I'm a web developer in Porto building fast, accessible React/TypeScript
+          applications. Before development: {cadYears} years as a CAD engineer, {
+            managerYears
+          } more managing the design team, then {atmYears} years keeping 500+ ATM
+          and payment-kiosk systems at 97%+ uptime. That arc — IC to lead to
+          reliability — is where the instinct for ownership and end-to-end
+          responsibility comes from. I've carried it into web work since: running
+          the technical infrastructure behind international conferences serving
+          500+ attendees across 15 countries, usually as the only person
+          responsible for the whole stack, alongside sites built for real
+          organizations and individuals with real deadlines — conferences,
+          election campaigns — and self-directed projects integrating AI into
+          working products. Schengen residence card, Portuguese work permit;
+          remote and cross-border B2B across the EU.
         </p>
+        <div class="about-portrait-col">
+          <Placeholder
+            slug="portrait-shamil"
+            kind="PORTRAIT — SUPPLIED SEPARATELY"
+            class="portrait-fig"
+            data-register="lg"
+          />
+          <div class="about-resume-inline" data-register>
+            <a href={resumeUrl} class="resume-btn">RESUME.PDF ↓</a>
+            <button
+              type="button"
+              class="copy-btn"
+              id="resume-copy-btn"
+              data-resume-url={resumeUrl}
+              data-default-label="⧉ Copy resume link"
+            >
+              ⧉ Copy resume link
+            </button>
+            <p
+              class="visually-hidden"
+              id="resume-copy-announce"
+              role="status"
+              aria-live="polite"
+            >
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -271,6 +276,14 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     }
   }
 
+  /* Invisible everywhere except tablet (below) — desktop/mobile keep
+     .about-h1 and .about-intro as today's plain stacked siblings of
+     .col.about; tablet dissolves this instead to pull .about-h1 into
+     the row beside the photo, level with it. */
+  .about-hero {
+    display: contents;
+  }
+
   /* Body + portrait row, mock gap "18px" x1.636. .about-body is a direct
      flex child now — it was .about-copy's job to grow/clamp before .h1
      moved out of this row entirely. */
@@ -298,6 +311,16 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     display: none;
   }
 
+  /* Wraps the photo + inline resume block as one column, matching the
+     mockup's own grouping (phase_5c_tablet_layouts.html:566) — flex:
+     none so it never grows in the .about-intro row; width/gap vary per
+     breakpoint below. */
+  .about-portrait-col {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+  }
+
   /* Desktop: fixed width beside the copy, 5:6 (mock's own portrait
      crop). Moved out of an inline style so the mobile override below
      can reach it — inline styles win over any stylesheet rule
@@ -305,28 +328,61 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
   .portrait-fig {
     width: 245px;
     aspect-ratio: 5 / 6;
-    flex: none;
   }
 
-  /* Tablet (spec §8.5): portrait stays beside the copy, narrower than
-     desktop's 245px — the intro is the one block that pays the cost of
-     the fixed-width figure, running 424px (~47 characters, low end of
-     range but inside it); everything below it resumes the 640px cap.
-     RESUME.PDF moves to a second on-page instance here too (KPI 1,
-     "twice") — the rail block hides and the row wraps to make room for
-     it as its own full-width line. */
+  /* Tablet (spec §8.5, phase_5c_tablet_layouts.html:561-570): portrait
+     stays beside the copy, narrower than desktop's 245px — the intro is
+     the one block that pays the cost of the fixed-width figure, running
+     424px (~47 characters, low end of range but inside it); everything
+     below it resumes the 640px cap. RESUME.PDF moves to a second
+     on-page instance here too (KPI 1, "twice"), stacked directly under
+     the photo in the same 240px column per the mock — the rail block
+     hides, and so does the .rail-extras wrapper it leaves behind empty
+     (global.css, same media query).
+
+     .about-hero becomes the real two-column grid here (the mock's own
+     row, phase_5c_tablet_layouts.html:561, wraps .h1 in with the copy)
+     — .about-intro dissolves into it in turn so .about-body and
+     .about-portrait-col join .about-h1 as grid items of the same
+     container, letting the photo span both rows and land level with
+     the heading instead of the paragraph beneath it. align-items: start
+     matters here too: without it the grid's stretch default would drag
+     .portrait-fig's aspect-ratio out (stretch resolves the auto cross
+     size before aspect-ratio gets a say), same as flex's version of the
+     same bug. */
   @media (48rem <= width < 64rem) {
+    .about-hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      column-gap: 24px;
+      row-gap: 13px;
+      align-items: start;
+    }
+    .about-h1 {
+      grid-column: 1;
+      grid-row: 1;
+    }
     .about-intro {
-      gap: 24px;
-      flex-wrap: wrap;
+      display: contents;
+    }
+    .about-body {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .about-portrait-col {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      width: 240px;
+      gap: 10px;
     }
     .portrait-fig {
-      width: 240px;
+      width: 100%;
+      aspect-ratio: 4 / 5;
     }
     .about-resume-inline {
       display: flex;
-      flex: 1 1 100%;
-      gap: 12px;
+      flex-direction: column;
+      gap: 8px;
     }
     .about-resume-rail {
       display: none;
@@ -345,24 +401,23 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
          29px carried over from the two-column row above. */
       gap: var(--space-5);
     }
+    /* Photo (+ its stacked resume button) right after the H1, prose
+       last — request order, not DOM order (.about-body has to stay
+       first in the DOM for .about-body's own :first-of-type/reading
+       flow elsewhere, so this reorders instead of moving markup). */
+    .about-portrait-col {
+      width: 100%;
+      order: 0;
+    }
     /* M-P8: full-width, 4:5 — a shallower crop than desktop's 5:6,
        since a 245px-tall portrait at full mobile width would run
        nearly a full viewport. */
     .portrait-fig {
       width: 100%;
       aspect-ratio: 4 / 5;
-      order: 0;
-    }
-    /* Photo right after the H1, resume right after the photo, prose
-       last — request order, not DOM order (.about-body has to stay
-       first in the DOM for .about-body's own :first-of-type/reading
-       flow elsewhere, so this reorders instead of moving markup). */
-    .about-resume-inline {
-      display: block;
-      order: 1;
     }
     .about-body {
-      order: 2;
+      order: 1;
     }
     /* The column's own resume block (above) takes over the KPI-1 job at
        this width — showing the rail's copy too would be a second,

@@ -1878,6 +1878,16 @@ a.dcard {
   .rail-extras:has(.rail-title-cell) {
     display: none;
   }
+  /* About's own .about-resume-rail (the rail's RESUME.PDF block) hides
+     at this width in about.astro's own tablet media query, same as
+     case pages' rail-title-cell — but that only empties .rail-extras'
+     content, not the wrapper itself, which still renders its padding/
+     background/border-bottom with nothing inside it. Hide the wrapper
+     too; .about-portrait-col's own inline RESUME.PDF instance covers
+     this width instead (about.astro). */
+  .rail-extras:has(.about-resume-rail) {
+    display: none;
+  }
   .case-role-tools {
     display: flex;
     gap: 10px;
