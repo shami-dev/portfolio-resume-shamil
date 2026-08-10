@@ -627,6 +627,14 @@ a:hover {
     color: var(--nav-rest);
     margin-top: 3px;
   }
+  /* About only: labelRight ("PORTO · EU PERMIT") duplicates the LOC/AUTH
+     cells its own .about-id-cells shows in full at this width. Needed at
+     mobile — .scan-label-right there is the only place that info shows,
+     since .about-id-cells hides itself specifically because of it (see
+     about.astro) — but not here, so only .band-label-right hides. */
+  .rail-about .band-label-right {
+    display: none;
+  }
 
   /* Row 2 — the sticky nav rule. .nav-rule (not .nav) carries the row's
      own background/border/position so .nav can stay a plain flex child
