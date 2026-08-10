@@ -52,30 +52,33 @@ const description =
       <p class="prose colophon-body">
         Evidence of process, applied to itself. Designed in phases — positioning
         research, content strategy, reference audit, concept divergence,
-        wireframes, this design pass — each closing with a decision record, same
-        as the work it presents.
+        wireframes, the desktop design pass, mobile layouts, and this tablet
+        pass — each closing with a decision record, same as the work it
+        presents.
       </p>
     </div>
 
     <TickRule variant="light" />
 
-    <div data-register>
-      <h2 class="klab">STACK</h2>
-      <ul class="rail-chips colophon-stack">
-        <li class="stk">Astro</li>
-        <li class="stk">TypeScript</li>
-        <li class="stk">Tailwind</li>
-        <li class="stk">Vercel</li>
-        <li class="stk">Umami</li>
-      </ul>
-    </div>
+    <div class="colophon-meta">
+      <div data-register>
+        <h2 class="klab">STACK</h2>
+        <ul class="rail-chips colophon-stack">
+          <li class="stk">Astro</li>
+          <li class="stk">TypeScript</li>
+          <li class="stk">Tailwind</li>
+          <li class="stk">Vercel</li>
+          <li class="stk">Umami</li>
+        </ul>
+      </div>
 
-    <div data-register>
-      <h2 class="klab">TYPE & TEXTURE</h2>
-      <p class="prose colophon-note">
-        Archivo + IBM Plex Mono · millimetre-paper grid · tick-rule dividers
-        after the drafting scales I started my career behind.
-      </p>
+      <div data-register>
+        <h2 class="klab">TYPE & TEXTURE</h2>
+        <p class="prose colophon-note">
+          Archivo + IBM Plex Mono · millimetre-paper grid · tick-rule dividers
+          after the drafting scales I started my career behind.
+        </p>
+      </div>
     </div>
 
     <TickRule variant="light" />
@@ -93,6 +96,25 @@ const description =
   .colophon {
     gap: 18px;
     padding: 43px var(--col-pad);
+  }
+
+  /* Two genuine tablet decisions on the page that changes least of the
+     eleven (spec §8.6): STACK and TYPE & TEXTURE sit side by side —
+     desktop stacks them in a narrower column, mobile stacks them by
+     necessity. display: contents outside this range so .colophon-meta's
+     children keep landing on .colophon's own gap rhythm as plain
+     siblings, same as before this wrapper existed. */
+  .colophon-meta {
+    display: contents;
+  }
+  @media (48rem <= width < 64rem) {
+    .colophon-meta {
+      display: flex;
+      gap: 24px;
+    }
+    .colophon-meta > div {
+      flex: 1;
+    }
   }
 
   @media (width < 48rem) {
@@ -157,6 +179,20 @@ const description =
     font-family: var(--font-mono);
     font-size: var(--fs-kicker); /* 15px */
     color: var(--blue);
+  }
+
+  /* Tablet: a 400px cell, not full width — mobile's full-bleed row would
+     outrank the page's own content at this width, and this is
+     footer-tier by design (spec §8.6). */
+  @media (48rem <= width < 64rem) {
+    .colophon-analytics {
+      display: flex;
+      align-items: center;
+      width: 400px;
+      min-height: var(--target-hard);
+      border: 1.5px solid var(--ink);
+      padding: 0 16px;
+    }
   }
 
   /* M-P10: Colophon changes least of any page — this is the one row
