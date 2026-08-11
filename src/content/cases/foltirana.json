@@ -7,7 +7,7 @@
     "record": "№05 FOLTIRANA",
     "role": "Website Manager — registration experience end to end, with designer & content editor",
     "cellPair": [
-      { "label": "SPAN", "value": "~1 wk" },
+      { "label": "SPAN", "value": "About 1 week" },
       { "label": "COST", "value": "$19" }
     ],
     "tools": ["Fillout + AI", "d109conf.org"],
@@ -22,7 +22,7 @@
     "summary": "Scheduling logic for overlapping events and a live shared database, built in a week for $19."
   },
   "kicker": "DECISION №05 — RIGHT-SIZED TOOLING · UX TRIAGE",
-  "headline": "Complex scheduling logic, one week, nineteen dollars.",
+  "headline": "Scheduling logic for overlapping events, built in a week for $19.",
   "ledeMetrics": "OVERLAP WARNINGS · LIVE SHARED DB · COST CALCULATOR · $19 TOTAL",
   "hero": {
     "slug": "foltirana-hero",

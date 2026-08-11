@@ -7,7 +7,7 @@
     "record": "№02 MYSTORE",
     "role": "Solo — full stack, for a company take-home assessment",
     "cellPair": [
-      { "label": "SPAN", "value": "~2 wks" },
+      { "label": "SPAN", "value": "About 2 weeks" },
       { "label": "STATUS", "value": "finished" }
     ],
     "tools": ["React", "TS", "Vite", "DaisyUI", "Express", "Prisma", "Zod"]

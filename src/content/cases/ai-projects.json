@@ -7,7 +7,7 @@
     "record": "№03 AI PROJECTS",
     "role": "Architecture, prompt engineering & product decisions mine; implementation AI-assisted",
     "cellPair": [
-      { "label": "SPAN", "value": "14 d + ongoing" },
+      { "label": "SPAN", "value": "14 days, ongoing" },
       { "label": "STATUS", "value": "iterating", "accent": true }
     ],
     "tools": ["React Router 7", "TS", "OpenAI API"]
