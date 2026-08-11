@@ -750,6 +750,14 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     .about-resume-inline .resume-btn:active {
       background: var(--blue);
     }
+    /* The tick right before .about-resume-end duplicates SiteFooter's own
+       tick immediately below it — .about-resume-end is display: none at
+       this width (see above), so nothing visible sits between the two
+       ticks. Same reasoning as Home's .rail-flat .rail-foot > .tick-lt
+       fix (global.css): hide the one whose "next thing" disappeared. */
+    .tick-lt:has(+ .about-resume-end) {
+      display: none;
+    }
   }
 
   /* Same copy-to-clipboard pattern as Contact's .copy-btn (that file's

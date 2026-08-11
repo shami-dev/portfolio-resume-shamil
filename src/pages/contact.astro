@@ -15,7 +15,6 @@ export const prerender = false;
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Rail from "../components/Rail.astro";
 import Nav from "../components/Nav.astro";
-import TickRule from "../components/TickRule.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { actions, isInputError } from "astro:actions";
 
@@ -217,8 +216,6 @@ if (result?.error) {
         </div>
       </div>
     </div>
-
-    <TickRule variant="light" />
 
     <SiteFooter data-register />
   </div>

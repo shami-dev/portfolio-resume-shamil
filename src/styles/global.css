@@ -2002,6 +2002,22 @@ a.dcard {
   gap: 16px;
   padding-top: 16px;
 }
+/* Contact only, tablet only: the form + sidebar don't fill .col.contact's
+   full flex-column height (.sheet's own min-height: 100vh, .col's
+   flex: 1) the way every other page's longer content does, so the
+   footer used to sit right after the form with a gap of dead canvas
+   below it instead of at the sheet's edge. margin-top: auto consumes
+   that leftover space in the flex column, pinning it to the bottom —
+   verified via getBoundingClientRect: .col.contact already reaches the
+   viewport bottom, only .site-footer itself wasn't. Targets
+   .site-footer (SiteFooter's own wrapper around the tick + .ft), not
+   .ft alone — margin-top: auto on .ft by itself would leave the tick
+   behind in normal flow while the footer slid down. */
+@media (48rem <= width < 64rem) {
+  .contact > .site-footer {
+    margin-top: auto;
+  }
+}
 .ftl {
   font-family: var(--font-mono);
   font-weight: 500;

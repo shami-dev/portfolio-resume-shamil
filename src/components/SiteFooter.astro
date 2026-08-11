@@ -1,23 +1,38 @@
 ---
-// The "© 2026 Shamil Khaibullov / COLOPHON · ANALYTICS ↗" footer shared
-// verbatim by Home, the Work index, and every case page. Wraps Footer's
-// generic left/right slots so those 7 call sites stop hand-duplicating
-// the same markup — pages whose footer copy actually differs (About,
-// Contact, Colophon, the case-detail prev/next pager) keep composing
-// Footer directly.
+// The "© 2026 Shamil Khaibullov / COLOPHON · ANALYTICS ↗" footer, shared
+// verbatim by every page that uses it (Home, About, Contact, Colophon,
+// Work index, all 5 case pages). Wraps Footer's generic left/right slots
+// so those call sites stop hand-duplicating the same markup — pages
+// whose footer copy actually differs (the case-detail prev/next pager)
+// keep composing Footer directly. Also owns the light tick rule every
+// call site placed immediately before it — same reasoning, one fewer
+// line to hand-duplicate per page. 404 has no footer at all, so it's
+// untouched by this component.
+//
+// The tick and <Footer> are wrapped in one .site-footer div, rather than
+// left as plain siblings, so a page that needs to pin this whole unit to
+// the bottom of a short column (Contact, margin-top: auto) moves both
+// together — margin-top: auto on .ft alone left the tick behind in
+// normal flow while the footer slid down, opening a gap between them.
+// {...rest} (e.g. data-register) moves to this wrapper for the same
+// reason: one fade-in for the tick+footer unit, not two staggered ones.
 import type { HTMLAttributes } from "astro/types";
 import Footer from "./Footer.astro";
+import TickRule from "./TickRule.astro";
 
 type Props = HTMLAttributes<"footer">;
 
 const rest = Astro.props as Props;
 ---
 
-<Footer {...rest}>
-  <span class="ftl" slot="left">© 2026 Shamil Khaibullov</span>
-  <span class="ftl" slot="right"
-    ><a href="/colophon" class="ftl-link">COLOPHON</a> · ANALYTICS <span
-      class="ftl-arrow">↗</span
-    ></span
-  >
-</Footer>
+<div class="site-footer" {...rest}>
+  <TickRule variant="light" />
+  <Footer>
+    <span class="ftl" slot="left">© 2026 Shamil Khaibullov</span>
+    <span class="ftl" slot="right"
+      ><a href="/colophon" class="ftl-link">COLOPHON</a> · ANALYTICS <span
+        class="ftl-arrow">↗</span
+      ></span
+    >
+  </Footer>
+</div>
