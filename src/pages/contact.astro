@@ -51,7 +51,7 @@ if (result?.error) {
 ---
 
 <BaseLayout title={title} description={description} motion>
-  <Rail label="S.K. / CONTACT">
+  <Rail label="Contact Shamil" labelRight="Porto · Portugal">
     <div class="cell">
       <div class="clab">NAME</div>
       <div class="cell-name">Shamil Khaibullov</div>
@@ -70,12 +70,13 @@ if (result?.error) {
   </Rail>
 
   <div class="col contact">
-    <h1 class="h1-case" data-register>Reach me.</h1>
+    <h1 class="h1-case" data-register>Get in touch.</h1>
     <p class="prose contact-intro" data-register>
-      Open to full-time, part-time, or freelance roles — or if you just want to
+      I'm open to full-time, part-time, or freelance roles. If you just want to
       talk through a project, ask a technical question, or need a small fix
-      done. I do my best to respond as soon as possible. Use the form below,
-      email me directly, book a call on Calendly, or reach out on LinkedIn.
+      done, that works too — I'll get back to you as soon as I can. Use the form
+      below, email me directly, book a call on Calendly, or message me on
+      LinkedIn.
     </p>
 
     <div class="contact-row" data-register>
@@ -225,7 +226,7 @@ if (result?.error) {
   import { actions, isInputError } from "astro:actions";
 
   const form = document.getElementById(
-    "contact-form",
+    "contact-form"
   ) as HTMLFormElement | null;
   const status = document.getElementById("form-status");
 
