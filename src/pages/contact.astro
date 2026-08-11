@@ -679,7 +679,7 @@ if (result?.error) {
       align-items: center;
       justify-content: center;
       gap: 6px;
-      border: 1.5px solid var(--ink);
+      border: 1.5px solid var(--bd-rule);
     }
     /* > not a descendant selector — see the base .contact-social > span
        rule above; a plain "span" descendant selector here hid .arrow
@@ -712,7 +712,33 @@ if (result?.error) {
       align-items: center;
       justify-content: center;
       gap: 6px;
-      border: 1.5px solid var(--ink);
+      border: 1.5px solid var(--bd-rule);
+    }
+    .contact-social > span {
+      display: none;
+    }
+  }
+
+  /* Desktop: same split as tablet/mobile above — LINKEDIN/GITHUB as two
+     bordered cells instead of one shared box with a "·" between them.
+     Uses .cell's own border/padding values directly (--bd-rule,
+     12px 14px) rather than a touch-target min-height, matching
+     CALENDLY/email's own desktop cells since this is a mouse-driven
+     width. */
+  @media (width >= 64rem) {
+    .contact-social {
+      border: 0;
+      padding: 0;
+      gap: 8px;
+    }
+    .contact-social a {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--bd-rule);
     }
     .contact-social > span {
       display: none;
