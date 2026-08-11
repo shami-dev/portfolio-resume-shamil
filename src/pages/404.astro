@@ -97,7 +97,12 @@ const description =
     }
     .notfound-theme {
       display: block;
-      padding: 0 var(--col-pad) var(--space-4);
+      /* Bottom clearance must cover the fixed bottom nav (56px + safe
+         area, same figure as global.css's body padding-bottom) plus the
+         block's own --space-4 breathing room — otherwise the mode
+         switch's buttons sit partly under the bar and lose tap area. */
+      padding: 0 var(--col-pad)
+        calc(56px + env(safe-area-inset-bottom) + var(--space-4));
     }
   }
 
