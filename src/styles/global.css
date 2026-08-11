@@ -114,7 +114,9 @@ a:hover {
    logic that reads them, not in the flat token sheet. */
 @media (48rem <= width < 64rem) {
   :root {
-    --col-pad: var(--space-6); /* 24px — tablet gutter tightened, overrides τS-derived 40px */
+    --col-pad: var(
+      --space-6
+    ); /* 24px — tablet gutter tightened, overrides τS-derived 40px */
     /* τD 0.84 — desktop 48px [mock 30] x0.84 = 40.2 -> 40 */
     --fs-h1: 2.5rem;
     /* τD 0.84 — desktop 36px [mock 22] x0.84 = 30.2 -> 30. Section-tier
