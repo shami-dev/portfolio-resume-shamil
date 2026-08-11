@@ -130,7 +130,6 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       >
         RESUME.PDF ↓
       </a>
-      <p class="resume-caption">direct file URL — forwardable</p>
     </div>
   </Rail>
 
@@ -382,8 +381,7 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     .about-hero {
       display: grid;
       grid-template-columns: 1fr auto;
-      column-gap: 24px;
-      row-gap: 13px;
+      gap: 13px 24px;
       align-items: start;
     }
     .about-h1 {
@@ -417,6 +415,43 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     }
     .about-cols {
       gap: 24px;
+    }
+  }
+
+  /* Desktop: same grid mechanics as tablet above (photo spans both rows,
+     landing level with the H1 instead of sitting beside the paragraph),
+     kept as its own block rather than widening the tablet query because
+     desktop keeps its own portrait sizing (245px/5:6, set unconditionally
+     above) and keeps the rail's RESUME.PDF instance visible — tablet
+     hides that block since its inline instance replaces it; here the
+     inline instance under the photo is a second, additive one. */
+  @media (width >= 64rem) {
+    .about-hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 13px 29px;
+      align-items: start;
+    }
+    .about-h1 {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .about-intro {
+      display: contents;
+    }
+    .about-body {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .about-portrait-col {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      gap: 10px;
+    }
+    .about-resume-inline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
   }
 
@@ -697,15 +732,6 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     }
   }
 
-  /* Mock margin-top "5px" x1.636 */
-  .resume-caption {
-    font-family: var(--font-mono);
-    font-size: var(--fs-mono); /* 13px floor, mock 7.5px */
-    color: var(--label);
-    text-align: center;
-    margin-top: 8px;
-  }
-
   @media (width < 48rem) {
     .about-resume-inline {
       display: flex;
@@ -750,11 +776,17 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     .about-resume-inline .resume-btn:active {
       background: var(--blue);
     }
-    /* The tick right before .about-resume-end duplicates SiteFooter's own
-       tick immediately below it — .about-resume-end is display: none at
-       this width (see above), so nothing visible sits between the two
-       ticks. Same reasoning as Home's .rail-flat .rail-foot > .tick-lt
-       fix (global.css): hide the one whose "next thing" disappeared. */
+  }
+
+  /* The tick right before .about-resume-end duplicates SiteFooter's own
+     tick immediately below it — .about-resume-end is display: none at
+     every width except mobile (see its own default above), so nothing
+     visible sits between the two ticks there. Same reasoning as Home's
+     .rail-flat .rail-foot > .tick-lt fix (global.css): hide the one
+     whose "next thing" disappeared. Scoped to width >= 48rem (not just
+     tablet) — desktop hit the same duplicate, just not caught when this
+     rule was first written scoped to tablet only. */
+  @media (width >= 48rem) {
     .tick-lt:has(+ .about-resume-end) {
       display: none;
     }
