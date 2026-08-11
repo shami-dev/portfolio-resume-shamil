@@ -23,14 +23,12 @@ import SiteFooter from "../components/SiteFooter.astro";
 const roles = [
   {
     label: "CAD ENGINEER",
-    note: "IC",
     start: new Date(2009, 11, 1),
     end: new Date(2013, 1, 1),
     accent: false,
   },
   {
     label: "CAD MANAGER",
-    note: "LED TEAM",
     start: new Date(2013, 1, 1),
     end: new Date(2018, 5, 1),
     accent: false,
@@ -38,18 +36,14 @@ const roles = [
   {
     // Real title (not the thematic "ATM Reliability" paraphrase) — also
     // just short enough, at this station's tight ~119px gap to the next
-    // one, to fit its line without wrapping. "97%+" (not "UPTIME") for
-    // the same reason on the sub line; the word itself is already in
-    // the prose paragraph above.
+    // one, to fit its line without wrapping.
     label: "IT EXPERT",
-    note: "97%+",
     start: new Date(2020, 1, 1),
     end: new Date(2022, 2, 1),
     accent: false,
   },
   {
     label: "WEB — NOW",
-    note: "REACT/TS",
     start: new Date(2022, 3, 1),
     end: new Date(),
     accent: true,
@@ -77,7 +71,7 @@ const stations = roles.map((role, i) => {
   cumulative += durations[i];
   return {
     label: role.label,
-    sub: `${formatDuration(durations[i])} · ${role.note}`,
+    sub: formatDuration(durations[i]),
     offset: `${offset.toFixed(1)}%`,
     accent: role.accent,
   };
@@ -193,9 +187,9 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       </div>
     </div>
 
-    <div class="klab about-track-label" data-register>
+    <h2 class="klab" data-register>
       CAREER TRACK — {totalYearsRounded} YEARS ON ONE SCALE · STATION MARKS AT TRANSITIONS
-    </div>
+    </h2>
 
     <div class="about-track" data-register="lg">
       <TickRule style="position: absolute; left: 0; right: 0; bottom: 0" />
@@ -227,27 +221,32 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     <div class="about-cols" data-register>
       <div class="about-col">
         <h2 class="klab">SKILLS</h2>
-        <p class="prose about-skills">
-          <strong>Front-end:</strong> Astro, React, React Router 7 / Remix, TypeScript,
-          Tailwind CSS
-          <br />
-          <strong>Back-end:</strong> Node, Express, Prisma, PostgreSQL, Zod
-          <br />
-          <strong>AI:</strong> OpenAI API, prompt engineering
-          <br />
-          <strong>Ops:</strong> Vercel, Cloudflare, Git/GitHub, CI/CD
-        </p>
+        <ul class="prose about-skills">
+          <li>
+            <strong>Front-end:</strong> Astro, React, React Router 7 / Remix, TypeScript,
+            Tailwind CSS
+          </li>
+          <li>
+            <strong>Back-end:</strong> Node, Express, Prisma, PostgreSQL, Zod
+          </li>
+          <li><strong>AI:</strong> OpenAI API, prompt engineering</li>
+          <li><strong>Ops:</strong> Vercel, Cloudflare, Git/GitHub, CI/CD</li>
+        </ul>
       </div>
       <div class="about-col">
         <h2 class="klab">RECOGNITIONS</h2>
-        <p class="prose about-quote">
-          "…ownership, vision, and a crash-free launch of the conference
-          website." — Paola Perina, Public Relations Manager at MALTALINK 2025
-        </p>
-        <p class="prose about-recognition">
-          Certificate of appreciation for outstanding leadership & teamwork from
-          Katia Burdet, Program Quality Director
-        </p>
+        <ul class="about-recognitions">
+          <li class="prose about-quote">
+            <span class="quote-text"
+              >"…ownership, vision, and a crash-free launch of the conference
+              website."</span
+            > — Paola Perina, Public Relations Manager at MALTALINK 2025
+          </li>
+          <li class="prose about-recognition">
+            Certificate of appreciation for outstanding leadership & teamwork
+            from Katia Burdet, Program Quality Director
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -491,11 +490,6 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     }
   }
 
-  /* Mock margin-top "4px" x1.636 */
-  .about-track-label {
-    margin-top: 7px;
-  }
-
   /* Ruled-track timeline: relative box. All four station labels align
      at one height above the tick rule (no zigzag stagger) — height is
      sized for one label's two text lines plus clearance above. */
@@ -680,12 +674,21 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 
   /* Mock margin-top "6px" x1.636, line-height 1.8 verbatim */
   .about-skills {
-    margin-top: 10px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
     line-height: 1.8;
+  }
+  .about-recognitions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
   /* Mock margin-top "6px" x1.636 */
   .about-quote {
     margin-top: 10px;
+  }
+  .quote-text {
     font-style: italic;
   }
   /* Mock margin-top "4px" x1.636 */
