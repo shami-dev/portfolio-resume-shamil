@@ -248,8 +248,6 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       </div>
     </div>
 
-    <TickRule variant="light" />
-
     <a
       href={resumeUrl}
       class="resume-btn about-resume-end"
@@ -775,20 +773,6 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     }
     .about-resume-inline .resume-btn:active {
       background: var(--blue);
-    }
-  }
-
-  /* The tick right before .about-resume-end duplicates SiteFooter's own
-     tick immediately below it — .about-resume-end is display: none at
-     every width except mobile (see its own default above), so nothing
-     visible sits between the two ticks there. Same reasoning as Home's
-     .rail-flat .rail-foot > .tick-lt fix (global.css): hide the one
-     whose "next thing" disappeared. Scoped to width >= 48rem (not just
-     tablet) — desktop hit the same duplicate, just not caught when this
-     rule was first written scoped to tablet only. */
-  @media (width >= 48rem) {
-    .tick-lt:has(+ .about-resume-end) {
-      display: none;
     }
   }
 
