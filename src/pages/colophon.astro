@@ -119,12 +119,14 @@ const description =
 
   /* Same fix as Contact (global.css) and this page's own mobile block
      below: .col.colophon already fills .sheet's min-height: 100vh at
-     this width (verified via getBoundingClientRect — colBottom reaches
-     the viewport bottom), but .site-footer itself doesn't reach that
-     far when the page's content is short. No fixed bottom nav to clear
-     at this width (that's mobile-only), so this needs only the margin,
-     not the mobile block's extra padding-bottom reservation too. */
-  @media (48rem <= width < 64rem) {
+     these widths (verified via getBoundingClientRect — colBottom
+     reaches the viewport bottom), but .site-footer itself doesn't
+     reach that far when the page's content is short — true at desktop
+     too, not just tablet (the width this rule originally shipped
+     scoped to). No fixed bottom nav to clear at either width (that's
+     mobile-only), so this needs only the margin, not the mobile
+     block's extra padding-bottom reservation too. */
+  @media (width >= 48rem) {
     .colophon > .site-footer {
       margin-top: auto;
     }
