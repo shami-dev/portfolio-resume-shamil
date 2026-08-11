@@ -668,9 +668,11 @@ a:hover {
     background: var(--white);
     border-bottom: 1.5px solid var(--bd-rule);
   }
-  /* Work index only, tablet band only — desktop rail and mobile keep the
-     RESULTS TO DATE strip; it just drops out of the 768-1023px reflow. */
-  .rail-work .rail-extras {
+  /* Work index and Colophon only, tablet band only — desktop rail and
+     mobile keep the RESULTS TO DATE strip; it just drops out of the
+     768-1023px reflow. */
+  .rail-work .rail-extras,
+  .rail-colophon .rail-extras {
     display: none;
   }
 
