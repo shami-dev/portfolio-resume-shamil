@@ -99,8 +99,8 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 
 <BaseLayout title={title} description={description} motion>
   <Rail
-    label="S.K. / ABOUT"
-    labelRight="PORTO · EU PERMIT"
+    label="About Shamil"
+    labelRight="Porto · Portugal"
     scan={false}
     class="rail-about"
   >
@@ -135,23 +135,26 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 
   <div class="mm2 col about">
     <div class="about-hero">
-      <h1 class="h1-case about-h1" data-register>The arc is the argument.</h1>
+      <h1 class="h1-case about-h1" data-register>
+        Eleven years in engineering got me here.
+      </h1>
 
       <div class="about-intro">
         <p class="prose about-body" data-register>
-          I'm a web developer in Porto building fast, accessible
-          React/TypeScript applications. Before development: {cadYears} years as a
-          CAD engineer, {managerYears} more managing the design team, then {
-            atmYears
-          } years keeping 500+ ATM and payment-kiosk systems at 97%+ uptime. That
-          arc — IC to lead to reliability — is where the instinct for ownership and
-          end-to-end responsibility comes from. I've carried it into web work since:
-          running the technical infrastructure behind international conferences serving
-          500+ attendees across 15 countries, usually as the only person responsible
-          for the whole stack, alongside sites built for real organizations and individuals
-          with real deadlines — conferences, election campaigns — and self-directed
-          projects integrating AI into working products. Schengen residence card,
-          Portuguese work permit; remote and cross-border B2B across the EU.
+          I'm a web developer in Porto, building fast, accessible React and
+          TypeScript applications. Before that, I spent {cadYears} years as a CAD
+          engineer, then {managerYears} more managing the CAD designers team, then
+          {" "}{atmYears} years keeping over 500 ATM and payment-kiosk systems running
+          at 97%+ uptime. Going from individual contributor to team lead to the person
+          responsible when things absolutely couldn't fail is where my instinct for
+          ownership comes from. I've carried it into web work — running the technical
+          infrastructure behind international conferences serving 500+ attendees across
+          15 countries, usually as the only person responsible for the whole stack,
+          alongside sites built for real organizations and individuals working under
+          real deadlines — conference registration, an election campaign — and AI-integrated
+          side projects I build on my own time to keep learning. I hold a Portuguese
+          work permit and I take on remote and cross-border B2B contracts across the
+          European Union.
         </p>
         <div class="about-portrait-col">
           <Placeholder
@@ -225,24 +228,25 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       <div class="about-col">
         <h2 class="klab">SKILLS</h2>
         <p class="prose about-skills">
-          <strong>Front-end:</strong> React, TypeScript, Astro, Tailwind
+          <strong>Front-end:</strong> Astro, React, React Router 7 / Remix, TypeScript,
+          Tailwind CSS
           <br />
           <strong>Back-end:</strong> Node, Express, Prisma, PostgreSQL, Zod
           <br />
           <strong>AI:</strong> OpenAI API, prompt engineering
           <br />
-          <strong>Ops:</strong> Vercel, Cloudflare, GitHub CI
+          <strong>Ops:</strong> Vercel, Cloudflare, Git/GitHub, CI/CD
         </p>
       </div>
       <div class="about-col">
         <h2 class="klab">RECOGNITIONS</h2>
         <p class="prose about-quote">
-          "…ownership, vision, and a crash-free launch." — public LinkedIn
-          recommendation, MALTALINK 2025
+          "…ownership, vision, and a crash-free launch of the conference
+          website." — Paola Perina, Public Relations Manager at MALTALINK 2025
         </p>
         <p class="prose about-recognition">
-          Certificate of appreciation for outstanding leadership & teamwork ·
-          Toastmasters speaker
+          Certificate of appreciation for outstanding leadership & teamwork from
+          Katia Burdet, Program Quality Director
         </p>
       </div>
     </div>
