@@ -17,7 +17,7 @@
     "typecheck": "wrangler types && astro check",
     "stylelint": "stylelint \"src/**/*.{css,astro}\"",
     "a11y": "node scripts/a11y-check.mjs",
-    "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm stylelint"
+    "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm stylelint && pnpm build && pnpm a11y"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.1.6",

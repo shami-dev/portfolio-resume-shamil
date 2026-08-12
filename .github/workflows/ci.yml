@@ -21,11 +21,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint, format, typecheck, stylelint
+      - name: Check
         run: pnpm check
-
-      - name: Build
-        run: pnpm build
-
-      - name: Accessibility check
-        run: pnpm a11y
