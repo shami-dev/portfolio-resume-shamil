@@ -2114,6 +2114,130 @@ a.dcard {
   letter-spacing: var(--ls-wider);
 }
 
+/* --- Photographic plate (CLS 0) ---------------------------------------
+   The "supplied" state of the reserved box above (Plate.astro). Solid
+   hairline instead of dashed, because dashed is what marks a figure as
+   still owed; a mat in --white between rule and image, so a full-colour
+   photo lands on paper rather than colliding with the grid texture; and
+   corner brackets instead of the mono slug/kind pair.
+
+   Sharp corners, not .ph's 3px: a mounted plate belongs to the drafting
+   register (.rail/.cell/.nrow), and the brackets need square corners to
+   register against.
+
+   Photos themselves stay ungraded. The case images are evidence, and a
+   graded screenshot reads as styled rather than documented — containment
+   is the frame's job here, not the image's. */
+.plate {
+  --plate-mark: 10px; /* bracket arm length */
+  /* --tick-ink, not --tick-ink-minor: the minor stroke resolves to the
+     same value as --bd-page in light mode, so brackets in it vanish into
+     the mount's own border. This is the major tick stroke, the one .tick
+     uses for the same "registration mark" job. */
+  --plate-rule: linear-gradient(var(--tick-ink), var(--tick-ink));
+}
+.plate-mount {
+  position: relative;
+  padding: var(--space-2);
+  border: 1px solid var(--bd-page);
+  background: var(--white);
+}
+/* Corner brackets, 8 gradient layers on one pseudo-element (2 strokes x 4
+   corners) rather than 8 spans — same zero-request approach as .tick/.mm. */
+.plate-mount::after {
+  content: "";
+  position: absolute;
+  /* Inset into the mat, not flush with the border: the brackets read as
+     marks registering the image, and stay legible whatever the photo's
+     own corners happen to be doing. Must stay under the --space-2 mat. */
+  inset: 3px;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-image:
+    var(--plate-rule), var(--plate-rule), var(--plate-rule), var(--plate-rule),
+    var(--plate-rule), var(--plate-rule), var(--plate-rule), var(--plate-rule);
+  background-size:
+    var(--plate-mark) 1px,
+    1px var(--plate-mark),
+    var(--plate-mark) 1px,
+    1px var(--plate-mark),
+    var(--plate-mark) 1px,
+    1px var(--plate-mark),
+    var(--plate-mark) 1px,
+    1px var(--plate-mark);
+  background-position:
+    0 0,
+    0 0,
+    100% 0,
+    100% 0,
+    0 100%,
+    0 100%,
+    100% 100%,
+    100% 100%;
+}
+/* width + aspect-ratio (not the intrinsic width/height attributes Astro
+   emits) is what reserves the box, so the ratio classes below can crop to
+   a layout ratio without reintroducing shift. */
+.plate-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+}
+/* Matches .hero-fig's 16:7 -> 16:9 tightening, for the same reason. */
+.plate-mount-hero .plate-img {
+  aspect-ratio: 16 / 7;
+}
+@media (width < 48rem) {
+  .plate-mount-hero .plate-img {
+    aspect-ratio: 16 / 9;
+  }
+}
+/* 16:10 suits UI screenshots, which is what every evidence figure is.
+   Worth re-checking against the real assets — the placeholder it replaces
+   reserved a much flatter ~3:1 box (its 180px fixed height). */
+.plate-mount-evidence .plate-img {
+  aspect-ratio: 16 / 10;
+}
+/* Breakpoint-dependent, like the hero: 5:6 is the mockup's own portrait
+   crop and holds from 64rem up; everything below tightens to 4:5, since a
+   245px-tall portrait at full mobile width would run nearly a viewport.
+   Mirrors how .portrait-fig (about.astro) was authored before the swap —
+   base value plus a below-64rem override, not three separate rules. */
+.plate-mount-portrait .plate-img {
+  aspect-ratio: 5 / 6;
+}
+@media (width < 64rem) {
+  .plate-mount-portrait .plate-img {
+    aspect-ratio: 4 / 5;
+  }
+}
+/* Plate number, in the same accent as the №-record series it continues. */
+.plate-fig {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-mono);
+  color: var(--blue-raised);
+  letter-spacing: var(--ls-widest);
+}
+/* Both non-light modes. A white-ground screenshot is the brightest object
+   on the page in either, and anoitecer's mid-tone kraft (#6a5d4d) turned
+   out to glare harder than dark did — checked side by side against a
+   white-ground test screenshot, not assumed from the ground values.
+   Dark takes the deeper cut because #1d1712 is further from paper white.
+
+   Both values are conservative: enough to stop the plate shouting, not so
+   much that a screenshot reads as greyed-out. Re-check once the real
+   photos are in — a photograph and a UI screenshot sit very differently
+   against these grounds. */
+:root[data-theme="dark"] .plate-img {
+  filter: brightness(0.9) contrast(1.03);
+}
+:root[data-theme="anoitecer"] .plate-img {
+  filter: brightness(0.94) contrast(1.02);
+}
+
 /* --- Anoitecer: accent text on raised surfaces (a11y gate fix) --------
    The --label/--nav-rest bump in tokens.css (Finding 2) covers every
    bare *muted* text instance. --blue/--green measure 3.87/4.34 against

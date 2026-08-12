@@ -9,7 +9,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Rail from "../components/Rail.astro";
 import Nav from "../components/Nav.astro";
 import TickRule from "../components/TickRule.astro";
-import Placeholder from "../components/Placeholder.astro";
+import Plate from "../components/Plate.astro";
+import portrait from "../assets/portrait-shamil.jpg";
 import SiteFooter from "../components/SiteFooter.astro";
 
 // Roles only — the Jun 2018–Feb 2020 gap (unfinished CS Master's,
@@ -152,11 +153,14 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
           across the European Union.
         </p>
         <div class="about-portrait-col">
-          <Placeholder
-            slug="portrait-shamil"
-            kind="PORTRAIT — SUPPLIED SEPARATELY"
+          <Plate
+            src={portrait}
+            alt="Shamil Khaibullov"
+            ratio="portrait"
+            priority
             class="portrait-fig"
             data-register="lg"
+            sizes="(min-width: 64rem) 245px, (min-width: 48rem) 240px, 100vw"
           />
           <div class="about-resume-inline" data-register>
             <a
@@ -349,13 +353,14 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     flex: none;
   }
 
-  /* Desktop: fixed width beside the copy, 5:6 (mock's own portrait
-     crop). Moved out of an inline style so the mobile override below
-     can reach it — inline styles win over any stylesheet rule
-     regardless of specificity. */
+  /* Desktop: fixed width beside the copy. Width only — the 5:6 crop
+     that used to live here moved to .plate-mount-portrait (global.css)
+     when this became a <Plate>, because the ratio now has to land on
+     the <img> nested inside the mount, and Astro scopes a component's
+     styles to its root element only. A scoped `.portrait-fig .plate-img`
+     rule would compile with this file's cid and never match. */
   .portrait-fig {
     width: 245px;
-    aspect-ratio: 5 / 6;
   }
 
   /* Tablet (spec §8.5, phase_5c_tablet_layouts.html:561-570): portrait
@@ -374,10 +379,12 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
      .about-portrait-col join .about-h1 as grid items of the same
      container, letting the photo span both rows and land level with
      the heading instead of the paragraph beneath it. align-items: start
-     matters here too: without it the grid's stretch default would drag
-     .portrait-fig's aspect-ratio out (stretch resolves the auto cross
+     still matters here: without it the grid's stretch default drags the
+     portrait's height off its ratio (stretch resolves the auto cross
      size before aspect-ratio gets a say), same as flex's version of the
-     same bug. */
+     same bug. The ratio sits on .plate-img now rather than on
+     .portrait-fig, but the figure still takes its height from that
+     child, so stretch reaches it the same way. */
   @media (48rem <= width < 64rem) {
     .about-hero {
       display: grid;
@@ -404,7 +411,6 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     }
     .portrait-fig {
       width: 100%;
-      aspect-ratio: 4 / 5;
     }
     .about-resume-inline {
       display: flex;
@@ -473,12 +479,12 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       width: 100%;
       order: 0;
     }
-    /* M-P8: full-width, 4:5 — a shallower crop than desktop's 5:6,
-       since a 245px-tall portrait at full mobile width would run
-       nearly a full viewport. */
+    /* M-P8: full-width. The 4:5 crop it takes here (shallower than
+       desktop's 5:6, since a 245px-tall portrait at full mobile width
+       would run nearly a viewport) is set by .plate-mount-portrait's
+       own below-64rem override in global.css. */
     .portrait-fig {
       width: 100%;
-      aspect-ratio: 4 / 5;
     }
     .about-body {
       order: 1;
