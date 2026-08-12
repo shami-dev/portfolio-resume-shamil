@@ -20,7 +20,7 @@ import { actions, isInputError } from "astro:actions";
 
 const title = "Contact — Shamil Khaibullov";
 const description =
-  "Message, book 30 minutes, or email directly. Roles and contracts — remote or EU B2B, from Porto with an EU work permit.";
+  "Message, book 30 minutes, or email directly. Roles and contracts — remote or EU B2B, from Porto with a Portuguese work permit.";
 
 const result = Astro.getActionResult(actions.contact);
 const inputErrors = isInputError(result?.error) ? result.error.fields : {};
@@ -59,11 +59,11 @@ if (result?.error) {
     <div class="cell-pair">
       <div class="cell">
         <div class="clab">LOCATION</div>
-        <div class="cell-val-mono">Porto, PT</div>
+        <div class="cell-val-mono">Porto, GMT</div>
       </div>
       <div class="cell">
-        <div class="clab">AUTH</div>
-        <div class="cell-val-mono">EU permit</div>
+        <div class="clab">PERMIT</div>
+        <div class="cell-val-mono">Portugal</div>
       </div>
     </div>
     <Nav current="contact" slot="nav" />
