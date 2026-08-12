@@ -24,9 +24,8 @@ type Props = HTMLAttributes<"fieldset"> & {
       Defaults to the footer instance's original name. */
   name?: string;
   /** Tablet band instance only: renders both a full and an abbreviated
-      label per segment, toggled by width via CSS (Phase 5c §8.0.5 —
-      "ANOIT." below ~880px, "ANOITECER" above), instead of the footer
-      instance's single always-full label. */
+      label per segment (Phase 5c §8.0.5) — CSS now always shows the full
+      label across the tablet band, same as the footer instance. */
   compact?: boolean;
 };
 

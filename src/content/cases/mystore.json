@@ -7,7 +7,7 @@
     "record": "№02 MYSTORE",
     "role": "Solo — full stack, for a company take-home assessment",
     "cellPair": [
-      { "label": "SPAN", "value": "~2 wks" },
+      { "label": "SPAN", "value": "About 2 weeks" },
       { "label": "STATUS", "value": "finished" }
     ],
     "tools": ["React", "TS", "Vite", "DaisyUI", "Express", "Prisma", "Zod"]
@@ -15,7 +15,7 @@
   "index": {
     "title": "myStore — full-stack storefront + versioned API",
     "metric": "API v1 · 2 wks",
-    "summary": "React/TS storefront on a hand-built Express + Prisma + Zod backend, documented for review."
+    "summary": "A full-stack storefront on a versioned API I built and documented myself, so anyone reviewing it could check every piece."
   },
   "kicker": "DECISION №02 — API DESIGN FOR REVIEW",
   "headline": "A storefront and its backend, built to be checked.",

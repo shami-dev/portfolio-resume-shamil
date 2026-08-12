@@ -7,7 +7,7 @@
     "record": "№01 MALTALINK",
     "role": "Web development — sole owner; worked closely with co-designer (PR Manager)",
     "cellPair": [
-      { "label": "SPAN", "value": "4-5 mo" },
+      { "label": "SPAN", "value": "4-5 months" },
       { "label": "YEAR", "value": "2025" }
     ],
     "tools": ["Ticket Tailor", "WordPress", "Astra"],
@@ -19,9 +19,9 @@
   "index": {
     "title": "MALTALINK — conference registration flow redesign",
     "metric": "100% · €1,000 · 4.55/5",
-    "summary": "Replaced a fragmented Eventbrite + Google Forms flow; ran the comparison one stakeholder said wasn't worth doing."
+    "summary": "I replaced a fragmented Eventbrite-plus-Google-Forms flow with one system. One stakeholder told me the comparison wasn't worth running — I ran it anyway."
   },
-  "kicker": "DECISION №01 — REGISTRATION PLATFORM",
+  "kicker": "DECISION №01 — TICKET TAILOR OVER EVENTBRITE",
   "headline": "One flow instead of two systems — every purchaser registered.",
   "ledeMetrics": "100% COMPLETION · ~€1,000 SAVED · 0 DOWNTIME · 4.55/5 SURVEY",
   "hero": {

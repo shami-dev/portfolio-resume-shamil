@@ -7,7 +7,7 @@
     "record": "№03 AI PROJECTS",
     "role": "Architecture, prompt engineering & product decisions mine; implementation AI-assisted",
     "cellPair": [
-      { "label": "SPAN", "value": "14 d + ongoing" },
+      { "label": "SPAN", "value": "14 days, ongoing" },
       { "label": "STATUS", "value": "iterating", "accent": true }
     ],
     "tools": ["React Router 7", "TS", "OpenAI API"]
@@ -16,7 +16,7 @@
     "title": "AI projects — receipts analyzer & Task2Check",
     "metric": "OpenAI · iterating",
     "metricAccent": true,
-    "summary": "Real OpenAI API integration; extraction accuracy measured and refined in the open."
+    "summary": "A receipts analyzer and Task2Check, both built on the OpenAI API. I measure accuracy openly instead of claiming it's solved."
   },
   "kicker": "DECISION №03 — LLM EXTRACTION, NOT OCR",
   "headline": "Two shipped AI integrations, measured in the open.",

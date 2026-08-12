@@ -23,14 +23,12 @@ import SiteFooter from "../components/SiteFooter.astro";
 const roles = [
   {
     label: "CAD ENGINEER",
-    note: "IC",
     start: new Date(2009, 11, 1),
     end: new Date(2013, 1, 1),
     accent: false,
   },
   {
     label: "CAD MANAGER",
-    note: "LED TEAM",
     start: new Date(2013, 1, 1),
     end: new Date(2018, 5, 1),
     accent: false,
@@ -38,18 +36,14 @@ const roles = [
   {
     // Real title (not the thematic "ATM Reliability" paraphrase) — also
     // just short enough, at this station's tight ~119px gap to the next
-    // one, to fit its line without wrapping. "97%+" (not "UPTIME") for
-    // the same reason on the sub line; the word itself is already in
-    // the prose paragraph above.
+    // one, to fit its line without wrapping.
     label: "IT EXPERT",
-    note: "97%+",
     start: new Date(2020, 1, 1),
     end: new Date(2022, 2, 1),
     accent: false,
   },
   {
     label: "WEB — NOW",
-    note: "REACT/TS",
     start: new Date(2022, 3, 1),
     end: new Date(),
     accent: true,
@@ -77,7 +71,7 @@ const stations = roles.map((role, i) => {
   cumulative += durations[i];
   return {
     label: role.label,
-    sub: `${formatDuration(durations[i])} · ${role.note}`,
+    sub: formatDuration(durations[i]),
     offset: `${offset.toFixed(1)}%`,
     accent: role.accent,
   };
@@ -99,20 +93,20 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 
 <BaseLayout title={title} description={description} motion>
   <Rail
-    label="S.K. / ABOUT"
-    labelRight="PORTO · EU PERMIT"
+    label="About Shamil"
+    labelRight="Porto · Portugal"
     scan={false}
     class="rail-about"
   >
     <div class="about-id-cells">
       <div class="cell-pair">
         <div class="cell">
-          <div class="clab">LOC</div>
-          <div class="cell-val-mono">Porto, PT</div>
+          <div class="clab">LOCATION</div>
+          <div class="cell-val-mono">Porto, GMT</div>
         </div>
         <div class="cell">
-          <div class="clab">AUTH</div>
-          <div class="cell-val-mono">EU permit</div>
+          <div class="clab">PERMIT</div>
+          <div class="cell-val-mono">Portugal</div>
         </div>
         <div class="cell">
           <div class="clab">TRACK</div>
@@ -135,23 +129,27 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 
   <div class="mm2 col about">
     <div class="about-hero">
-      <h1 class="h1-case about-h1" data-register>The arc is the argument.</h1>
+      <h1 class="h1-case about-h1" data-register>
+        Eleven years in engineering got me here.
+      </h1>
 
       <div class="about-intro">
         <p class="prose about-body" data-register>
-          I'm a web developer in Porto building fast, accessible
-          React/TypeScript applications. Before development: {cadYears} years as a
-          CAD engineer, {managerYears} more managing the design team, then {
-            atmYears
-          } years keeping 500+ ATM and payment-kiosk systems at 97%+ uptime. That
-          arc — IC to lead to reliability — is where the instinct for ownership and
-          end-to-end responsibility comes from. I've carried it into web work since:
-          running the technical infrastructure behind international conferences serving
-          500+ attendees across 15 countries, usually as the only person responsible
-          for the whole stack, alongside sites built for real organizations and individuals
-          with real deadlines — conferences, election campaigns — and self-directed
-          projects integrating AI into working products. Schengen residence card,
-          Portuguese work permit; remote and cross-border B2B across the EU.
+          I'm a web developer in Porto, building fast, accessible React and
+          TypeScript applications. Before that, I spent {cadYears} years as a CAD
+          engineer, then {managerYears} more managing the CAD designers team, then
+          {" "}{atmYears} years keeping over 500 ATM and payment-kiosk systems running
+          at 97%+ uptime. Going from individual contributor to team lead to the person
+          responsible when things absolutely couldn't fail is where my instinct for
+          ownership comes from. I've carried it into web work — running the technical
+          infrastructure behind international conferences serving 500+ attendees across
+          15 countries, usually as the only person responsible for the whole stack.
+          Alongside that: sites built for real organizations and individuals working
+          under real deadlines — conference registration, an election campaign — and
+          AI-integrated side projects I build on my own time to keep learning. I hold
+          a Portuguese work permit, so hiring me in Portugal needs no sponsorship.
+          For teams elsewhere, I work remotely from Porto on cross-border B2B contracts
+          across the European Union.
         </p>
         <div class="about-portrait-col">
           <Placeholder
@@ -190,9 +188,9 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       </div>
     </div>
 
-    <div class="klab about-track-label" data-register>
+    <h2 class="klab" data-register>
       CAREER TRACK — {totalYearsRounded} YEARS ON ONE SCALE · STATION MARKS AT TRANSITIONS
-    </div>
+    </h2>
 
     <div class="about-track" data-register="lg">
       <TickRule style="position: absolute; left: 0; right: 0; bottom: 0" />
@@ -224,26 +222,32 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     <div class="about-cols" data-register>
       <div class="about-col">
         <h2 class="klab">SKILLS</h2>
-        <p class="prose about-skills">
-          <strong>Front-end:</strong> React, TypeScript, Astro, Tailwind
-          <br />
-          <strong>Back-end:</strong> Node, Express, Prisma, PostgreSQL, Zod
-          <br />
-          <strong>AI:</strong> OpenAI API, prompt engineering
-          <br />
-          <strong>Ops:</strong> Vercel, Cloudflare, GitHub CI
-        </p>
+        <ul class="prose about-skills">
+          <li>
+            <strong>Front-end:</strong> Astro, React, React Router 7 / Remix, TypeScript,
+            Tailwind CSS
+          </li>
+          <li>
+            <strong>Back-end:</strong> Node, Express, Prisma, PostgreSQL, Zod
+          </li>
+          <li><strong>AI:</strong> OpenAI API, prompt engineering</li>
+          <li><strong>Ops:</strong> Vercel, Cloudflare, Git/GitHub, CI/CD</li>
+        </ul>
       </div>
       <div class="about-col">
         <h2 class="klab">RECOGNITIONS</h2>
-        <p class="prose about-quote">
-          "…ownership, vision, and a crash-free launch." — public LinkedIn
-          recommendation, MALTALINK 2025
-        </p>
-        <p class="prose about-recognition">
-          Certificate of appreciation for outstanding leadership & teamwork ·
-          Toastmasters speaker
-        </p>
+        <ul class="about-recognitions">
+          <li class="prose about-quote">
+            <span class="quote-text"
+              >"…ownership, vision, and a crash-free launch of the conference
+              website."</span
+            > — Paola Perina, Public Relations Manager at MALTALINK 2025
+          </li>
+          <li class="prose about-recognition">
+            Certificate of appreciation for outstanding leadership & teamwork
+            from Katia Burdet, Program Quality Director
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -487,11 +491,6 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
     }
   }
 
-  /* Mock margin-top "4px" x1.636 */
-  .about-track-label {
-    margin-top: 7px;
-  }
-
   /* Ruled-track timeline: relative box. All four station labels align
      at one height above the tick rule (no zigzag stagger) — height is
      sized for one label's two text lines plus clearance above. */
@@ -676,12 +675,21 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 
   /* Mock margin-top "6px" x1.636, line-height 1.8 verbatim */
   .about-skills {
-    margin-top: 10px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
     line-height: 1.8;
+  }
+  .about-recognitions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
   /* Mock margin-top "6px" x1.636 */
   .about-quote {
     margin-top: 10px;
+  }
+  .quote-text {
     font-style: italic;
   }
   /* Mock margin-top "4px" x1.636 */

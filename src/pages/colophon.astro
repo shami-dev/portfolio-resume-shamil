@@ -3,10 +3,6 @@
 // (.mm2, major grid lines only, same tier as About). Not a primary-nav
 // item, so Nav renders with no active current per Phase 5's own mock
 // (all four nrows shown inactive).
-//
-// The Umami disclosure line stays plain text (no link) until a real
-// public dashboard share URL exists — Phase 7 D requires the
-// disclosure itself, not a placeholder href.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Rail from "../components/Rail.astro";
 import Nav from "../components/Nav.astro";
@@ -20,19 +16,15 @@ const description =
 ---
 
 <BaseLayout title={title} description={description} motion>
-  <Rail label="S.K. / COLOPHON" class="rail-colophon">
-    <div class="cell">
-      <div class="clab">NAME</div>
-      <div class="cell-name">Shamil Khaibullov</div>
-    </div>
+  <Rail label="Colophon" class="rail-colophon">
     <div class="cell-pair">
       <div class="cell">
-        <div class="clab">LOC</div>
-        <div class="cell-val-mono">Porto, PT</div>
+        <div class="clab">PHASES</div>
+        <div class="cell-val-mono">8, logged</div>
       </div>
       <div class="cell">
-        <div class="clab">AUTH</div>
-        <div class="cell-val-mono">EU permit</div>
+        <div class="clab">ANALYTICS</div>
+        <div class="cell-val-mono">public</div>
       </div>
     </div>
     <Nav slot="nav" />
@@ -48,13 +40,11 @@ const description =
 
   <div class="mm2 col colophon">
     <div data-register>
-      <h1 class="colophon-h1">How this site was built</h1>
+      <h1 class="colophon-h1">How I built this site</h1>
       <p class="prose colophon-body">
-        Evidence of process, applied to itself. Designed in phases — positioning
-        research, content strategy, reference audit, concept divergence,
-        wireframes, the desktop design pass, mobile layouts, and this tablet
-        pass — each closing with a decision record, same as the work it
-        presents.
+        I designed this site with Claude Design, then built it with Claude Code
+        — testing included. I worked in phases, the same way I approach client
+        work.
       </p>
     </div>
 
@@ -65,27 +55,26 @@ const description =
         <h2 class="klab">STACK</h2>
         <ul class="rail-chips colophon-stack">
           <li class="stk">Astro</li>
+          <li class="stk">Claude Code</li>
+          <li class="stk">Claude Design</li>
+          <li class="stk">Cloudflare</li>
+          <li class="stk">CSS</li>
+          <li class="stk">HTML</li>
           <li class="stk">TypeScript</li>
-          <li class="stk">Tailwind</li>
-          <li class="stk">Vercel</li>
-          <li class="stk">Umami</li>
         </ul>
       </div>
 
       <div data-register>
         <h2 class="klab">TYPE & TEXTURE</h2>
         <p class="prose colophon-note">
-          Archivo + IBM Plex Mono · millimetre-paper grid · tick-rule dividers
-          after the drafting scales I started my career behind.
+          The inspiration comes from my first engineering job, where I drafted
+          on a drawing board with a drafting machine, paper, and pencil. That's
+          where the millimetre-paper grid, tick-rule dividers, and drafting
+          scales come from. I paired Archivo with IBM Plex Mono for the
+          typeface.
         </p>
       </div>
     </div>
-
-    <TickRule variant="light" />
-
-    <p class="colophon-analytics" data-register>
-      Cookieless Umami analytics — this site's own numbers are public.
-    </p>
 
     <SiteFooter data-register />
   </div>
@@ -187,41 +176,5 @@ const description =
   .colophon-note {
     font-size: var(--fs-body);
     margin-top: 7px;
-  }
-
-  /* Mock font-size 9.5px, color #2a5f9e */
-  .colophon-analytics {
-    font-family: var(--font-mono);
-    font-size: var(--fs-kicker); /* 15px */
-    color: var(--blue);
-  }
-
-  /* Tablet: a 400px cell, not full width — mobile's full-bleed row would
-     outrank the page's own content at this width, and this is
-     footer-tier by design (spec §8.6). */
-  @media (48rem <= width < 64rem) {
-    .colophon-analytics {
-      display: flex;
-      align-items: center;
-      width: 400px;
-      min-height: var(--target-hard);
-      border: 1.5px solid var(--ink);
-      padding: 0 16px;
-    }
-  }
-
-  /* M-P10: Colophon changes least of any page — this is the one row
-     that grows into a bordered cell. Still a plain <p>, not a link: the
-     Umami disclosure has no real destination yet (see the frontmatter
-     comment), so this is sizing/visual weight only, not a fake
-     affordance — no cursor/hover/:active to imply it's tappable. */
-  @media (width < 48rem) {
-    .colophon-analytics {
-      display: flex;
-      align-items: center;
-      min-height: 56px;
-      border: 1.5px solid var(--ink);
-      padding: 0 14px;
-    }
   }
 </style>
