@@ -1204,10 +1204,7 @@ a:hover {
     margin-top: 3px;
   }
   .rail-flat .rail-head .cell-val > span {
-    display: inline;
-  }
-  .rail-flat .rail-head .cell-val > span + span::before {
-    content: " · ";
+    display: block;
   }
   .rail-flat .rail-head > .cell-pair {
     grid-column: 2;
