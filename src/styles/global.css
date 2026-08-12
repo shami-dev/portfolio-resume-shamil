@@ -680,10 +680,11 @@ a:hover {
 
   /* Theme control, second instance (closes Phase 5b flag F8) — right end
      of the nav rule. 13px mono (the locked Phase 7 F-02 floor, not the
-     frames' own 11px — see the plan's Deviations section), abbreviated
-     "ANOIT." at the band's narrow edge, spelled out above ~880px
-     (55rem — the next rule). Footer's instance (unnamed .mode-switch)
-     hides here so exactly one is ever visible. */
+     frames' own 11px — see the plan's Deviations section), always spelled
+     out ("ANOITECER") across the tablet band — the compact label used to
+     abbreviate below ~880px, but the full label reads fine at the band's
+     narrow edge too. Footer's instance (unnamed .mode-switch) hides here
+     so exactly one is ever visible. */
   .mode-switch:not(.mode-switch-band) {
     display: none;
   }
@@ -713,14 +714,6 @@ a:hover {
   .mode-switch-band .mode-seg + .mode-seg {
     border-left-width: 1px;
     border-left-color: var(--bd-hair);
-  }
-  .mode-switch-band .mode-seg-label-full {
-    display: none;
-  }
-}
-@media (55rem <= width < 64rem) {
-  .mode-switch-band .mode-seg-label-full {
-    display: inline;
   }
   .mode-switch-band .mode-seg-label-compact {
     display: none;
