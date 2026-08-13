@@ -7,10 +7,16 @@
     "record": "№05 FOLTIRANA",
     "role": "Website Manager — registration experience end to end, with designer & content editor",
     "cellPair": [
-      { "label": "SPAN", "value": "About 1 week" },
-      { "label": "COST", "value": "$19" }
+      {
+        "label": "SPAN",
+        "value": "About 1 week"
+      },
+      {
+        "label": "COST",
+        "value": "$19"
+      }
     ],
-    "tools": ["Fillout + AI", "d109conf.org"],
+    "tools": ["Zite", "d109conf.org"],
     "link": {
       "href": "https://conference2026.district109.org",
       "label": "↗ conference2026.district109.org"
@@ -26,27 +32,45 @@
   "ledeMetrics": "OVERLAP WARNINGS · LIVE SHARED DB · COST CALCULATOR · $19 TOTAL",
   "hero": {
     "slug": "foltirana-hero",
-    "kind": "WIDE / HERO"
+    "kind": "WIDE / HERO",
+    "src": "../../assets/cases/foltirana-registration-app.png",
+    "alt": "The FOLTirana 2026 social activities registration app: a header explaining how booking works for free, pay-at-meeting-point, and pay-in-advance activities, above the attendee details form."
   },
   "problem": "The social activities program had overlapping time slots, durations, and locations, and four pricing models at once — free, tip-based, pay-at-meeting-point, and pay-in-advance. The final activity list locked only about a week before launch; until then, planning data lived across shifting spreadsheet versions.",
   "constraint": "Roughly one week from final data to launch. The team wanted something small and sufficient, not a heavier commerce platform — but it still needed scheduling-conflict logic and a live shared database.",
-  "decision": "Ticket Tailor — the right call at MALTALINK — was evaluated and ruled out here: it only pays off when collecting payment directly, and most activities were free, tip-based, or paid in person. Same thread, opposite verdict. With source data unstable, the highest-leverage work was UX triage with the designer: essentials (time, duration, price, days) on the card surface, everything else behind a \"More details\" toggle, copy shaped with the content editor. Fillout AI carried the registration mechanics on one month of its paid plan.",
+  "decision": "Ticket Tailor — the right call at MALTALINK — was evaluated and ruled out here: it only pays off when collecting payment directly, and most activities were free, tip-based, or paid in person. Same thread, opposite verdict. Two decisions followed from the one-week window. First, UX triage with the designer on the activities cards: essentials (time, duration, price, days) on the surface, everything else behind a \"More details\" toggle, copy shaped with the content editor. Second, the registration app itself — overlap-conflict warnings, a live shared database, a running cost calculator — was generated with Zite, an AI app builder, rather than hand-coded as a React app from scratch; $19 covered one month of its paid plan.",
   "evidence": {
     "figures": [
-      { "slug": "foltirana-cards", "kind": "WIDE" },
-      { "slug": "foltirana-expanded", "kind": "WIDE — DETAILS TOGGLE" }
+      {
+        "slug": "foltirana-cards",
+        "kind": "WIDE",
+        "src": "../../assets/cases/foltirana-cards-toggle.png",
+        "alt": "The same activity card shown collapsed and expanded: time, price, and days stay on the surface; description, meeting point, and a maps link sit behind More Details."
+      },
+      {
+        "slug": "foltirana-overlap-warning",
+        "kind": "WIDE — CONFLICT WARNING",
+        "src": "../../assets/cases/foltirana-overlap-warning.png",
+        "alt": "A selected activity card flagged with two warnings: that it overlaps with another selected activity, and that it was also selected on another day."
+      }
     ],
-    "caption": "Card browsing grouped by payment type; the expanded state shows the triage line — what earned the surface vs the toggle."
+    "caption": "Card browsing grouped by payment type; the expanded state shows the triage line — what earned the surface vs. the toggle. The registration app itself catches double-bookings and time conflicts as they're selected."
   },
   "result": {
     "variant": "banner",
     "label": "RESULT",
     "metrics": "~1 WEEK · $19 TOTAL · CONFLICT WARNINGS · LIVE SHARED DB",
-    "body": "A fully custom registration experience — overlapping-event warnings, editable confirmation emails, auto-hiding of activities within two days of their start, and a running cost calculator for pay-at-meeting-point totals — delivered in about a week for $19 total, with strong informal praise from the team."
+    "body": "A fully custom registration experience — overlapping-event warnings, editable confirmation emails, auto-hiding of activities within two days of their start, and a running cost calculator with subtotals by payment type and a grand total — delivered in about a week for $19 total, with strong informal praise from the team."
   },
   "lesson": "When source data is late and unstable, the highest-leverage work is deciding what belongs on the surface — not waiting for the data to settle.",
   "footerNav": {
-    "prev": { "href": "/work/campaign-site", "label": "← №04 CAMPAIGN SITE" },
-    "next": { "href": "/work/maltalink", "label": "№01 MALTALINK →" }
+    "prev": {
+      "href": "/work/campaign-site",
+      "label": "← №04 CAMPAIGN SITE"
+    },
+    "next": {
+      "href": "/work/maltalink",
+      "label": "№01 MALTALINK →"
+    }
   }
 }
