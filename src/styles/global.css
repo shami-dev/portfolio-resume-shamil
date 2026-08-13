@@ -2193,11 +2193,17 @@ a.dcard {
     aspect-ratio: 16 / 9;
   }
 }
-/* 16:10 suits UI screenshots, which is what every evidence figure is.
-   Worth re-checking against the real assets — the placeholder it replaces
-   reserved a much flatter ~3:1 box (its 180px fixed height). */
-.plate-mount-evidence .plate-img {
-  aspect-ratio: 16 / 10;
+/* 16:9 — the mockups' own figure ratio, declared on every evidence figure
+   in the mobile and tablet passes. (Desktop reserved a flat 110px band,
+   x1.636 = the placeholder's 180px fixed height; that band was drawn
+   around empty boxes and crops a real screenshot hard, so 16:9 now holds
+   at every width.) An earlier 16/10 here was invented, not derived.
+
+   Named for the shape, not the slot: a case hero opts into this instead
+   of --hero when its capture cannot survive --hero's 16:7 desktop crop,
+   which discards 179px off the top and bottom of a 16:9 master. */
+.plate-mount-wide .plate-img {
+  aspect-ratio: 16 / 9;
 }
 /* Breakpoint-dependent, like the hero: 5:6 is the mockup's own portrait
    crop and holds from 64rem up; everything below tightens to 4:5, since a

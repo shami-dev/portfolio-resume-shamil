@@ -21,7 +21,7 @@ interface Props extends HTMLAttributes<"figure"> {
   /** Plate number, e.g. "FIG. 01". Omitted renders no figcaption. */
   fig?: string;
   /** Reserved ratio — maps to .plate-mount-<ratio> in global.css. */
-  ratio?: "hero" | "evidence" | "portrait";
+  ratio?: "hero" | "wide" | "portrait";
   /** Above-the-fold plates (the case hero): eager, high fetchpriority. */
   priority?: boolean;
   /**
@@ -37,7 +37,7 @@ const {
   src,
   alt,
   fig,
-  ratio = "evidence",
+  ratio = "wide",
   priority = false,
   sizes = "(min-width: 48rem) 1000px, 100vw",
   class: className,
