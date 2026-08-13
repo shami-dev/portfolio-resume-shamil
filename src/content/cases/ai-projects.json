@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "AI projects, measured in the open · №03",
-    "description": "Receipts Analyzer and Task2Check — real OpenAI integrations with extraction accuracy measured and published as it improves."
+    "description": "Receipts Analyzer and Task2Check — real OpenAI integrations shipped as active iteration, not a finished claim."
   },
   "rail": {
     "record": "№03 AI PROJECTS",
@@ -16,14 +16,16 @@
     "title": "AI projects — receipts analyzer & Task2Check",
     "metric": "OpenAI · iterating",
     "metricAccent": true,
-    "summary": "A receipts analyzer and Task2Check, both built on the OpenAI API. I measure accuracy openly instead of claiming it's solved."
+    "summary": "A receipts analyzer and Task2Check, both built on the OpenAI API — presented as active iteration, not a finished claim."
   },
   "kicker": "DECISION №03 — LLM EXTRACTION, NOT OCR",
   "headline": "Two shipped AI integrations, measured in the open.",
   "ledeMetrics": "RECEIPTS ANALYZER — 14 DAYS (5 PLANNING, 9 BUILDING) · TASK2CHECK — IELTS FEEDBACK",
   "hero": {
     "slug": "ai-receipts-dashboard",
-    "kind": "WIDE / HERO"
+    "kind": "WIDE / HERO",
+    "src": "../../assets/cases/ai-receipts-dashboard.png",
+    "alt": "The Receipts Analyzer dashboard for the last 6 months: 18,75 € total spent and 3,76 € average monthly spending, above a per-product spending breakdown with percentage bars."
   },
   "problem": "Two personal problems worth solving properly: a family needed visibility into purchase frequency and spend across time ranges without manual data entry, and IELTS candidates need Writing Part 2 feedback that is specific, fast, and repeatable.",
   "constraint": "Self-directed and solo: 5 days of planning, 9 of building for the Receipts Analyzer. Working style stated plainly — architecture, prompt engineering, and product decisions are mine; implementation is AI-assisted. Neither overstated as hand-coding nor undersold as \"AI wrote it.\"",
@@ -32,16 +34,23 @@
     "figures": [
       {
         "slug": "ai-receipts-review",
-        "kind": "TALL / REPORT — SCROLLABLE CROP"
+        "kind": "TALL / REPORT — SCROLLABLE CROP",
+        "src": "../../assets/cases/ai-receipts-review.png",
+        "alt": "The receipt review screen: store name and address, transaction date, and total paid, all editable above the extracted line-item table before it's saved."
       },
-      { "slug": "ai-task2check-report", "kind": "TALL / REPORT" }
+      {
+        "slug": "ai-task2check-report",
+        "kind": "TALL / REPORT",
+        "src": "../../assets/cases/ai-task2check-report.png",
+        "alt": "Task2Check's Task Response band score with feedback and a concrete sentence-level rewrite, beside the original IELTS prompt and essay response it was scored against."
+      }
     ],
-    "caption": "The review screen is the honesty mechanism: extraction output is checked against the source receipt, and corrections feed the accuracy log."
+    "caption": "Both surfaces make the AI's output checkable rather than final: receipts land in an editable review step before anything saves, and Task2Check scores each criterion separately with its reasoning shown, not just a number."
   },
   "result": {
     "variant": "status",
     "label": "STATUS — ITERATING",
-    "body": "Extraction accuracy is still being refined — measured, tracked, and published here as it improves. This record is presented as active iteration, not a finished claim: evidence of direction in AI integration, deliberately distinct from production AI experience."
+    "body": "Extraction accuracy is still being refined — every receipt goes through the review step above before it's trusted. This record is presented as active iteration, not a finished claim: evidence of direction in AI integration, deliberately distinct from production AI experience."
   },
   "footerNav": {
     "prev": { "href": "/work/mystore", "label": "← №02 MYSTORE" },
