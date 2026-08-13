@@ -8,7 +8,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Rail from "../../components/Rail.astro";
 import Nav from "../../components/Nav.astro";
 import TickRule from "../../components/TickRule.astro";
-import Placeholder from "../../components/Placeholder.astro";
+import Plate from "../../components/Plate.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 
 const caseEntry = await getEntry("cases", "campaign-site");
@@ -29,7 +29,20 @@ const {
   lesson,
   footerNav,
 } = caseEntry.data;
-const [lighthouse, ...banners] = evidence.figures;
+
+// hero.src/alt and figures[].src/alt are optional in the shared schema until
+// every case migrates. This case has its images, so fail loudly rather than
+// silently dropping a figure.
+if (!hero.src || !hero.alt)
+  throw new Error("cases/campaign-site: hero image or alt text missing");
+const figures = evidence.figures.map((fig) => {
+  if (!fig.src || !fig.alt)
+    throw new Error(
+      `cases/campaign-site: figure ${fig.slug} is missing image or alt text`,
+    );
+  return { ...fig, src: fig.src, alt: fig.alt };
+});
+const [lighthouse, ...banners] = figures;
 ---
 
 <BaseLayout title={seo.title} description={seo.description} motion>
@@ -116,10 +129,11 @@ const [lighthouse, ...banners] = evidence.figures;
       {ledeMetrics}
     </p>
 
-    <Placeholder
-      slug={hero.slug}
-      kind={hero.kind}
-      class="hero-fig"
+    <Plate
+      src={hero.src}
+      alt={hero.alt}
+      ratio="wide"
+      priority
       data-register="lg"
     />
 
@@ -147,20 +161,24 @@ const [lighthouse, ...banners] = evidence.figures;
     <div class="evidence" data-register="lg">
       <h2 class="eb">EVIDENCE</h2>
       <div class="evidence-figs">
-        <Placeholder
-          slug={lighthouse.slug}
-          kind={lighthouse.kind}
+        <Plate
+          src={lighthouse.src}
+          alt={lighthouse.alt}
+          fig="FIG. 01"
+          ratio="wide"
           class="lighthouse-fig"
-          style="height: 180px"
+          sizes="(min-width: 48rem) 580px, 100vw"
         />
         <div class="evidence-fig-stack">
           {
-            banners.map((fig) => (
-              <Placeholder
-                slug={fig.slug}
-                kind={fig.kind}
+            banners.map((fig, i) => (
+              <Plate
+                src={fig.src}
+                alt={fig.alt}
+                fig={`FIG. 0${i + 2}`}
+                ratio="wide"
                 class="banner-fig"
-                style="flex: 1"
+                sizes="(min-width: 48rem) 420px, 100vw"
               />
             ))
           }
@@ -246,15 +264,22 @@ const [lighthouse, ...banners] = evidence.figures;
      mock's wider Lighthouse plate. Stack fills the row's cross-size via
      the row's default stretch.
 
-     Lighthouse's flex weight lives here, in CSS, rather than inline
-     alongside its height: 180px — a flex-basis (what the `1.4` in
-     `flex: 1.4` sets) overrides an explicit height on the main axis
-     whenever both are definite values, and inline styles always beat a
-     stylesheet rule regardless of specificity or !important-free media
-     queries, so the mobile override below couldn't reach a `flex`
-     declared inline. Confirmed empirically: it rendered at 50px, not
-     180px, until flex-basis moved out here where a plain mobile-band
-     rule can reach it. */
+     Lighthouse's flex weight lives here, in CSS, rather than inline,
+     since a flex-basis needs a plain mobile-band rule to reach it (an
+     inline style always beats a stylesheet rule regardless of
+     specificity or !important-free media queries).
+
+     Lighthouse keeps Plate's default 16:9 aspect-ratio — it's the row's
+     tallest/defining sibling, so its own aspect drives the row's height.
+     The banners must NOT also carry an aspect-ratio at this width: Plate
+     sets one on .plate-img (global.css), and an aspect-ratio competing
+     against a flex-grow-derived height (from row-stretch, three levels
+     down through .plate-mount and .plate-img, neither of which inherits
+     a percentage height from the figure by default) is what "fills the
+     row's cross-size via stretch" actually requires — so the chain gets
+     an explicit height: 100% and the forced aspect-ratio is cancelled
+     back to auto, letting object-fit: cover crop to whatever box height
+     Lighthouse established. */
   .lighthouse-fig {
     flex: 1.4;
   }
@@ -263,23 +288,55 @@ const [lighthouse, ...banners] = evidence.figures;
     flex-direction: column;
     gap: 16px;
   }
+  /* .evidence-figs > * (global.css) only reaches direct children
+     (lighthouse-fig, evidence-fig-stack) — the banners are grandchildren,
+     so they need their own flex:1 for an even split. The original
+     Placeholder markup carried this as an inline style="flex: 1"; Plate
+     has no equivalent prop, so it moves here. */
+  .banner-fig {
+    flex: 1;
+  }
+  .banner-fig :global(.plate-mount),
+  .banner-fig :global(picture),
+  .banner-fig :global(.plate-img) {
+    height: 100%;
+  }
+  /* <picture> has no display value in global.css (default: inline), which
+     breaks percentage-height resolution for the .plate-img block nested
+     inside it — block is a no-op for height without a block-level
+     ancestor. */
+  .banner-fig :global(picture) {
+    display: block;
+  }
+  .banner-fig :global(.plate-img) {
+    aspect-ratio: auto;
+  }
 
   /* Phase 5b 6.3c: the nested stack flattens into the same vertical run
      as the Lighthouse plate — three images, one rhythm — rather than a
      sub-group inside it; the 1.4 flex weight on Lighthouse is already
      meaningless once .evidence-figs (global.css) goes column, so it's
-     reset to `none`, letting its own explicit height: 180px (inline,
-     unaffected by column vs row either way) govern instead. The
-     banners' height came entirely from row-stretch against Lighthouse,
-     which a column layout has no equivalent for — aspect-ratio replaces
-     it, relaxed to ~3.2:1 per the BANNER family spec (6.0 §5) so the
-     strip stays readable at full width instead of running as tall as
-     the crop happens to be. */
+     reset to `none`, letting Plate's default 16:9 aspect-ratio govern
+     its height instead. The banners' height came entirely from
+     row-stretch against Lighthouse, which a column layout has no
+     equivalent for — aspect-ratio replaces it (reinstated on .plate-img,
+     with the height: 100% chain reset back to auto so it doesn't fight
+     the reinstated ratio), relaxed to ~3.2:1 per the BANNER family spec
+     (6.0 §5) so the strip stays readable at full width instead of
+     running as tall as the crop happens to be. */
   @media (width < 48rem) {
     .evidence-fig-stack {
       display: contents;
     }
     .banner-fig {
+      height: auto;
+    }
+    .banner-fig :global(.plate-mount),
+    .banner-fig :global(picture),
+    .banner-fig :global(.plate-img) {
+      height: auto;
+    }
+    .banner-fig :global(.plate-img) {
       aspect-ratio: 3.2 / 1;
     }
     .lighthouse-fig {
@@ -293,7 +350,9 @@ const [lighthouse, ...banners] = evidence.figures;
      column. .evidence-figs (global.css) already sets flex: 1 on every
      figure unconditionally, which would otherwise put Lighthouse and the
      stack side by side; column resets that here, same reasoning as the
-     mobile override above. */
+     mobile override above. Same height/aspect-ratio reset as mobile: the
+     stack is a row of two independently-sized banners here, not a
+     row-stretch follower of Lighthouse. */
   @media (48rem <= width < 64rem) {
     .evidence-figs {
       flex-direction: column;
@@ -305,6 +364,14 @@ const [lighthouse, ...banners] = evidence.figures;
       flex-direction: row;
     }
     .banner-fig {
+      height: auto;
+    }
+    .banner-fig :global(.plate-mount),
+    .banner-fig :global(picture),
+    .banner-fig :global(.plate-img) {
+      height: auto;
+    }
+    .banner-fig :global(.plate-img) {
       aspect-ratio: 3.2 / 1;
     }
   }

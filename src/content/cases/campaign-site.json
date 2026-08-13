@@ -23,21 +23,38 @@
   },
   "kicker": "DECISION №04 — STATIC-FIRST, ZERO-COST STACK",
   "headline": "Three days, zero budget, two election cycles.",
-  "ledeMetrics": "[ LIGHTHOUSE — PENDING FINAL RE-RUN ] · 3 DAYS · €0 · REUSED 2025 → 2026",
+  "ledeMetrics": "LIGHTHOUSE — 100/100/100/100 · 3 DAYS · €0 · REUSED 2025 → 2026",
   "hero": {
     "slug": "deniz-hero",
-    "kind": "WIDE / HERO"
+    "kind": "WIDE / HERO",
+    "src": "../../assets/cases/deniz-hero.png",
+    "alt": "The deniztoastmasters.com homepage: Deniz Şenelt Kalelioğlu's headline and platform statement beside her portrait, with a Let's Connect button and a nav linking to Strategy, Highlights, Promises, Biography, and Testimonials."
   },
   "problem": "A friend running in a competitive district-level Toastmasters election had no web presence beyond social media. The election date was fixed; a credible, professional site had to exist fast.",
   "constraint": "€0 build budget (the client covers only the annual domain renewal), a turnaround tied to the election date, requirements and assets arriving over WhatsApp, and no technical staff on her side after launch.",
   "decision": "Static-first, zero-cost, zero-maintenance: Astro + Tailwind, Cloudflare for the domain, free Vercel hosting with GitHub auto-deploy, one fully responsive page with optimized assets and semantic markup. Layout, colors, and typography chosen together with the client; built and deployed solo in ~3 days.",
   "evidence": {
     "figures": [
-      { "slug": "deniz-lighthouse", "kind": "WIDE — PENDING RE-RUN" },
-      { "slug": "deniz-testimonials", "kind": "BANNER" },
-      { "slug": "deniz-highlights", "kind": "BANNER" }
+      {
+        "slug": "deniz-lighthouse",
+        "kind": "WIDE — FRESH RUN",
+        "src": "../../assets/cases/deniz-lighthouse.png",
+        "alt": "A fresh Lighthouse audit of deniztoastmasters.com in Chrome DevTools: 100 scores for Performance, Accessibility, Best Practices, and SEO, plus a 2/2 Agentic Browsing check, above the live homepage it audited."
+      },
+      {
+        "slug": "deniz-testimonials",
+        "kind": "BANNER",
+        "src": "../../assets/cases/deniz-testimonials.png",
+        "alt": "A grid of testimonial cards from Toastmasters International Presidents and district leaders, including Ted Corcoran (International President 2003/2004) and Mohammed Murad (International President 2014/2015)."
+      },
+      {
+        "slug": "deniz-highlights",
+        "kind": "BANNER",
+        "src": "../../assets/cases/deniz-highlights.png",
+        "alt": "The Highlights section: Program Quality Director role goals beside a photo of Toastmasters recognition certificates, above a 'Contribution to District 109 so far' list."
+      }
     ],
-    "caption": "Performance evidence intentionally held for a fresh Lighthouse run under stable conditions — a stale score was pulled rather than shown."
+    "caption": "A fresh Lighthouse run under stable conditions: 100 across Performance, Accessibility, Best Practices, and SEO, alongside the testimonials and highlights sections it audited."
   },
   "result": {
     "variant": "banner",

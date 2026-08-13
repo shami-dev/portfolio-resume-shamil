@@ -12,6 +12,10 @@
       }
     ],
     "value-keyword-case": ["lower", { "ignoreProperties": ["/^--font/"] }],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      { "ignorePseudoClasses": ["global"] }
+    ],
     "rule-empty-line-before": null,
     "comment-empty-line-before": null,
     "custom-property-empty-line-before": null,
