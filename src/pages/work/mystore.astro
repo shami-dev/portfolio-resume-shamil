@@ -8,7 +8,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Rail from "../../components/Rail.astro";
 import Nav from "../../components/Nav.astro";
 import TickRule from "../../components/TickRule.astro";
-import Placeholder from "../../components/Placeholder.astro";
+import Plate from "../../components/Plate.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 
 const caseEntry = await getEntry("cases", "mystore");
@@ -29,6 +29,19 @@ const {
   lesson,
   footerNav,
 } = caseEntry.data;
+
+// hero.src/alt and figures[].src/alt are optional in the shared schema while
+// the other three cases still render Placeholder boxes. This case has its
+// images, so fail loudly rather than silently dropping a figure.
+if (!hero.src || !hero.alt)
+  throw new Error("cases/mystore: hero image or alt text missing");
+const figures = evidence.figures.map((fig) => {
+  if (!fig.src || !fig.alt)
+    throw new Error(
+      `cases/mystore: figure ${fig.slug} is missing image or alt text`,
+    );
+  return { ...fig, src: fig.src, alt: fig.alt };
+});
 ---
 
 <BaseLayout title={seo.title} description={seo.description} motion>
@@ -115,10 +128,11 @@ const {
       {ledeMetrics}
     </p>
 
-    <Placeholder
-      slug={hero.slug}
-      kind={hero.kind}
-      class="hero-fig"
+    <Plate
+      src={hero.src}
+      alt={hero.alt}
+      ratio="wide"
+      priority
       data-register="lg"
     />
 
@@ -147,11 +161,13 @@ const {
       <h2 class="eb">EVIDENCE</h2>
       <div class="evidence-figs">
         {
-          evidence.figures.map((fig) => (
-            <Placeholder
-              slug={fig.slug}
-              kind={fig.kind}
-              style="height: 180px"
+          figures.map((fig, i) => (
+            <Plate
+              src={fig.src}
+              alt={fig.alt}
+              fig={`FIG. 0${i + 1}`}
+              ratio="wide"
+              sizes="(min-width: 48rem) 500px, 100vw"
             />
           ))
         }
