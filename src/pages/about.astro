@@ -16,35 +16,38 @@ import SiteFooter from "../components/SiteFooter.astro";
 // Roles only — the Jun 2018–Feb 2020 gap (unfinished CS Master's,
 // redirected into Automotive Engineering, no Germany semester) is
 // deliberately omitted from this timeline rather than shown as a 5th
-// station. Durations/offsets are computed from these dates rather than
-// hand-typed, so the "WEB — NOW" duration and the total-years figure
-// above the track stay correct as the site rebuilds over time instead
-// of quietly going stale (previously hardcoded as "4 YRS", off by
-// roughly a year against the real Dec 2009 start).
+// station. Durations/offsets and each station's start-year tag are
+// computed from these dates rather than hand-typed, so the WEB DEVELOPER
+// station and the total-years figure above the track stay correct as the
+// site rebuilds over time instead of quietly going stale (previously
+// hardcoded as "4 YRS", off by roughly a year against the real Dec 2009
+// start).
+//
+// Labels are the legal job titles from the original resume, not thematic
+// paraphrases — Design Engineer's two grades (Category III then Category
+// II) collapse into one station under the later, higher grade, since no
+// exact promotion date is on record to split them.
 const roles = [
   {
-    label: "CAD ENGINEER",
+    label: "Design Engineer",
     start: new Date(2009, 11, 1),
-    end: new Date(2013, 1, 1),
+    end: new Date(2013, 0, 1),
     accent: false
   },
   {
-    label: "CAD MANAGER",
-    start: new Date(2013, 1, 1),
+    label: "Head of the Design Bureau",
+    start: new Date(2013, 2, 1),
     end: new Date(2018, 5, 1),
     accent: false
   },
   {
-    // Real title (not the thematic "ATM Reliability" paraphrase) — also
-    // just short enough, at this station's tight ~119px gap to the next
-    // one, to fit its line without wrapping.
-    label: "IT EXPERT",
+    label: "IT Support Expert",
     start: new Date(2020, 1, 1),
     end: new Date(2022, 2, 1),
     accent: false
   },
   {
-    label: "WEB — NOW",
+    label: "Web Developer",
     start: new Date(2022, 3, 1),
     end: new Date(),
     accent: true
@@ -54,13 +57,6 @@ const roles = [
 const MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000;
 const yearsBetween = (a: Date, b: Date) =>
   (b.getTime() - a.getTime()) / MS_PER_YEAR;
-const formatDuration = (years: number) => {
-  const wholeYears = Math.floor(years);
-  const months = Math.round((years - wholeYears) * 12);
-  if (months === 0) return `${wholeYears}Y`;
-  if (months === 12) return `${wholeYears + 1}Y`;
-  return `${wholeYears}Y ${months}MO`;
-};
 
 const durations = roles.map((r) => yearsBetween(r.start, r.end));
 const totalYears = durations.reduce((sum, y) => sum + y, 0);
@@ -70,9 +66,10 @@ let cumulative = 0;
 const stations = roles.map((role, i) => {
   const offset = (cumulative / totalYears) * 100;
   cumulative += durations[i];
+  const startYear = role.start.getFullYear();
   return {
     label: role.label,
-    sub: formatDuration(durations[i]),
+    sub: role.accent ? `${startYear} - NOW` : `${startYear}`,
     offset: `${offset.toFixed(1)}%`,
     accent: role.accent
   };
@@ -100,7 +97,7 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
 <BaseLayout title={title} description={description} motion>
   <Rail
     label="About Shamil"
-    labelRight="Porto · Portugal"
+    labelRight="Porto · EU"
     scan={false}
     class="rail-about"
   >
@@ -111,12 +108,12 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
           <div class="cell-val-mono">Porto, GMT</div>
         </div>
         <div class="cell">
-          <div class="clab">PERMIT</div>
+          <div class="clab">W. PERMIT</div>
           <div class="cell-val-mono">Portugal</div>
         </div>
         <div class="cell">
           <div class="clab">TRACK</div>
-          <div class="cell-val-mono">{totalYearsRounded} yrs</div>
+          <div class="cell-val-mono">{totalYearsRounded} years</div>
         </div>
       </div>
     </div>
@@ -601,12 +598,12 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
      measured via getBoundingClientRect, only stations 3-4 (IT EXPERT /
      WEB — NOW) overlap (-3.8px) at the same row; 1-2 and 2-3 clear by
      48px and 118px. Rather than raise station 4 to a second height,
-     it's nudged right (margin-left) just enough to clear the overlap
+it's nudged right (margin-left) just enough to clear the overlap
      sideways, keeping every title on the same baseline. Durations shift
      slightly every month (station 4's end date is "now"), which only
      widens the 3-4 gap over time, not narrows it, so this doesn't need
      revisiting on a schedule — but re-check with getBoundingClientRect
-     if a 5th role is ever added or an early station's dates change. */
+if a 5th role is ever added or an early station's dates change. */
   @media (48rem <= width < 64rem) {
     .about-track {
       height: 94px;

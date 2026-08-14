@@ -38,7 +38,16 @@ const {
 
 const modes = [
   { value: "light", label: "LIGHT", short: "LIGHT" },
-  { value: "anoitecer", label: "ANOITECER", short: "ANOIT." },
+  {
+    value: "anoitecer",
+    label: "ANOITECER",
+    short: "ANOIT.",
+    // Portuguese for "nightfall" — a genuine dusk-toned middle mode, not a
+    // dimmed dark (design-v2/phase5a-v2-dark-mode-directions.html:57,
+    // "ANOITECER — WHERE THE MIDDLE CAN LIVE"). The name stays; this gives
+    // it a description so it stops reading as broken localization.
+    title: "Anoitecer — a dusk-toned middle mode, between light and dark",
+  },
   { value: "dark", label: "DARK", short: "DARK" },
 ] as const;
 ---
@@ -50,12 +59,13 @@ const modes = [
   <legend class="visually-hidden">THEME — SITE-WIDE</legend>
   {
     modes.map((mode) => (
-      <label class="mode-seg">
+      <label class="mode-seg" title={"title" in mode ? mode.title : undefined}>
         <input
           class="visually-hidden"
           type="radio"
           name={name}
           value={mode.value}
+          aria-label={"title" in mode ? mode.title : undefined}
         />
         {compact ? (
           <Fragment>
