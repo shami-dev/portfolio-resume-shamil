@@ -65,7 +65,7 @@ const description =
 
   <div class="col">
     <div class="mm hero">
-      <h1 class="h1">Evidence over opinion.</h1>
+      <h1 class="h1">Evidence over&nbsp;opinion.</h1>
       <p class="hero-body">
         I am a web developer in Porto, building fast, accessible web
         applications with modern Full-Stack Web Frameworks with TypeScript and
@@ -188,6 +188,18 @@ const description =
     }
     .decision-list {
       gap: var(--space-3);
+    }
+
+    /* .mrow's own justify-content: space-between + no-wrap squeezes
+       "SELECTED DECISIONS — 3 OF 5" against the "ALL 5 RECORDS" badge
+       on a 358px column, wrapping each side's text mid-phrase instead
+       of stacking cleanly — the same M-P1/M-P2 reflow the card .mrow
+       already gets below 48rem, applied here since this header row sits
+       outside a.dcard.is-hoverable and was scoped out of that rule. */
+    .decisions > .mrow {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
     }
   }
 
