@@ -757,6 +757,17 @@ a:hover {
        reaches .hero-body, .case-lede-metrics and .result-metrics too,
        matching 6.0 §6's "body & case prose 16px" as one floor, not two. */
     --fs-prose: 1rem;
+    /* phase5b-mobile-layouts.html §6.0 legend (line 48): "H1 30px (Home) /
+       26px (case headlines)" — confirmed against the frames themselves
+       (390px-wide, i.e. already real device scale, so these are literal
+       target px, not a x1.44/x1.636 mock conversion). Neither token had a
+       mobile override before: --fs-h1 (48px desktop) and --fs-h1-case
+       (36px desktop, 30px tablet) both rendered at full desktop size on a
+       375-390px viewport, crowding the prose/caption line right under
+       them (About's 16px body, Work index's 15px caption) far more than
+       at any wider breakpoint. */
+    --fs-h1: 1.875rem; /* 30px */
+    --fs-h1-case: 1.625rem; /* 26px */
   }
   /* At full viewport width the sheet's own left/right rule reads as a
      deliberate card edge (the design's "drafting sheet" framing); at

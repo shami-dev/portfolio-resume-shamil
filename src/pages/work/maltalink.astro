@@ -246,6 +246,19 @@ const figures = evidence.figures.map((fig) => {
     }
   }
 
+  /* Resets to the shared case tier (global.css MOBILE BAND) — every
+     case's mobile headline is 26px per phase5b-mobile-layouts.html
+     (MALTALINK included, line 315), so its desktop-only one-off size
+     doesn't get its own mobile multiple either, same as the tablet
+     reset above. Must come after the unscoped .exemplar rule above:
+     equal specificity, so source order (not the media condition alone)
+     decides which wins at a given width. */
+  @media (width < 48rem) {
+    .exemplar {
+      font-size: 1.625rem; /* 26px */
+    }
+  }
+
   /* DECISION/RESULT body text, mock margin-top "6px" x1.636 */
   .block-note {
     margin-top: 10px;
