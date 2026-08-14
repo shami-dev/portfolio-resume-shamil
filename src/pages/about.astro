@@ -32,26 +32,26 @@ const roles = [
     label: "Design Engineer",
     start: new Date(2009, 11, 1),
     end: new Date(2013, 0, 1),
-    accent: false
+    accent: false,
   },
   {
     label: "Head of the Design Bureau",
     start: new Date(2013, 2, 1),
     end: new Date(2018, 5, 1),
-    accent: false
+    accent: false,
   },
   {
     label: "IT Support Expert",
     start: new Date(2020, 1, 1),
     end: new Date(2022, 2, 1),
-    accent: false
+    accent: false,
   },
   {
     label: "Web Developer",
     start: new Date(2022, 3, 1),
     end: new Date(),
-    accent: true
-  }
+    accent: true,
+  },
 ] as const;
 
 const MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000;
@@ -71,7 +71,7 @@ const stations = roles.map((role, i) => {
     label: role.label,
     sub: role.accent ? `${startYear} - NOW` : `${startYear}`,
     offset: `${offset.toFixed(1)}%`,
-    accent: role.accent
+    accent: role.accent,
   };
 });
 
