@@ -43,6 +43,9 @@ const cases = defineCollection({
         kind: z.string(),
         src: image().optional(),
         alt: z.string().optional(),
+        /** Short, plain-language description shown under the hero image —
+            same job as evidence.figures[].caption, one level up. */
+        caption: z.string().optional(),
       }),
       problem: z.string(),
       constraint: z.string(),
@@ -54,6 +57,10 @@ const cases = defineCollection({
             kind: z.string(),
             src: image().optional(),
             alt: z.string().optional(),
+            /** Short, plain-language description shown under the figure —
+                replaces the generic "FIG. 0X" placard once a case has its
+                real image wired in. */
+            caption: z.string().optional(),
           }),
         ),
         caption: z.string(),

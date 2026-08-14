@@ -14,7 +14,7 @@
   },
   "index": {
     "title": "AI projects — receipts analyzer & Task2Check",
-    "metric": "OpenAI · iterating",
+    "metric": "2 web apps · reviewed",
     "metricAccent": true,
     "summary": "A receipts analyzer and Task2Check, both built on the OpenAI API — presented as active iteration, not a finished claim."
   },
@@ -25,7 +25,8 @@
     "slug": "ai-receipts-dashboard",
     "kind": "WIDE / HERO",
     "src": "../../assets/cases/ai-receipts-dashboard.png",
-    "alt": "The Receipts Analyzer dashboard for the last 6 months: 18,75 € total spent and 3,76 € average monthly spending, above a per-product spending breakdown with percentage bars."
+    "alt": "The Receipts Analyzer dashboard for the last 6 months: 18,75 € total spent and 3,76 € average monthly spending, above a per-product spending breakdown with percentage bars.",
+    "caption": "Receipts Analyzer's dashboard — spend by product, by month."
   },
   "problem": "Two personal problems worth solving properly: a family needed visibility into purchase frequency and spend across time ranges without manual data entry, and IELTS candidates need Writing Part 2 feedback that is specific, fast, and repeatable.",
   "constraint": "Self-directed and solo: 5 days of planning, 9 of building for the Receipts Analyzer. Working style stated plainly — architecture, prompt engineering, and product decisions are mine; implementation is AI-assisted. Neither overstated as hand-coding nor undersold as \"AI wrote it.\"",
@@ -36,13 +37,15 @@
         "slug": "ai-receipts-review",
         "kind": "TALL / REPORT — SCROLLABLE CROP",
         "src": "../../assets/cases/ai-receipts-review.png",
-        "alt": "The receipt review screen: store name and address, transaction date, and total paid, all editable above the extracted line-item table before it's saved."
+        "alt": "The receipt review screen: store name and address, transaction date, and total paid, all editable above the extracted line-item table before it's saved.",
+        "caption": "The editable review step a receipt passes before it saves."
       },
       {
         "slug": "ai-task2check-report",
         "kind": "TALL / REPORT",
         "src": "../../assets/cases/ai-task2check-report.png",
-        "alt": "Task2Check's Task Response band score with feedback and a concrete sentence-level rewrite, beside the original IELTS prompt and essay response it was scored against."
+        "alt": "Task2Check's Task Response band score with feedback and a concrete sentence-level rewrite, beside the original IELTS prompt and essay response it was scored against.",
+        "caption": "Task2Check's band score with per-criterion feedback."
       }
     ],
     "caption": "Both surfaces make the AI's output checkable rather than final: receipts land in an editable review step before anything saves, and Task2Check scores each criterion separately with its reasoning shown, not just a number."

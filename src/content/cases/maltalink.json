@@ -25,16 +25,17 @@
   "index": {
     "title": "MALTALINK — conference registration flow redesign",
     "metric": "100% · €84 · 4.55/5",
-    "summary": "I replaced a scattered register-then-chase-payment flow with one checkout. One stakeholder told me the comparison wasn't worth running — I ran it anyway."
+    "summary": "I replaced a scattered payment flow with one checkout. One stakeholder told me comparing Ticket Tailor against Eventbrite wasn't worth running — I ran it anyway, and it won on flexibility, fees, and check-in."
   },
   "kicker": "DECISION №01 — TICKET TAILOR OVER EVENTBRITE",
   "headline": "Payment and registration in one step — every purchaser registered.",
-  "ledeMetrics": "100% COMPLETION · 13× LOWER FEES · 0 DOWNTIME · 4.55/5 SURVEY",
+  "ledeMetrics": "100% COMPLETION · 13x LOWER FEES · 0 DOWNTIME · 4.55/5 SURVEY",
   "hero": {
     "slug": "maltalink-hero",
     "kind": "WIDE / HERO — 16:7 DESKTOP · 16:9 MOBILE",
     "src": "../../assets/cases/maltalink-registration-flow.png",
-    "alt": "Ticket Tailor checkout at the Details step: payer fields with an Event and attendee details section beneath them, under a Tickets–Details–Payment breadcrumb."
+    "alt": "Ticket Tailor checkout at the Details step: payer fields with an Event and attendee details section beneath them, under a Tickets-Details-Payment breadcrumb.",
+    "caption": "The single checkout I built, replacing 2024's two disconnected systems."
   },
   "problem": "The 2024 conference ran registration and payment through two disconnected systems: Eventbrite for payment, and a separate Google Form — more than ten sections long, with no field validation — for attendee details. The only link between them was a ticket buyer manually copying their Eventbrite order ID into a free-text field on the form. Planning data was unreliable throughout — even the Eventbrite listing itself carried conflicting dates. The new team's purpose for 2025 was straightforward: improve the registration experience.",
   "constraint": "Phased deadlines across 4-5 months, with registration, finance, and volunteering teams each holding requirements. One senior stakeholder favored the fast path — tools already familiar and licensed — and time pressure made pragmatic shortcuts tempting throughout.",
@@ -45,13 +46,15 @@
         "slug": "maltalink-before-after",
         "kind": "PAIRED — STACKS ON MOBILE",
         "src": "../../assets/cases/maltalink-2024-split.png",
-        "alt": "The 2024 Google Form's required Eventbrite Order ID field, next to the Eventbrite listing's own contradiction: a 'Sales ended Mon, May 13 - 9 AM' claim sitting above an agenda showing a full Saturday, 9 AM to 7 PM."
+        "alt": "The 2024 Google Form's required Eventbrite Order ID field, next to the Eventbrite listing's own contradiction: a 'Sales ended Mon, May 13 - 9 AM' claim sitting above an agenda showing a full Saturday, 9 AM to 7 PM.",
+        "caption": "2024's Google Form and its Eventbrite listing."
       },
       {
         "slug": "maltalink-ticket-tailor",
         "kind": "WIDE",
         "src": "../../assets/cases/maltalink-ticket-tailor.png",
-        "alt": "Ticket Tailor invoice for the conference: 200 ticket credits at 0.42 each, 84.00 EUR total, nothing due."
+        "alt": "Ticket Tailor invoice for the conference: 200 ticket credits at 0.42 each, 84.00 EUR total, nothing due.",
+        "caption": "The Ticket Tailor invoice — €84 total, 200 credits."
       }
     ],
     "caption": "The Google Form's only link to payment was a hand-typed Eventbrite order ID — no validation, easy to mistype or skip. The Eventbrite listing itself couldn't agree with its own agenda on when the conference even ran."

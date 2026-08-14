@@ -132,6 +132,7 @@ const [lighthouse, ...banners] = figures;
     <Plate
       src={hero.src}
       alt={hero.alt}
+      fig={hero.caption}
       ratio="wide"
       priority
       data-register="lg"
@@ -164,18 +165,18 @@ const [lighthouse, ...banners] = figures;
         <Plate
           src={lighthouse.src}
           alt={lighthouse.alt}
-          fig="FIG. 01"
+          fig={lighthouse.caption}
           ratio="wide"
           class="lighthouse-fig"
           sizes="(min-width: 48rem) 580px, 100vw"
         />
         <div class="evidence-fig-stack">
           {
-            banners.map((fig, i) => (
+            banners.map((fig) => (
               <Plate
                 src={fig.src}
                 alt={fig.alt}
-                fig={`FIG. 0${i + 2}`}
+                fig={fig.caption}
                 ratio="wide"
                 class="banner-fig"
                 sizes="(min-width: 48rem) 420px, 100vw"

@@ -130,6 +130,7 @@ const figures = evidence.figures.map((fig) => {
     <Plate
       src={hero.src}
       alt={hero.alt}
+      fig={hero.caption}
       ratio="wide"
       priority
       data-register="lg"
@@ -160,11 +161,11 @@ const figures = evidence.figures.map((fig) => {
       <h2 class="eb">EVIDENCE</h2>
       <div class="evidence-figs">
         {
-          figures.map((fig, i) => (
+          figures.map((fig) => (
             <Plate
               src={fig.src}
               alt={fig.alt}
-              fig={`FIG. 0${i + 1}`}
+              fig={fig.caption}
               ratio="wide"
               sizes="(min-width: 48rem) 500px, 100vw"
             />

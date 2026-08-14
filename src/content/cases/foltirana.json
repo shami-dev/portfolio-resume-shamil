@@ -34,7 +34,8 @@
     "slug": "foltirana-hero",
     "kind": "WIDE / HERO",
     "src": "../../assets/cases/foltirana-registration-app.png",
-    "alt": "The FOLTirana 2026 social activities registration app: a header explaining how booking works for free, pay-at-meeting-point, and pay-in-advance activities, above the attendee details form."
+    "alt": "The FOLTirana 2026 social activities registration app: a header explaining how booking works for free, pay-at-meeting-point, and pay-in-advance activities, above the attendee details form.",
+    "caption": "The registration app — booking rules by activity type."
   },
   "problem": "The social activities program had overlapping time slots, durations, and locations, and four pricing models at once — free, tip-based, pay-at-meeting-point, and pay-in-advance. The final activity list locked only about a week before launch; until then, planning data lived across shifting spreadsheet versions.",
   "constraint": "Roughly one week from final data to launch. The team wanted something small and sufficient, not a heavier commerce platform — but it still needed scheduling-conflict logic and a live shared database.",
@@ -45,13 +46,15 @@
         "slug": "foltirana-cards",
         "kind": "WIDE",
         "src": "../../assets/cases/foltirana-cards-toggle.png",
-        "alt": "The same activity card shown collapsed and expanded: time, price, and days stay on the surface; description, meeting point, and a maps link sit behind More Details."
+        "alt": "The same activity card shown collapsed and expanded: time, price, and days stay on the surface; description, meeting point, and a maps link sit behind More Details.",
+        "caption": "One card, collapsed and expanded — the triage line."
       },
       {
         "slug": "foltirana-overlap-warning",
         "kind": "WIDE — CONFLICT WARNING",
         "src": "../../assets/cases/foltirana-overlap-warning.png",
-        "alt": "A selected activity card flagged with two warnings: that it overlaps with another selected activity, and that it was also selected on another day."
+        "alt": "A selected activity card flagged with two warnings: that it overlaps with another selected activity, and that it was also selected on another day.",
+        "caption": "Live double-booking and time-conflict warnings."
       }
     ],
     "caption": "Card browsing grouped by payment type; the expanded state shows the triage line — what earned the surface vs. the toggle. The registration app itself catches double-bookings and time conflicts as they're selected."

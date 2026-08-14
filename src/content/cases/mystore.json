@@ -20,7 +20,7 @@
   },
   "index": {
     "title": "myStore — full-stack storefront + versioned API",
-    "metric": "API v1 · 2 wks",
+    "metric": "Documented API · 2 weeks",
     "summary": "A full-stack storefront on a versioned API I built and documented myself, so anyone reviewing it could check every piece."
   },
   "kicker": "DECISION №02 — API DESIGN FOR REVIEW",
@@ -30,7 +30,8 @@
     "slug": "mystore-storefront",
     "kind": "WIDE / HERO",
     "src": "../../assets/cases/mystore-storefront.png",
-    "alt": "myStore storefront with the Categories dropdown open, showing Apparel and Accessories over a grid of product cards with prices."
+    "alt": "myStore storefront with the Categories dropdown open, showing Apparel and Accessories over a grid of product cards with prices.",
+    "caption": "The storefront — category filtering over a live product grid."
   },
   "problem": "A company take-home assessment: demonstrate genuine full-stack capability inside a fixed window. The real user is a reviewer with limited time — every feature has to be findable, runnable, and checkable without a walkthrough call.",
   "constraint": "About two weeks, solo, from an empty repository. The scope had to be real enough to prove data modeling and validation depth without ballooning past what a reviewer can reasonably evaluate.",
@@ -41,13 +42,15 @@
         "slug": "mystore-pdp-cart",
         "kind": "WIDE",
         "src": "../../assets/cases/mystore-pdp-cart.png",
-        "alt": "A product page with size S selected and a cart drawer confirming the item was added, showing the size, price, and a View Cart / Checkout path."
+        "alt": "A product page with size S selected and a cart drawer confirming the item was added, showing the size, price, and a View Cart / Checkout path.",
+        "caption": "Product page with the cart drawer confirming the add."
       },
       {
         "slug": "mystore-grid-oos",
         "kind": "PAIRED — OOS STATES",
         "src": "../../assets/cases/mystore-grid-oos.png",
-        "alt": "The same product's size-selection and purchase controls in two states side by side: in stock with an active Add to Cart button, and out of stock with the button and all size options disabled."
+        "alt": "The same product's size-selection and purchase controls in two states side by side: in stock with an active Add to Cart button, and out of stock with the button and all size options disabled.",
+        "caption": "Same product, in-stock vs. out-of-stock states."
       }
     ],
     "caption": "The out-of-stock grid states and variant selection are where the data model earns its keep — the UI renders what the schema already knows."
