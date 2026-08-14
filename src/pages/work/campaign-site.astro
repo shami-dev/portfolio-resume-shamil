@@ -293,10 +293,25 @@ const [lighthouse, ...banners] = figures;
      so they need their own flex:1 for an even split. The original
      Placeholder markup carried this as an inline style="flex: 1"; Plate
      has no equivalent prop, so it moves here. */
+  /* Plate's figcaption (FIG. 0X) is a sibling *after* .plate-mount inside
+     the figure, not something .plate-mount's height can account for on
+     its own — height: 100% on .plate-mount alone left no room for it, so
+     the figure overflowed its flex-allocated box and the caption bled
+     into the next figure (or, for Lighthouse, threw off the row-stretch
+     height the banners were syncing against). Making .banner-fig itself
+     a column flex container fixes this the same way .evidence-fig-stack
+     already does one level up: .plate-mount takes flex: 1 (the leftover
+     space after the caption's natural size), instead of an unconditional
+     100% that ignores the caption entirely. */
   .banner-fig {
     flex: 1;
+    display: flex;
+    flex-direction: column;
   }
-  .banner-fig :global(.plate-mount),
+  .banner-fig :global(.plate-mount) {
+    flex: 1;
+    min-height: 0;
+  }
   .banner-fig :global(picture),
   .banner-fig :global(.plate-img) {
     height: 100%;
@@ -321,14 +336,14 @@ const [lighthouse, ...banners] = figures;
      row-stretch against Lighthouse, which a column layout has no
      equivalent for — aspect-ratio replaces it (reinstated on .plate-img,
      with the height: 100% chain reset back to auto so it doesn't fight
-     the reinstated ratio), relaxed to ~3.2:1 per the BANNER family spec
-     (6.0 §5) so the strip stays readable at full width instead of
-     running as tall as the crop happens to be. */
+     the reinstated ratio). See the aspect-ratio declaration below for
+     which ratio and why. */
   @media (width < 48rem) {
     .evidence-fig-stack {
       display: contents;
     }
     .banner-fig {
+      display: block;
       height: auto;
     }
     .banner-fig :global(.plate-mount),
@@ -336,8 +351,17 @@ const [lighthouse, ...banners] = figures;
     .banner-fig :global(.plate-img) {
       height: auto;
     }
+    /* Reinstates Plate's own default 16:9 — not the 3.2:1 this comment
+       block used to set. That ratio came from a pre-Plate "BANNER family
+       spec (6.0 §5)" written for simple photographic banner strips; the
+       real testimonials/highlights screenshots are text-dense, and a
+       3.2:1 center-crop of a 16:9 source keeps only the middle ~56% of
+       its height, landing mid-sentence through unrelated content. 16:9
+       matches every other figure on the site (and is what the base rule
+       above would otherwise override to `auto`, so it has to be spelled
+       out here rather than just deleted). */
     .banner-fig :global(.plate-img) {
-      aspect-ratio: 3.2 / 1;
+      aspect-ratio: 16 / 9;
     }
     .lighthouse-fig {
       flex: none;
@@ -345,9 +369,9 @@ const [lighthouse, ...banners] = figures;
   }
 
   /* Tablet (spec §8.4a "what varies"): Lighthouse plate full width, then
-     the two banners side by side at 318px in-plate, 3.2:1 — a third
-     pattern, not desktop's beside-the-plate stack or mobile's flattened
-     column. .evidence-figs (global.css) already sets flex: 1 on every
+     the two banners side by side at 318px in-plate — a third pattern,
+     not desktop's beside-the-plate stack or mobile's flattened column.
+     .evidence-figs (global.css) already sets flex: 1 on every
      figure unconditionally, which would otherwise put Lighthouse and the
      stack side by side; column resets that here, same reasoning as the
      mobile override above. Same height/aspect-ratio reset as mobile: the
@@ -364,6 +388,7 @@ const [lighthouse, ...banners] = figures;
       flex-direction: row;
     }
     .banner-fig {
+      display: block;
       height: auto;
     }
     .banner-fig :global(.plate-mount),
@@ -371,8 +396,17 @@ const [lighthouse, ...banners] = figures;
     .banner-fig :global(.plate-img) {
       height: auto;
     }
+    /* Reinstates Plate's own default 16:9 — not the 3.2:1 this comment
+       block used to set. That ratio came from a pre-Plate "BANNER family
+       spec (6.0 §5)" written for simple photographic banner strips; the
+       real testimonials/highlights screenshots are text-dense, and a
+       3.2:1 center-crop of a 16:9 source keeps only the middle ~56% of
+       its height, landing mid-sentence through unrelated content. 16:9
+       matches every other figure on the site (and is what the base rule
+       above would otherwise override to `auto`, so it has to be spelled
+       out here rather than just deleted). */
     .banner-fig :global(.plate-img) {
-      aspect-ratio: 3.2 / 1;
+      aspect-ratio: 16 / 9;
     }
   }
 </style>
