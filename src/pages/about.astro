@@ -84,6 +84,11 @@ const description =
 
 // Absolute, not "/resume.pdf" — copied for pasting into an email or chat,
 // where a relative path resolves against whatever page it's read from.
+// A "/resume" short-link via public/_redirects was tried and reverted:
+// Cloudflare's _redirects only resolves under workerd (astro preview /
+// production), not plain `astro dev` (Vite) — every-day `pnpm dev` use
+// would 404 on a link that works in production, which is worse than the
+// few characters a short link saves.
 const resumeUrl = new URL("/resume.pdf", Astro.site).href;
 
 // Same source as the timeline, rounded for prose — so this sentence
