@@ -2140,7 +2140,9 @@ a.dcard {
    graded screenshot reads as styled rather than documented — containment
    is the frame's job here, not the image's. */
 .plate {
-  --plate-mark: 10px; /* bracket arm length */
+  --plate-mark: 8px; /* bracket arm length — shorter than a crop-tool
+    handle typically draws, so the mark reads as small and fixed rather
+    than a draggable grip */
   /* --tick-ink, not --tick-ink-minor: the minor stroke resolves to the
      same value as --bd-page in light mode, so brackets in it vanish into
      the mount's own border. This is the major tick stroke, the one .tick
@@ -2158,10 +2160,11 @@ a.dcard {
 .plate-mount::after {
   content: "";
   position: absolute;
-  /* Inset into the mat, not flush with the border: the brackets read as
-     marks registering the image, and stay legible whatever the photo's
-     own corners happen to be doing. Must stay under the --space-2 mat. */
-  inset: 3px;
+  /* Inset further than flush (6px, not the mat-hugging 3px this used to
+     use) so the marks sit visibly inside the mat as a fixed registration
+     device — a crop-tool handle grips the image edge itself; this stays
+     clear of it. Still under the --space-2 (8px) mat. */
+  inset: 6px;
   pointer-events: none;
   background-repeat: no-repeat;
   background-image:
