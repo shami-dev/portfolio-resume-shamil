@@ -26,13 +26,13 @@ const roles = [
     label: "CAD ENGINEER",
     start: new Date(2009, 11, 1),
     end: new Date(2013, 1, 1),
-    accent: false,
+    accent: false
   },
   {
     label: "CAD MANAGER",
     start: new Date(2013, 1, 1),
     end: new Date(2018, 5, 1),
-    accent: false,
+    accent: false
   },
   {
     // Real title (not the thematic "ATM Reliability" paraphrase) — also
@@ -41,14 +41,14 @@ const roles = [
     label: "IT EXPERT",
     start: new Date(2020, 1, 1),
     end: new Date(2022, 2, 1),
-    accent: false,
+    accent: false
   },
   {
     label: "WEB — NOW",
     start: new Date(2022, 3, 1),
     end: new Date(),
-    accent: true,
-  },
+    accent: true
+  }
 ] as const;
 
 const MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000;
@@ -74,7 +74,7 @@ const stations = roles.map((role, i) => {
     label: role.label,
     sub: formatDuration(durations[i]),
     offset: `${offset.toFixed(1)}%`,
-    accent: role.accent,
+    accent: role.accent
   };
 });
 
@@ -140,23 +140,38 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
       </h1>
 
       <div class="about-intro">
-        <p class="prose about-body" data-register>
-          I'm a web developer in Porto, building fast, accessible React and
-          TypeScript applications. Before that, I spent {cadYears} years as a CAD
-          engineer, then {managerYears} more managing the CAD designers team, then
-          {" "}{atmYears} years keeping over 500 ATM and payment-kiosk systems running
-          at 97%+ uptime. Going from individual contributor to team lead to the person
-          responsible when things absolutely couldn't fail is where my instinct for
-          ownership comes from. I've carried it into web work — running the technical
-          infrastructure behind international conferences serving 500+ attendees across
-          15 countries, usually as the only person responsible for the whole stack.
-          Alongside that: sites built for real organizations and individuals working
-          under real deadlines — conference registration, an election campaign — and
-          AI-integrated side projects I build on my own time to keep learning. I hold
-          a Portuguese work permit, so hiring me in Portugal needs no sponsorship.
-          For teams elsewhere, I work remotely from Porto on cross-border B2B contracts
-          across the European Union.
-        </p>
+        <div class="prose about-body" data-register>
+          <p>
+            I'm a web developer in Porto, building fast, accessible web
+            applications using Full-Stack Web Frameworks with TypeScript and
+            React.
+          </p>
+          <p>
+            Before that: {cadYears} years as a computer-aided design (CAD) engineer,
+            then {managerYears} more managing the CAD design team, then {" "}{
+              atmYears
+            } years keeping over 500 ATM (cash machine) and payment-kiosk systems
+            running at 97%+ uptime — individual contributor to team lead to the person
+            on call when one of those machines went down.
+          </p>
+          <p>
+            That carried straight into web work. I've run the technical
+            infrastructure behind international conferences serving 500+
+            attendees across 15 countries, end to end — frontend, backend, and
+            infrastructure, with no one else to hand it to. I've also built
+            sites for real organizations and individuals working under real
+            deadlines — conference registration, an election campaign — plus two
+            side projects built on the OpenAI API in my own time: a receipts
+            analyzer and an IELTS feedback tool, both shipped and measured in
+            the open.
+          </p>
+          <p>
+            I hold a Portuguese work permit, so hiring me in Portugal needs no
+            sponsorship. For teams elsewhere, I work remotely from Porto on
+            cross-border business-to-business (B2B) contracts across the
+            European Union.
+          </p>
+        </div>
         <div class="about-portrait-col">
           <Plate
             src={portrait}
@@ -350,6 +365,11 @@ const [cadYears, managerYears, atmYears] = durations.map((d) => Math.round(d));
   .about-body {
     flex: 1;
     min-width: 0;
+  }
+  /* .about-body is now a multi-paragraph div (was a single <p>) — gap
+     between its own children, not touching .about-intro's row gap. */
+  .about-body p + p {
+    margin-top: 13px;
   }
 
   /* Column-only: the rail keeps its own resume block for desktop/tablet

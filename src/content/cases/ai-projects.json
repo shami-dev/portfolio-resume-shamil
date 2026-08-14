@@ -30,7 +30,7 @@
   },
   "problem": "Two personal problems worth solving properly: a family needed visibility into purchase frequency and spend across time ranges without manual data entry, and IELTS candidates need Writing Part 2 feedback that is specific, fast, and repeatable.",
   "constraint": "Self-directed and solo: 5 days of planning, 9 of building for the Receipts Analyzer. Working style stated plainly — architecture, prompt engineering, and product decisions are mine; implementation is AI-assisted. Neither overstated as hand-coding nor undersold as \"AI wrote it.\"",
-  "decision": "Receipts Analyzer: OpenAI API for extraction instead of OCR — messy receipts yield structured line items directly, at the cost of an accuracy loop that has to be measured rather than assumed. Task2Check: prompt-engineered IELTS Writing Part 2 feedback against the band criteria, deliberately shipped without an auth system — scoped to exactly the job it does. Both on React Router 7 (framework mode) + TypeScript.",
+  "decision": "For Receipts Analyzer, I chose the OpenAI API for extraction instead of OCR — messy receipts yield structured line items directly, at the cost of an accuracy loop I have to measure rather than assume. For Task2Check, I prompt-engineered IELTS Writing Part 2 feedback against the band criteria, and deliberately shipped it without an auth system — scoped to exactly the job it does. I built both on React Router 7 (framework mode) + TypeScript.",
   "evidence": {
     "figures": [
       {

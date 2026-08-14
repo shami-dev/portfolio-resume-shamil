@@ -33,7 +33,7 @@
   },
   "problem": "A friend running in a competitive district-level Toastmasters election had no web presence beyond social media. The election date was fixed; a credible, professional site had to exist fast.",
   "constraint": "€0 build budget (the client covers only the annual domain renewal), a turnaround tied to the election date, requirements and assets arriving over WhatsApp, and no technical staff on her side after launch.",
-  "decision": "Static-first, zero-cost, zero-maintenance: Astro + Tailwind, Cloudflare for the domain, free Vercel hosting with GitHub auto-deploy, one fully responsive page with optimized assets and semantic markup. Layout, colors, and typography chosen together with the client; built and deployed solo in ~3 days.",
+  "decision": "I chose static-first, zero-cost, zero-maintenance: Astro + Tailwind, Cloudflare for the domain, free Vercel hosting with GitHub auto-deploy, one fully responsive page with optimized assets and semantic markup. We worked on layout, colors, and typography together with the client, then built and deployed the site solo in ~3 days.",
   "evidence": {
     "figures": [
       {
